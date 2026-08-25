@@ -50,8 +50,7 @@
     };
   </script>
   <style>
-    html, body { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; margin: 0; padding: 0; }
-    body { background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    html, body { min-height: 100%; background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
     .grid-bg { 
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); 
       background-size: 32px 32px; 
@@ -135,39 +134,39 @@
     .undo-action:disabled svg { opacity: 0.35; }
     .undo-action svg, .icon-action svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; display: block; margin: auto; }
     
-    .custom-select-wrapper { position: relative; display: inline-block; min-width: 95px; }
+    .custom-select-wrapper { position: relative; display: inline-block; min-width: 105px; }
     .calendar-wrapper #calendarMonthSelect { min-width: 110px; }
     .calendar-wrapper #calendarYearSelect { min-width: 75px; }
     
     .custom-select-trigger {
-      height: 30px; width: 100%; padding: 0 22px 0 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+      height: 34px; width: 100%; padding: 0 24px 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
       background: rgba(16, 24, 39, 0.7); color: #cbd5e1; font-size: 0.75rem; font-weight: 500;
       display: flex; align-items: center; justify-content: center; text-align: center;
       cursor: pointer; transition: all 0.15s ease; user-select: none; box-sizing: border-box;
     }
     .custom-select-trigger:hover { border-color: rgba(139, 92, 246, 0.4); color: #fff; }
     .custom-select-trigger::after {
-      content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-      width: 10px; height: 10px;
+      content: ''; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      width: 12px; height: 12px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease;
     }
     .custom-select-wrapper.open .custom-select-trigger::after { transform: translateY(-50%) rotate(180deg); }
     
     .custom-select-menu {
-      position: absolute; top: calc(100% + 4px); left: 0; width: 100%; box-sizing: border-box;
+      position: absolute; top: calc(100% + 6px); left: 0; width: 100%; box-sizing: border-box;
       background: rgba(16, 24, 39, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 92, 246, 0.1);
-      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-4px);
+      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-6px);
       transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; overflow: hidden;
     }
     .custom-select-wrapper.open .custom-select-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .custom-select-scroll { max-height: 150px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+    .custom-select-scroll { max-height: 170px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
     
     .custom-select-option {
-      padding: 5px 8px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 6px;
+      padding: 6px 10px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 8px;
       cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; transition: all 0.15s ease;
     }
     .custom-select-option:hover { background: rgba(139, 92, 246, 0.15); color: #f4f7fb; }
@@ -179,10 +178,10 @@
 
     .metric-toggle {
       display: inline-flex; align-items: center; background: rgba(8, 13, 24, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2px; height: 30px; user-select: none;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2px; height: 34px; user-select: none;
     }
     .metric-toggle-btn {
-      padding: 0 8px; height: 24px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+      padding: 0 10px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 600;
       color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;
     }
     .metric-toggle-btn.active {
@@ -191,102 +190,108 @@
     }
     .metric-toggle-btn:not(.active):hover { color: #cbd5e1; }
 
-    .app-shell { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; }
-    .app-main { min-width: 0; flex: 1; min-height: 0; overflow: hidden; }
+    .app-shell { min-height: 100vh; }
+    .app-main { min-width: 0; flex: 1; }
     
-    /* Frame del grafico fluido */
-    .chart-frame { position: relative; width: 100%; height: 100%; flex: 1 1 0%; min-height: 0; }
+    /* Frame del grafico con altezza ariosa e proporzionata */
+    .chart-frame { position: relative; width: 100%; height: 300px; }
+    @media (min-width: 640px) {
+      .chart-frame { height: 320px; }
+    }
+    @media (min-width: 1280px) {
+      .chart-frame { height: 340px; }
+    }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 999px; }
     ::-webkit-scrollbar-thumb:hover { background: #334155; }
   </style>
 </head>
-<body class="h-screen w-screen overflow-hidden grid-bg antialiased">
-  <!-- Banner a comparsa posizionato al centro dell'area contenuti escludendo la sidebar -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+7.5rem)] xl:lg:left-[calc(50%+8rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all"></div>
+<body class="grid-bg antialiased min-h-screen">
+  <!-- Banner a comparsa posizionato al centro dell'area contenuti -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all"></div>
 
-  <div class="app-shell flex flex-col lg:flex-row">
-    <!-- Sidebar -->
-    <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-60 xl:w-64 lg:border-b-0 lg:border-r lg:p-5 backdrop-blur-md flex flex-col justify-between flex-shrink-0">
+  <div class="app-shell flex flex-col lg:flex-row w-full min-h-screen">
+    <!-- Sidebar Desktop e Mobile -->
+    <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:border-b-0 lg:border-r lg:p-6 backdrop-blur-md flex flex-col justify-between flex-shrink-0">
       <div>
         <div class="flex items-center justify-between lg:block">
           <div class="flex items-center gap-3">
-            <div class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow">TJ</div>
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow">TJ</div>
             <div>
-              <p class="font-semibold tracking-tight text-slate-100 text-sm">Trading journal</p>
-              <p class="text-[11px] text-muted">Performance workspace</p>
+              <p class="font-semibold tracking-tight text-slate-100">Trading journal</p>
+              <p class="text-xs text-muted">Performance workspace</p>
             </div>
           </div>
-          <button id="mobileMenu" class="rounded-xl border border-line px-3 py-1.5 text-muted lg:hidden">☰</button>
+          <button id="mobileMenu" class="rounded-xl border border-line px-3 py-2 text-muted lg:hidden">☰</button>
         </div>
-        <nav id="nav" class="mt-6 hidden space-y-1 lg:block">
-          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-3.5 py-2.5 text-left text-xs sm:text-sm font-medium transition">
+        <nav id="nav" class="mt-8 hidden space-y-1.5 lg:block">
+          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium transition">
             <span>◈</span> <span>Dashboard</span>
           </button>
-          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-3.5 py-2.5 text-left text-xs sm:text-sm font-medium text-muted transition hover:text-slate-200">
+          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium text-muted transition hover:text-slate-200">
             <span>▤</span> <span>Storico</span>
           </button>
         </nav>
       </div>
-      <div class="hidden pt-4 lg:block">
-        <div class="rounded-xl border border-line/70 bg-panel/40 p-3 backdrop-blur-sm">
+      <div class="hidden pt-6 lg:block">
+        <div class="rounded-2xl border border-line/70 bg-panel/40 p-4 backdrop-blur-sm">
           <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">Stato dati</p>
-          <p id="syncStatus" class="mt-0.5 flex items-center gap-1.5 text-xs font-medium text-profit">
+          <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-profit">
             <span class="h-2 w-2 rounded-full bg-profit"></span> Locale attivo
           </p>
-          <p class="mt-1 text-[11px] leading-relaxed text-muted/80">Sincronizzazione locale abilitata.</p>
+          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione locale abilitata per le tue sessioni.</p>
         </div>
       </div>
     </aside>
 
-    <!-- Main Workspace -->
-    <main class="app-main flex flex-col p-3 sm:p-4 lg:p-5 h-full min-h-0">
+    <!-- Main Workspace (Spazioso e non compresso) -->
+    <main class="app-main flex flex-col p-4 sm:p-6 lg:p-8 xl:p-10 overflow-y-auto">
       <!-- DASHBOARD VIEW -->
-      <section id="dashboardView" class="view-panel flex flex-1 flex-col gap-3 sm:gap-3.5 w-full h-full min-h-0 overflow-hidden">
-        <header class="flex flex-col justify-between gap-2 sm:flex-row sm:items-center flex-shrink-0">
+      <section id="dashboardView" class="view-panel flex flex-col gap-6 w-full">
+        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Dashboard</h1>
-            <p class="text-[11px] sm:text-xs text-muted">Monitora il capitale, il rendimento e la disciplina operativa.</p>
+            <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dashboard</h1>
+            <p class="mt-1 text-xs text-muted sm:text-sm">Monitora il capitale, il rendimento e la disciplina operativa.</p>
           </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <button id="setCapital" class="rounded-xl border border-line bg-panel/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-violet/50 hover:text-white">Imposta capitale</button>
-            <button id="newEntry" class="rounded-xl bg-violet px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="setCapital" class="rounded-xl border border-line bg-panel/50 px-4 py-2.5 text-xs font-medium text-slate-300 transition hover:border-violet/50 hover:text-white">Imposta capitale</button>
+            <button id="newEntry" class="rounded-xl bg-violet px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
           </div>
         </header>
 
         <!-- Capital Hero Card -->
-        <div class="glass-card rounded-2xl p-4 sm:p-4.5 flex-shrink-0">
-          <div class="flex flex-col justify-between gap-3 sm:gap-4 md:flex-row md:items-center">
-            <div class="space-y-0.5">
-              <p class="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-muted">Capitale attuale</p>
-              <div class="flex flex-wrap items-center gap-3">
-                <h2 id="currentCapital" class="text-2xl sm:text-3xl font-bold tracking-tight text-white">0,00 €</h2>
+        <div class="glass-card rounded-2xl p-6">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+            <div class="space-y-1">
+              <p class="text-xs font-medium uppercase tracking-wider text-muted">Capitale attuale</p>
+              <div class="flex flex-wrap items-center gap-3 mt-1">
+                <h2 id="currentCapital" class="text-3xl font-bold tracking-tight text-white sm:text-4xl">0,00 €</h2>
               </div>
             </div>
             
-            <div id="totalKpi" class="flex items-center gap-4 border-t border-line/60 pt-2.5 md:border-t-0 md:border-l md:pl-6 md:pt-0">
+            <div id="totalKpi" class="flex items-center gap-6 border-t border-line/60 pt-4 md:border-t-0 md:border-l md:pl-8 md:pt-0">
               <div>
-                <p class="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-                <p class="total-kpi-value mt-0.5 text-lg sm:text-xl font-bold text-muted">Nessuna registrazione</p>
+                <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
+                <p class="total-kpi-value mt-1 text-xl font-bold text-muted">Nessuna registrazione</p>
               </div>
             </div>
           </div>
         </div>
 
         <!-- KPIs Grid -->
-        <div id="kpis" class="grid gap-2.5 sm:gap-3 grid-cols-2 lg:grid-cols-4 flex-shrink-0"></div>
+        <div id="kpis" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"></div>
 
         <!-- Charts Grid -->
-        <div class="grid gap-3 sm:gap-3.5 lg:grid-cols-2 flex-1 min-h-0">
+        <div class="grid gap-6 lg:grid-cols-2">
           <!-- Equity Curve Card -->
-          <div class="glass-card rounded-2xl p-3 sm:p-4 flex flex-col h-full min-h-0">
-            <div class="mb-1.5 flex items-center justify-between gap-2 flex-shrink-0">
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+            <div class="mb-4 flex items-center justify-between gap-4">
               <div>
-                <h3 class="text-xs sm:text-sm font-semibold text-white">Equity curve</h3>
-                <p class="text-[10px] sm:text-[11px] text-muted hidden sm:block">Evoluzione progressiva del capitale</p>
+                <h3 class="text-sm font-semibold text-white">Equity curve</h3>
+                <p class="text-xs text-muted">Evoluzione progressiva del capitale</p>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5">
                 <div class="custom-select-wrapper" data-chart="equity">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -308,13 +313,13 @@
           </div>
 
           <!-- PnL Daily Card -->
-          <div class="glass-card rounded-2xl p-3 sm:p-4 flex flex-col h-full min-h-0">
-            <div class="mb-1.5 flex items-center justify-between gap-2 flex-shrink-0">
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+            <div class="mb-4 flex items-center justify-between gap-4">
               <div>
-                <h3 class="text-xs sm:text-sm font-semibold text-white">Pnl giornaliero</h3>
-                <p class="text-[10px] sm:text-[11px] text-muted hidden sm:block">Risultato netto per singola sessione</p>
+                <h3 class="text-sm font-semibold text-white">Pnl giornaliero</h3>
+                <p class="text-xs text-muted">Risultato netto per singola sessione</p>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5">
                 <div class="custom-select-wrapper" data-chart="pnl">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -338,20 +343,20 @@
       </section>
 
       <!-- STORICO VIEW -->
-      <section id="journalView" class="view-panel hidden flex flex-1 flex-col gap-3 sm:gap-3.5 w-full h-full min-h-0 overflow-hidden">
-        <header class="flex flex-col justify-between gap-2 sm:flex-row sm:items-center flex-shrink-0">
+      <section id="journalView" class="view-panel hidden flex flex-col gap-6 w-full">
+        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Storico</h1>
-            <p class="text-[11px] sm:text-xs text-muted">Tutte le sessioni operative registrate.</p>
+            <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Storico</h1>
+            <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
           </div>
           <div class="flex items-center gap-2">
-            <button id="newEntryJournal" class="rounded-xl bg-violet px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
+            <button id="newEntryJournal" class="rounded-xl bg-violet px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
           </div>
         </header>
 
-        <div class="glass-card flex flex-1 flex-col overflow-hidden rounded-2xl w-full min-h-0">
-          <!-- Toolbar con padding simmetrico px-9: Journal a sinistra e cluster azioni/Annulla a destra -->
-          <div class="journal-table-toolbar flex items-center justify-between border-b border-line/60 py-3 px-9 flex-shrink-0">
+        <div class="glass-card flex flex-col overflow-hidden rounded-2xl w-full">
+          <!-- Toolbar con padding simmetrico px-9 -->
+          <div class="journal-table-toolbar flex items-center justify-between border-b border-line/60 py-4 px-9">
             <span class="text-sm font-semibold text-slate-200">Journal</span>
             <div class="journal-action-cluster flex items-center gap-2">
               <button id="selectAll" class="hidden h-8 items-center justify-center rounded-lg border border-line bg-panel/40 px-3 text-xs font-medium text-muted hover:text-white transition">Seleziona tutto</button>
@@ -360,19 +365,19 @@
             </div>
           </div>
           
-          <!-- Contenitore centrale: Tabella o Empty State centrato -->
-          <div class="flex-1 min-h-0 flex flex-col relative">
-            <div id="tableScrollContainer" class="overflow-x-auto overflow-y-auto flex-1 min-h-0">
-              <table class="w-full min-w-[750px] text-center text-sm">
-                <thead class="border-b border-line/60 bg-panel/50 text-[11px] font-medium uppercase tracking-wider text-muted sticky top-0 backdrop-blur-md z-10">
+          <!-- Contenitore Tabella / Empty State -->
+          <div class="flex flex-col relative min-h-[300px]">
+            <div id="tableScrollContainer" class="overflow-x-auto">
+              <table class="w-full min-w-[800px] text-center text-sm">
+                <thead class="border-b border-line/60 bg-panel/30 text-xs font-medium uppercase tracking-wider text-muted">
                   <tr>
-                    <th class="px-4 py-2.5 text-center">#</th>
-                    <th class="px-4 py-2.5 text-center">Data</th>
-                    <th class="px-4 py-2.5 text-center">Capitale iniziale</th>
-                    <th class="px-4 py-2.5 text-center">Pnl (€)</th>
-                    <th class="px-4 py-2.5 text-center">Capitale finale</th>
-                    <th class="px-4 py-2.5 text-center">Rendimento</th>
-                    <th class="w-36 px-4 py-2.5 text-center">Azioni</th>
+                    <th class="px-6 py-3.5 text-center">#</th>
+                    <th class="px-6 py-3.5 text-center">Data</th>
+                    <th class="px-6 py-3.5 text-center">Capitale iniziale</th>
+                    <th class="px-6 py-3.5 text-center">Pnl (€)</th>
+                    <th class="px-6 py-3.5 text-center">Capitale finale</th>
+                    <th class="px-6 py-3.5 text-center">Rendimento</th>
+                    <th class="w-36 px-4 py-3.5 text-center">Azioni</th>
                   </tr>
                 </thead>
                 <tbody id="journalBody" class="divide-y divide-line/40 text-slate-300"></tbody>
@@ -380,9 +385,9 @@
             </div>
             
             <!-- Empty State unificato e centrato -->
-            <button id="emptyState" class="group hidden flex-1 w-full h-full flex flex-col items-center justify-center p-6 text-center transition hover:bg-violet/[0.02] cursor-pointer">
+            <button id="emptyState" class="group hidden flex-1 w-full h-full flex flex-col items-center justify-center p-12 text-center transition hover:bg-violet/[0.02] cursor-pointer">
               <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
-                <span class="grid h-12 w-12 place-items-center rounded-2xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -400,7 +405,7 @@
 
   <!-- Modale Registrazione -->
   <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-    <div class="glass-card w-full max-w-lg rounded-2xl p-5 sm:p-6">
+    <div class="glass-card w-full max-w-lg rounded-2xl p-6">
       <div class="flex items-start justify-between">
         <div>
           <p class="text-xs font-semibold uppercase tracking-wider text-violet">Journal</p>
@@ -408,14 +413,14 @@
         </div>
         <button id="closeModal" class="text-xl text-muted hover:text-white">×</button>
       </div>
-      <form id="entryForm" class="mt-5 space-y-4">
+      <form id="entryForm" class="mt-6 space-y-5">
         <input type="hidden" id="entryId">
         <input type="hidden" id="entryDate" required>
         
         <div>
           <label class="block text-xs font-medium text-muted mb-2 text-center">Data sessione</label>
-          <div class="calendar-wrapper rounded-2xl border border-line bg-panel/60 p-3.5 shadow-inner">
-            <div class="mb-2.5 flex items-center justify-between">
+          <div class="calendar-wrapper rounded-2xl border border-line bg-panel/60 p-4 shadow-inner">
+            <div class="mb-3 flex items-center justify-between">
               <button type="button" id="prevMonth" class="rounded-lg px-2 py-1 text-muted transition hover:bg-white/10 hover:text-white">‹</button>
               
               <div class="flex items-center gap-2">
@@ -443,14 +448,14 @@
 
         <div>
           <label class="block text-xs font-medium text-muted text-center">Risultato della sessione (€)</label>
-          <div class="mt-1 grid grid-cols-2 gap-3">
+          <div class="mt-1.5 grid grid-cols-2 gap-3">
             <div>
               <span class="block text-[11px] font-medium text-profit text-center">Profitto</span>
-              <input id="entryProfit" type="text" inputmode="decimal" class="mt-1 w-full rounded-xl border border-profit/30 bg-profit/5 px-3.5 py-2 text-sm text-profit outline-none focus:border-profit text-center" placeholder="0,00">
+              <input id="entryProfit" type="text" inputmode="decimal" class="mt-1 w-full rounded-xl border border-profit/30 bg-profit/5 px-4 py-2.5 text-sm text-profit outline-none focus:border-profit text-center" placeholder="0,00">
             </div>
             <div>
               <span class="block text-[11px] font-medium text-loss text-center">Perdita</span>
-              <input id="entryLoss" type="text" inputmode="decimal" class="mt-1 w-full rounded-xl border border-loss/30 bg-loss/5 px-3.5 py-2 text-sm text-loss outline-none focus:border-loss text-center" placeholder="0,00">
+              <input id="entryLoss" type="text" inputmode="decimal" class="mt-1 w-full rounded-xl border border-loss/30 bg-loss/5 px-4 py-2.5 text-sm text-loss outline-none focus:border-loss text-center" placeholder="0,00">
             </div>
           </div>
         </div>
@@ -473,7 +478,7 @@
         </div>
         <button id="closeCapital" class="text-xl text-muted hover:text-white">×</button>
       </div>
-      <form id="capitalForm" class="mt-5 space-y-4">
+      <form id="capitalForm" class="mt-6 space-y-4">
         <div>
           <label class="block text-xs font-medium text-muted">Bilancio iniziale (€)</label>
           <input id="capitalInput" required type="text" inputmode="decimal" class="mt-1.5 w-full rounded-xl border border-line bg-panel/60 px-4 py-2.5 text-sm text-white outline-none focus:border-violet" placeholder="es. 10.000,00">
@@ -611,7 +616,7 @@
     function toast(message, error=false) { 
       const t = document.getElementById('toast'); 
       t.textContent = message; 
-      t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+7.5rem)] xl:lg:left-[calc(50%+8rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
+      t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 2600); 
     }
@@ -664,11 +669,16 @@
         const base = Number(data[0]?.initialCapital || initial); 
         const pnlPct = base ? (value / base) * 100 : 0;
         
-        return `<div class="glass-card rounded-xl p-2.5 sm:p-3 flex flex-col justify-between">
-          <p class="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-muted">${label}</p>
-          <div class="mt-0.5 flex items-baseline justify-between">
-            <p class="text-base sm:text-lg font-bold ${value>=0?'text-profit':'text-loss'}">${money(value, true)}</p>
-            <span class="rounded-md px-1.5 py-0.5 text-[10px] sm:text-[11px] font-semibold ${value>=0?'bg-profit/10 text-profit':'bg-loss/10 text-loss'}">${pct(pnlPct, true)}</span>
+        const valColor = value > 0 ? 'text-profit' : value < 0 ? 'text-loss' : 'text-white';
+        const badgeClass = value > 0 ? 'bg-profit/10 text-profit' : value < 0 ? 'bg-loss/10 text-loss' : 'bg-white/10 text-white';
+        const valSign = value > 0 ? '+' : '';
+        const pctSign = pnlPct > 0 ? '+' : '';
+        
+        return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+          <p class="text-xs font-medium uppercase tracking-wider text-muted">${label}</p>
+          <div class="mt-2 flex items-baseline justify-between">
+            <p class="text-lg sm:text-xl font-bold ${valColor}">${valSign}${money(value)}</p>
+            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass}">${pctSign}${pct(pnlPct)}</span>
           </div>
         </div>`;
       }).join(''); 
@@ -680,14 +690,17 @@
 
       const totalKpi = document.getElementById('totalKpi'); 
       if(totalKpi) {
+        const totalColor = total > 0 ? 'text-profit' : total < 0 ? 'text-loss' : 'text-white';
+        const totalPrefix = total > 0 ? '+' : '';
+        
         totalKpi.innerHTML = list.length
           ? `<div>
-              <p class="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-0.5 text-lg sm:text-xl font-bold ${total>=0?'text-profit':'text-loss'}">${money(total, true)}</p>
+              <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
+              <p class="mt-1 text-xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
              </div>`
           : `<div>
-              <p class="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-0.5 text-xs sm:text-sm font-semibold text-muted">Nessuna registrazione</p>
+              <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
+              <p class="mt-1 text-sm font-semibold text-muted">Nessuna registrazione</p>
              </div>`; 
       }
     }
@@ -705,14 +718,19 @@
       
       body.innerHTML = list.map((e, i) => { 
         const ret = Number(e.initialCapital) ? (Number(e.pnl) / Number(e.initialCapital)) * 100 : 0; 
+        const pnlColor = e.pnl > 0 ? 'text-profit' : e.pnl < 0 ? 'text-loss' : 'text-white';
+        const pnlPrefix = e.pnl > 0 ? '+' : '';
+        const retColor = ret > 0 ? 'text-profit' : ret < 0 ? 'text-loss' : 'text-white';
+        const retPrefix = ret > 0 ? '+' : '';
+
         return `<tr data-row="${e.id}" class="journal-row">
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs font-medium text-muted">${i+1}</td>
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs font-medium text-slate-200">${new Date(e.date+'T12:00:00').toLocaleDateString('it-IT')}</td>
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs text-slate-300">${money(e.initialCapital)}</td>
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs font-semibold ${e.pnl>=0?'text-profit':'text-loss'}">${money(e.pnl, true)}</td>
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs font-medium text-slate-200">${money(e.actualCapital)}</td>
-          <td class="px-4 py-2 sm:py-2.5 text-center text-xs font-semibold ${ret>=0?'text-profit':'text-loss'}">${pct(ret, true)}</td>
-          <td class="w-36 px-4 py-2 sm:py-2.5 text-center">
+          <td class="px-6 py-4 text-center text-xs font-medium text-muted">${i+1}</td>
+          <td class="px-6 py-4 text-center text-xs font-medium text-slate-200">${new Date(e.date+'T12:00:00').toLocaleDateString('it-IT')}</td>
+          <td class="px-6 py-4 text-center text-xs text-slate-300">${money(e.initialCapital)}</td>
+          <td class="px-6 py-4 text-center text-xs font-semibold ${pnlColor}">${pnlPrefix}${money(e.pnl)}</td>
+          <td class="px-6 py-4 text-center text-xs font-medium text-slate-200">${money(e.actualCapital)}</td>
+          <td class="px-6 py-4 text-center text-xs font-semibold ${retColor}">${retPrefix}${pct(ret)}</td>
+          <td class="w-36 px-4 py-4 text-center">
             <div class="flex justify-center items-center gap-2">
               <button aria-label="Modifica" data-edit="${e.id}" title="Modifica" class="icon-action text-amber-400 hover:text-amber-300 hover:border-amber-400/40 hover:bg-amber-400/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
               <button aria-label="Elimina" data-delete="${e.id}" title="Elimina" class="icon-action text-loss hover:text-rose-400 hover:border-loss/40 hover:bg-loss/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button>
@@ -769,7 +787,7 @@
             borderColor: 'rgba(139,92,246,0.3)',
             borderWidth: 1,
             cornerRadius: 8,
-            padding: 8,
+            padding: 10,
             titleColor: '#c4b5fd',
             bodyColor: '#f4f7fb',
             callbacks: {
@@ -787,8 +805,8 @@
           }
         },
         scales: {
-          x: { grid: chartGrid, ticks: { color: '#64748b', font: { size: 10 }, padding: 6 }, border: { display: false } },
-          y: { grid: chartGrid, ticks: { color: '#64748b', font: { size: 10 }, padding: 6, callback: axisTicks(chartSettings.equity.metric === 'pct') }, border: { display: false } }
+          x: { grid: chartGrid, ticks: { color: '#64748b', font: { size: 11 }, padding: 8 }, border: { display: false } },
+          y: { grid: chartGrid, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.equity.metric === 'pct') }, border: { display: false } }
         }
       }; 
       
@@ -805,15 +823,16 @@
               },
               label: ctx => {
                 const val = ctx.raw;
-                return chartSettings.pnl.metric === 'pct' ? pct(val, true) : money(val, true);
+                const sign = val > 0 ? '+' : '';
+                return chartSettings.pnl.metric === 'pct' ? `${sign}${pct(val)}` : `${sign}${money(val)}`;
               }
             }
           }
         },
         scales: {
           ...opts.scales,
-          x: { ...opts.scales.x, offset: true, ticks: { color: '#64748b', font: { size: 10 }, padding: 6 } },
-          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 10 }, padding: 6, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
+          x: { ...opts.scales.x, offset: true, ticks: { color: '#64748b', font: { size: 11 }, padding: 8 } },
+          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
         }
       }; 
       
@@ -830,15 +849,15 @@
             borderWidth: 2,
             backgroundColor: (context) => {
               const ctx = context.chart.ctx;
-              const gradient = ctx.createLinearGradient(0, 0, 0, 180);
+              const gradient = ctx.createLinearGradient(0, 0, 0, 200);
               gradient.addColorStop(0, 'rgba(139, 92, 246, 0.25)');
               gradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
               return gradient;
             },
             fill: true,
             tension: 0.3,
-            pointRadius: 2.5,
-            pointHoverRadius: 4.5
+            pointRadius: 3,
+            pointHoverRadius: 5
           }]
         },
         options: opts
@@ -851,7 +870,7 @@
           labels: pnlLabels,
           datasets: [{
             data: pnlData,
-            backgroundColor: pnlData.map(v => v >= 0 ? '#10b981' : '#f43f5e'),
+            backgroundColor: pnlData.map(v => v > 0 ? '#10b981' : v < 0 ? '#f43f5e' : '#ffffff'),
             borderRadius: 4,
             barPercentage: 0.6
           }]
