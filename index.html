@@ -42,7 +42,7 @@
             loss: '#f43f5e'
           },
           boxShadow: {
-            glow: '0 0 25px -5px rgba(139, 92, 246, 0.15)',
+            glow: '0 0 25px -5px rgba(245, 158, 11, 0.15)',
             glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
           }
         }
@@ -194,7 +194,7 @@
     .app-shell { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; }
     .app-main { min-width: 0; flex: 1; min-height: 0; overflow: hidden; }
     
-    /* Frame del grafico fluido senza forzare altezze minime fisse */
+    /* Frame del grafico fluido */
     .chart-frame { position: relative; width: 100%; height: 100%; flex: 1 1 0%; min-height: 0; }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
@@ -203,7 +203,8 @@
   </style>
 </head>
 <body class="h-screen w-screen overflow-hidden grid-bg antialiased">
-  <div id="toast" class="fixed right-5 top-5 z-50 hidden rounded-xl border border-profit/30 bg-panel/90 px-4 py-3 text-sm shadow-glow backdrop-blur-md"></div>
+  <!-- Banner a comparsa posizionato al centro dell'area contenuti escludendo la sidebar -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+7.5rem)] xl:lg:left-[calc(50%+8rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all"></div>
 
   <div class="app-shell flex flex-col lg:flex-row">
     <!-- Sidebar -->
@@ -239,7 +240,7 @@
       </div>
     </aside>
 
-    <!-- Main Workspace (Fit to window, zero page scrolling) -->
+    <!-- Main Workspace -->
     <main class="app-main flex flex-col p-3 sm:p-4 lg:p-5 h-full min-h-0">
       <!-- DASHBOARD VIEW -->
       <section id="dashboardView" class="view-panel flex flex-1 flex-col gap-3 sm:gap-3.5 w-full h-full min-h-0 overflow-hidden">
@@ -276,7 +277,7 @@
         <!-- KPIs Grid -->
         <div id="kpis" class="grid gap-2.5 sm:gap-3 grid-cols-2 lg:grid-cols-4 flex-shrink-0"></div>
 
-        <!-- Charts Grid (Flessibile al 100% dell'altezza residua) -->
+        <!-- Charts Grid -->
         <div class="grid gap-3 sm:gap-3.5 lg:grid-cols-2 flex-1 min-h-0">
           <!-- Equity Curve Card -->
           <div class="glass-card rounded-2xl p-3 sm:p-4 flex flex-col h-full min-h-0">
@@ -359,28 +360,39 @@
             </div>
           </div>
           
-          <div class="overflow-x-auto overflow-y-auto flex-1 min-h-0">
-            <table class="w-full min-w-[750px] text-center text-sm">
-              <thead class="border-b border-line/60 bg-panel/50 text-[11px] font-medium uppercase tracking-wider text-muted sticky top-0 backdrop-blur-md z-10">
-                <tr>
-                  <th class="px-4 py-2.5 text-center">#</th>
-                  <th class="px-4 py-2.5 text-center">Data</th>
-                  <th class="px-4 py-2.5 text-center">Capitale iniziale</th>
-                  <th class="px-4 py-2.5 text-center">Pnl (€)</th>
-                  <th class="px-4 py-2.5 text-center">Capitale finale</th>
-                  <th class="px-4 py-2.5 text-center">Rendimento</th>
-                  <th class="w-36 px-4 py-2.5 text-center">Azioni</th>
-                </tr>
-              </thead>
-              <tbody id="journalBody" class="divide-y divide-line/40 text-slate-300"></tbody>
-            </table>
+          <!-- Contenitore centrale: Tabella o Empty State centrato -->
+          <div class="flex-1 min-h-0 flex flex-col relative">
+            <div id="tableScrollContainer" class="overflow-x-auto overflow-y-auto flex-1 min-h-0">
+              <table class="w-full min-w-[750px] text-center text-sm">
+                <thead class="border-b border-line/60 bg-panel/50 text-[11px] font-medium uppercase tracking-wider text-muted sticky top-0 backdrop-blur-md z-10">
+                  <tr>
+                    <th class="px-4 py-2.5 text-center">#</th>
+                    <th class="px-4 py-2.5 text-center">Data</th>
+                    <th class="px-4 py-2.5 text-center">Capitale iniziale</th>
+                    <th class="px-4 py-2.5 text-center">Pnl (€)</th>
+                    <th class="px-4 py-2.5 text-center">Capitale finale</th>
+                    <th class="px-4 py-2.5 text-center">Rendimento</th>
+                    <th class="w-36 px-4 py-2.5 text-center">Azioni</th>
+                  </tr>
+                </thead>
+                <tbody id="journalBody" class="divide-y divide-line/40 text-slate-300"></tbody>
+              </table>
+            </div>
+            
+            <!-- Empty State unificato e centrato -->
+            <button id="emptyState" class="group hidden flex-1 w-full h-full flex flex-col items-center justify-center p-6 text-center transition hover:bg-violet/[0.02] cursor-pointer">
+              <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
+                <span class="grid h-12 w-12 place-items-center rounded-2xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </span>
+                <span class="text-sm sm:text-base font-semibold text-slate-200">Ancora nessuna registrazione</span>
+                <span class="mt-1 text-xs text-muted">Aggiungi la prima sessione per iniziare a tracciare le tue performance.</span>
+              </div>
+            </button>
           </div>
-          
-          <button id="emptyState" class="group hidden flex flex-col items-center justify-center p-8 text-center transition hover:bg-violet/[0.02]">
-            <span class="grid h-10 w-10 place-items-center rounded-xl bg-violet/10 text-violet-400 transition group-hover:scale-110">＋</span>
-            <span class="mt-2 text-sm font-semibold text-slate-200">Ancora nessuna registrazione</span>
-            <span class="mt-0.5 text-xs text-muted">Aggiungi la prima sessione per iniziare a tracciare le tue performance.</span>
-          </button>
         </div>
       </section>
     </main>
@@ -597,11 +609,11 @@
     const hide = id => document.getElementById(id).classList.add('hidden');
 
     function toast(message, error=false) { 
-      const t=document.getElementById('toast'); 
-      t.textContent=message; 
-      t.className=`fixed right-5 top-5 z-50 rounded-xl border px-4 py-3 text-sm shadow-glow backdrop-blur-md ${error?'border-loss/30 bg-loss/10 text-loss':'border-profit/30 bg-panel/90 text-profit'}`; 
+      const t = document.getElementById('toast'); 
+      t.textContent = message; 
+      t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+7.5rem)] xl:lg:left-[calc(50%+8rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
       t.classList.remove('hidden');
-      setTimeout(()=>t.classList.add('hidden'), 2600); 
+      setTimeout(() => t.classList.add('hidden'), 2600); 
     }
 
     function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
@@ -681,9 +693,16 @@
     }
 
     function renderTable(){ 
-      const body = document.getElementById('journalBody'), empty = document.getElementById('emptyState');
+      const body = document.getElementById('journalBody'), empty = document.getElementById('emptyState'), tableContainer = document.getElementById('tableScrollContainer');
       const {list} = totals(); 
-      empty.classList.toggle('hidden', !!list.length); 
+      const hasEntries = !!list.length;
+      
+      empty.classList.toggle('hidden', hasEntries);
+      empty.classList.toggle('flex', !hasEntries);
+      if (tableContainer) {
+        tableContainer.classList.toggle('hidden', !hasEntries);
+      }
+      
       body.innerHTML = list.map((e, i) => { 
         const ret = Number(e.initialCapital) ? (Number(e.pnl) / Number(e.initialCapital)) * 100 : 0; 
         return `<tr data-row="${e.id}" class="journal-row">
@@ -926,7 +945,6 @@
       };
     });
 
-    // Resize listener per riadattare i grafici fluidamente ad ogni ridimensionamento della finestra
     window.addEventListener('resize', () => {
       if (!document.getElementById('dashboardView').classList.contains('hidden')) {
         if (equityChart) equityChart.resize();
