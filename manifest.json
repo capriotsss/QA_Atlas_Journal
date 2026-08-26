@@ -1,6 +1,6 @@
 {
-  "name": "Trading Journal",
-  "short_name": "Trading Journal",
+  "name": "QA Atlas Journal",
+  "short_name": "QA Atlas Journal",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#080d18",
