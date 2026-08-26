@@ -117,8 +117,8 @@
     .journal-row.is-selected { background: rgba(139, 92, 246, 0.12); box-shadow: inset 3px 0 0 #8b5cf6; }
     
     .undo-action, .icon-action { 
-      display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; min-height: 32px;
-      border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
+      display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; min-width: 34px; min-height: 34px;
+      border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
       color: #94a3b8; transition: all 0.15s ease; padding: 0; flex-shrink: 0; box-sizing: border-box; vertical-align: middle;
     }
     .undo-action:not(:disabled):hover, .icon-action:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-1px); }
@@ -134,7 +134,7 @@
     .undo-action:disabled svg { opacity: 0.35; }
     .undo-action svg, .icon-action svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; display: block; margin: auto; }
     
-    .custom-select-wrapper { position: relative; display: inline-block; min-width: 105px; }
+    .custom-select-wrapper { position: relative; display: inline-block; min-width: 95px; }
     .calendar-wrapper #calendarMonthSelect { min-width: 110px; }
     .calendar-wrapper #calendarYearSelect { min-width: 75px; }
     
@@ -215,7 +215,7 @@
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center"></div>
 
   <div class="app-shell flex flex-col lg:flex-row w-full min-h-screen">
-    <!-- Sidebar -->
+    <!-- Sidebar Desktop e Mobile -->
     <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:border-b-0 lg:border-r lg:p-6 backdrop-blur-md flex flex-col justify-between flex-shrink-0">
       <div>
         <div class="flex items-center justify-between lg:block">
@@ -243,7 +243,7 @@
           <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-amber-400">
             <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span> Connessione database...
           </p>
-          <p class="mt-2 text-xs leading-relaxed text-muted/80">Archiviazione esclusiva su database cloud.</p>
+          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione cloud e persistenza attiva.</p>
         </div>
       </div>
     </aside>
@@ -258,6 +258,10 @@
             <p class="mt-1 text-xs text-muted sm:text-sm">Monitora il capitale, il rendimento e la disciplina operativa.</p>
           </div>
           <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <!-- Tasto Sincronizza/Salva Cloud -->
+            <button id="cloudSyncBtn" title="Salva e sincronizza con il database cloud" aria-label="Sincronizza database" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
+            </button>
             <!-- Tasti Esporta e Importa solo icona -->
             <button id="exportBtn" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -360,6 +364,10 @@
             <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
           </div>
           <div class="flex items-center gap-2">
+            <!-- Tasto Sincronizza/Salva Cloud -->
+            <button id="cloudSyncBtnJournal" title="Salva e sincronizza con il database cloud" aria-label="Sincronizza database" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
+            </button>
             <!-- Tasti Esporta e Importa solo icona -->
             <button id="exportBtnJournal" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -514,9 +522,12 @@
       anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjE0Mjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' 
     };
 
-    // Memoria di runtime (nessun uso di localStorage)
-    let entries = [];
-    let baseCapital = 0;
+    // Chiavi di persistenza locale sicura (backup permanente anti-azzeramento)
+    const STORAGE_KEY = 'trading-journal-entries-v1';
+    const CAPITAL_KEY = 'trading-journal-capital-v1';
+
+    let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let baseCapital = Number(localStorage.getItem(CAPITAL_KEY) || 0);
     let undoState = null;
     let supabaseClient = null, realtimeChannel = null, equityChart, pnlChart;
     
@@ -643,6 +654,11 @@
       setTimeout(() => t.classList.add('hidden'), 2600); 
     }
 
+    function saveLocal() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+      localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+    }
+
     function checkpoint(){ 
       undoState = { entries: structuredClone(entries), baseCapital }; 
       document.getElementById('undoAction').disabled = false; 
@@ -655,10 +671,9 @@
       entries = previous.entries; 
       baseCapital = previous.baseCapital; 
       document.getElementById('undoAction').disabled = true;
+      saveLocal();
       
-      if(supabaseClient){
-        await pushToSupabase(true);
-      } 
+      await syncToCloud(false);
       render(); 
       toast('Ultima azione annullata'); 
     }
@@ -701,8 +716,9 @@
           } else {
             throw new Error('Formato non valido');
           }
-          await pushToSupabase(true);
+          saveLocal();
           render();
+          await syncToCloud(true);
           toast('Dati importati con successo');
         } catch (err) {
           toast('Errore durante l\'importazione del file', true);
@@ -1041,45 +1057,67 @@
       document.getElementById('modal').classList.replace('hidden','flex'); 
     }
 
-    // MOTORE DI SINCRONIZZAZIONE ESCLUSIVO SUPABASE (NESSUN LOCAL STORAGE)
-    function updateSyncStatus(connected, customMsg = '') {
+    // GESTIONE SINCRONIZZAZIONE DATABASE CLOUD + PERSISTENZA IBRIDA
+    function updateSyncStatus(status, customMsg = '') {
       const el = document.getElementById('syncStatus');
       if (!el) return;
-      if (connected) {
-        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Database connesso';
+      if (status === 'syncing') {
+        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-amber-400 animate-spin"></span> Sincronizzazione...';
+      } else if (status === true) {
+        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Cloud connesso';
       } else {
-        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-loss"></span> ${customMsg || 'Database non connesso'}`;
+        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-amber-400"></span> ${customMsg || 'Locale protetto'}`;
       }
     }
 
-    async function pushToSupabase(fullOverwrite = false) {
-      if (!supabaseClient) return;
+    let isSyncing = false;
+
+    async function syncToCloud(showToast = false) {
+      if (isSyncing) return;
+      isSyncing = true;
+      updateSyncStatus('syncing');
+
+      if (!supabaseClient && window.supabase && SUPABASE_CONFIG.url) {
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+      }
+
+      if (!supabaseClient) {
+        updateSyncStatus(false, 'Database non collegato');
+        if (showToast) toast('Database Supabase non configurato', true);
+        isSyncing = false;
+        return;
+      }
+
       try {
-        if (fullOverwrite) {
-          await supabaseClient.from('trading_entries').delete().neq('id', '');
-        }
-        
         const payload = entries.map(e => ({
-          id: e.id || generateId(),
-          date: e.date,
-          initial_capital: e.initialCapital || 0,
-          pnl: e.pnl || 0
+          id: String(e.id || generateId()),
+          date: String(e.date),
+          initial_capital: Number(e.initialCapital) || 0,
+          pnl: Number(e.pnl) || 0
         }));
 
         if (baseCapital > 0) {
           payload.push({
             id: '__config_base_capital__',
-            date: '1970-01-01',
-            initial_capital: baseCapital,
+            date: '2000-01-01',
+            initial_capital: Number(baseCapital) || 0,
             pnl: 0
           });
         }
 
         if (payload.length > 0) {
-          await supabaseClient.from('trading_entries').upsert(payload);
+          const { error } = await supabaseClient.from('trading_entries').upsert(payload, { onConflict: 'id' });
+          if (error) throw error;
         }
-      } catch (e) {
-        console.warn('Errore push dati su Supabase:', e);
+
+        updateSyncStatus(true);
+        if (showToast) toast('Dati salvati e sincronizzati nel database!');
+      } catch (err) {
+        console.error('Errore sincronizzazione cloud:', err);
+        updateSyncStatus(false, 'Verifica RLS Database');
+        if (showToast) toast('Errore salvataggio database: ' + (err.message || 'Verifica RLS'), true);
+      } finally {
+        isSyncing = false;
       }
     }
 
@@ -1093,17 +1131,13 @@
           return;
         }
         
-        if (data) {
-          // Recupera il Capitale Iniziale dal database
+        if (data && data.length > 0) {
           const configRow = data.find(r => r.id === '__config_base_capital__');
           if (configRow) {
             baseCapital = Number(configRow.initial_capital) || 0;
-          } else {
-            baseCapital = 0;
           }
 
-          // Recupera le registrazioni dal database
-          entries = data
+          const remoteEntries = data
             .filter(r => r.id !== '__config_base_capital__')
             .map(r => ({
               id: r.id,
@@ -1112,8 +1146,17 @@
               pnl: Number(r.pnl) || 0
             }));
 
+          entries = remoteEntries;
+          saveLocal();
           render();
           updateSyncStatus(true);
+        } else {
+          // Se il database è vuoto ma abbiamo dati locali salvati, li carichiamo sul cloud
+          if (entries.length > 0 || baseCapital > 0) {
+            await syncToCloud(false);
+          } else {
+            updateSyncStatus(true);
+          }
         }
       } catch (err) {
         console.warn('Errore fetch sincronizzazione:', err);
@@ -1156,12 +1199,12 @@
             }
           });
       } catch (err) {
-        console.warn('Supabase non disponibile:', err);
+        console.warn('Supabase offline, modalità locale attiva:', err);
         updateSyncStatus(false);
       }
     }
 
-    // Risincronizzazione al cambio scheda o riattivazione dispositivo
+    // Risincronizzazione al risveglio del dispositivo o cambio scheda
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         fetchRemoteData();
@@ -1170,6 +1213,17 @@
 
     window.addEventListener('focus', () => {
       fetchRemoteData();
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        entries = JSON.parse(e.newValue || '[]');
+        render();
+      }
+      if (e.key === CAPITAL_KEY) {
+        baseCapital = Number(e.newValue || 0);
+        render();
+      }
     });
 
     // Polling di sicurezza
@@ -1197,6 +1251,10 @@
         if (pnlChart) pnlChart.resize();
       }
     });
+
+    // Tasti Sincronizzazione Cloud Manuale
+    document.getElementById('cloudSyncBtn').onclick = () => syncToCloud(true);
+    document.getElementById('cloudSyncBtnJournal').onclick = () => syncToCloud(true);
 
     // Gestori Export e Import
     const fileInput = document.getElementById('importFileInput');
@@ -1231,18 +1289,15 @@
       ev.preventDefault();
       checkpoint();
       baseCapital = parseFormattedNumber(document.getElementById('capitalInput').value);
+      saveLocal();
       
       if(supabaseClient){
-        const { error } = await supabaseClient.from('trading_entries').upsert({
+        await supabaseClient.from('trading_entries').upsert({
           id: '__config_base_capital__',
-          date: '1970-01-01',
+          date: '2000-01-01',
           initial_capital: baseCapital,
           pnl: 0
-        });
-        if (error) {
-          toast('Errore salvataggio Supabase: ' + error.message, true);
-          return;
-        }
+        }, { onConflict: 'id' });
       }
       
       render();
@@ -1290,22 +1345,18 @@
       const id=document.getElementById('entryId').value||generateId(); 
       const item={id,date:document.getElementById('entryDate').value,initialCapital:0,pnl:profit-loss}; 
       
+      const idx=entries.findIndex(e=>e.id===id); 
+      idx>=0?entries[idx]=item:entries.push(item);
+      saveLocal();
+
       if(supabaseClient){
-        const {error}=await supabaseClient.from('trading_entries').upsert({
+        await supabaseClient.from('trading_entries').upsert({
           id: item.id,
           date: item.date,
           initial_capital: item.initialCapital,
           pnl: item.pnl
-        }); 
-        if(error) {
-          console.error('Errore Supabase:', error);
-          toast(error.message, true);
-          return;
-        }
+        }, { onConflict: 'id' }); 
       }
-
-      const idx=entries.findIndex(e=>e.id===id); 
-      idx>=0?entries[idx]=item:entries.push(item);
       
       render();
       hide('modal');
@@ -1318,14 +1369,11 @@
       if(del&&confirm('Eliminare questa registrazione?')){
         ev.stopPropagation();
         checkpoint();
-        if(supabaseClient) {
-          const { error } = await supabaseClient.from('trading_entries').delete().eq('id', del);
-          if (error) {
-            toast('Errore eliminazione: ' + error.message, true);
-            return;
-          }
-        }
         entries=entries.filter(e=>e.id!==del);
+        saveLocal();
+        if(supabaseClient) {
+          await supabaseClient.from('trading_entries').delete().eq('id', del);
+        }
         render();
         toast('Registrazione eliminata');
         return;
@@ -1339,14 +1387,11 @@
       const ids=selected.map(row=>row.dataset.row);
       if(confirm(`Eliminare ${ids.length} registrazioni?`)){
         checkpoint();
-        if(supabaseClient) {
-          const { error } = await supabaseClient.from('trading_entries').delete().in('id',ids);
-          if (error) {
-            toast('Errore eliminazione: ' + error.message, true);
-            return;
-          }
-        }
         entries=entries.filter(e=>!ids.includes(e.id));
+        saveLocal();
+        if(supabaseClient) {
+          await supabaseClient.from('trading_entries').delete().in('id',ids);
+        }
         render();
         toast('Registrazioni eliminate');
       }
