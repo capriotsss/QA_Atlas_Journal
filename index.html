@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trading journal</title>
+  <title>QA Atlas Journal</title>
   
   <!-- PWA & Mobile Meta Tags -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#080d18" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Trading journal" />
+  <meta name="apple-mobile-web-app-title" content="QA Atlas Journal" />
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2953/2953363.png" />
 
   <!-- Registrazione Service Worker -->
@@ -50,7 +50,7 @@
     };
   </script>
   <style>
-    html, body { min-height: 100%; background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 0; }
+    html, body { background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 0; }
     .grid-bg { 
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); 
       background-size: 32px 32px; 
@@ -69,15 +69,8 @@
     .nav-active { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.3); }
     input, select { color-scheme: dark; }
 
-    /* Nasconde il placeholder/numero di sfondo al click/focus */
-    input::placeholder {
-      transition: opacity 0.15s ease, color 0.15s ease;
-    }
-    input:focus::placeholder, 
-    input:focus::-webkit-input-placeholder {
-      color: transparent !important;
-      opacity: 0 !important;
-    }
+    input::placeholder { transition: opacity 0.15s ease, color 0.15s ease; }
+    input:focus::placeholder, input:focus::-webkit-input-placeholder { color: transparent !important; opacity: 0 !important; }
     
     .calendar-wrapper { width: 100%; max-width: 320px; margin: 0 auto; position: relative; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
@@ -87,30 +80,11 @@
       border: 1px solid transparent; box-sizing: border-box;
     }
     
-    /* Hover sui giorni normali non selezionati */
-    .calendar-day:not(.is-weekend):not(.is-selected):hover { 
-      background: rgba(139, 92, 246, 0.2); 
-      cursor: pointer; 
-    }
-    
-    /* Giorno selezionato: colore pieno e prioritario */
-    .calendar-day.is-selected {
-      background: #8b5cf6 !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
-    }
-    .calendar-day.is-selected:hover {
-      background: #7c3aed !important;
-      cursor: pointer;
-    }
-    
+    .calendar-day:not(.is-weekend):not(.is-selected):hover { background: rgba(139, 92, 246, 0.2); cursor: pointer; }
+    .calendar-day.is-selected { background: #8b5cf6 !important; color: #ffffff !important; font-weight: 700; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35); }
+    .calendar-day.is-selected:hover { background: #7c3aed !important; cursor: pointer; }
     .calendar-day.is-weekend { cursor: not-allowed; color: #475569; opacity: 0.4; }
-    
-    /* Bordo sottile blu per il giorno corrente */
-    .calendar-day.is-today { 
-      border: 1px solid #3b82f6 !important; 
-    }
+    .calendar-day.is-today { border: 1px solid #3b82f6 !important; }
     
     .journal-row { cursor: pointer; transition: background 0.15s ease; }
     .journal-row:hover { background: rgba(255, 255, 255, 0.02); }
@@ -122,15 +96,7 @@
       color: #94a3b8; transition: all 0.15s ease; padding: 0; flex-shrink: 0; box-sizing: border-box; vertical-align: middle;
     }
     .undo-action:not(:disabled):hover, .icon-action:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-1px); }
-    
-    /* Bordo nitido e visibile anche in stato disabilitato */
-    .undo-action:disabled { 
-      border: 1px solid rgba(255, 255, 255, 0.1); 
-      background: rgba(8, 13, 24, 0.4); 
-      color: #475569; 
-      cursor: not-allowed; 
-      opacity: 1; 
-    }
+    .undo-action:disabled { border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(8, 13, 24, 0.4); color: #475569; cursor: not-allowed; opacity: 1; }
     .undo-action:disabled svg { opacity: 0.35; }
     .undo-action svg, .icon-action svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; display: block; margin: auto; }
     
@@ -139,34 +105,34 @@
     .calendar-wrapper #calendarYearSelect { min-width: 75px; }
     
     .custom-select-trigger {
-      height: 34px; width: 100%; padding: 0 24px 0 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
+      height: 32px; width: 100%; padding: 0 22px 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
       background: rgba(16, 24, 39, 0.7); color: #cbd5e1; font-size: 0.75rem; font-weight: 500;
       display: flex; align-items: center; justify-content: center; text-align: center;
       cursor: pointer; transition: all 0.15s ease; user-select: none; box-sizing: border-box;
     }
     .custom-select-trigger:hover { border-color: rgba(139, 92, 246, 0.4); color: #fff; }
     .custom-select-trigger::after {
-      content: ''; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-      width: 12px; height: 12px;
+      content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 10px; height: 10px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease;
     }
     .custom-select-wrapper.open .custom-select-trigger::after { transform: translateY(-50%) rotate(180deg); }
     
     .custom-select-menu {
-      position: absolute; top: calc(100% + 6px); left: 0; width: 100%; box-sizing: border-box;
+      position: absolute; top: calc(100% + 4px); left: 0; width: 100%; box-sizing: border-box;
       background: rgba(16, 24, 39, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 92, 246, 0.1);
-      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-6px);
+      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-4px);
       transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; overflow: hidden;
     }
     .custom-select-wrapper.open .custom-select-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .custom-select-scroll { max-height: 170px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+    .custom-select-scroll { max-height: 150px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
     
     .custom-select-option {
-      padding: 6px 10px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 8px;
+      padding: 5px 8px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 6px;
       cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; transition: all 0.15s ease;
     }
     .custom-select-option:hover { background: rgba(139, 92, 246, 0.15); color: #f4f7fb; }
@@ -190,16 +156,37 @@
     }
     .metric-toggle-btn:not(.active):hover { color: #cbd5e1; }
 
-    .app-shell { min-height: 100vh; }
-    .app-main { min-width: 0; flex: 1; }
-    
-    /* Frame del grafico spazioso */
-    .chart-frame { position: relative; width: 100%; height: 300px; }
-    @media (min-width: 640px) {
-      .chart-frame { height: 320px; }
+    /* MEDIA QUERIES: SMARTPHONE (SCORRIMENTO) VS PC (BLOCCATO AL 100%) */
+    @media (max-width: 1023px) {
+      html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        min-height: 100vh;
+        height: auto !important;
+      }
+      .app-shell {
+        min-height: 100vh;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+      .app-main {
+        min-height: 100vh;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+      .chart-frame {
+        height: 280px !important;
+        min-height: 250px !important;
+        width: 100%;
+        position: relative;
+      }
     }
-    @media (min-width: 1280px) {
-      .chart-frame { height: 340px; }
+
+    @media (min-width: 1024px) {
+      html, body { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden !important; }
+      .app-shell { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden !important; }
+      .app-main { height: 100%; overflow: hidden !important; }
+      .chart-frame { position: relative; width: 100%; height: 100%; flex: 1 1 0%; min-height: 0; }
     }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
@@ -208,65 +195,68 @@
   </style>
 </head>
 <body class="grid-bg antialiased min-h-screen">
-  <!-- Input per il caricamento file JSON -->
+  <!-- Input per importazione JSON -->
   <input type="file" id="importFileInput" accept=".json" class="hidden" />
 
-  <!-- Banner a comparsa posizionato al centro dell'area contenuti -->
+  <!-- Banner a comparsa centrale -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center"></div>
 
   <div class="app-shell flex flex-col lg:flex-row w-full min-h-screen">
-    <!-- Sidebar Desktop e Mobile -->
-    <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:border-b-0 lg:border-r lg:p-6 backdrop-blur-md flex flex-col justify-between flex-shrink-0">
+    <!-- Sidebar -->
+    <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:border-b-0 lg:border-r lg:p-6 backdrop-blur-md flex flex-col justify-between flex-shrink-0 z-20">
       <div>
         <div class="flex items-center justify-between lg:block">
           <div class="flex items-center gap-3">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow">TJ</div>
+            <!-- SOSTITUITO IL LOGO QUI -->
+            <img src="logo.png" alt="QA Atlas Journal" class="h-10 w-10 object-contain drop-shadow-md rounded-lg" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2953/2953363.png'; this.classList.add('bg-white', 'p-1', 'rounded-full');" />
             <div>
-              <p class="font-semibold tracking-tight text-slate-100">Trading journal</p>
-              <p class="text-xs text-muted">Performance workspace</p>
+              <p class="font-semibold tracking-tight text-slate-100 text-sm">QA Atlas Journal</p>
+              <p class="text-[11px] text-muted">Performance workspace</p>
             </div>
           </div>
           <button id="mobileMenu" class="rounded-xl border border-line px-3 py-2 text-muted lg:hidden">☰</button>
         </div>
         <nav id="nav" class="mt-8 hidden space-y-1.5 lg:block">
-          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium transition">
+          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium transition">
             <span>◈</span> <span>Dashboard</span>
           </button>
-          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium text-muted transition hover:text-slate-200">
+          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium text-muted transition hover:text-slate-200">
             <span>▤</span> <span>Storico</span>
           </button>
         </nav>
       </div>
       <div class="hidden pt-6 lg:block">
-        <div class="rounded-2xl border border-line/70 bg-panel/40 p-4 backdrop-blur-sm">
-          <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">Stato dati</p>
+        <div id="dbSettingsTrigger" class="rounded-2xl border border-line/70 bg-panel/40 p-4 backdrop-blur-sm cursor-pointer hover:border-violet/40 transition">
+          <div class="flex items-center justify-between">
+            <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">Stato dati</p>
+            <span class="text-[10px] text-violet hover:underline">Configura</span>
+          </div>
           <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-amber-400">
-            <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span> Connessione database...
+            <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span> Connessione...
           </p>
-          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione cloud e persistenza attiva.</p>
+          <p class="mt-2 text-xs leading-relaxed text-muted/80">Archiviazione esclusiva su database cloud.</p>
         </div>
       </div>
     </aside>
 
-    <!-- Main Workspace -->
-    <main class="app-main flex flex-col p-4 sm:p-6 lg:p-8 xl:p-10 overflow-y-auto">
+    <!-- Main Workspace (Fit to window on PC, scroll on Mobile) -->
+    <main class="app-main flex flex-col p-4 sm:p-6 lg:p-8 xl:p-10 w-full overflow-y-auto lg:overflow-hidden h-full min-h-0">
+      
       <!-- DASHBOARD VIEW -->
-      <section id="dashboardView" class="view-panel flex flex-col gap-6 w-full">
-        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+      <section id="dashboardView" class="view-panel flex flex-col gap-5 sm:gap-6 w-full flex-1 min-h-0">
+        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center flex-shrink-0">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dashboard</h1>
             <p class="mt-1 text-xs text-muted sm:text-sm">Monitora il capitale, il rendimento e la disciplina operativa.</p>
           </div>
           <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
-            <!-- Tasto Sincronizza/Salva Cloud -->
-            <button id="cloudSyncBtn" title="Salva e sincronizza con il database cloud" aria-label="Sincronizza database" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
+            <button id="cloudSyncBtn" title="Salva e sincronizza con il database cloud" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
             </button>
-            <!-- Tasti Esporta e Importa solo icona -->
-            <button id="exportBtn" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+            <button id="exportBtn" title="Esporta dati (JSON)" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </button>
-            <button id="importBtn" title="Importa dati (JSON)" aria-label="Importa dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+            <button id="importBtn" title="Importa dati (JSON)" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </button>
             <button id="setCapital" class="rounded-xl border border-line bg-panel/50 px-4 py-2.5 text-xs font-medium text-slate-300 transition hover:border-violet/50 hover:text-white">Imposta capitale</button>
@@ -275,7 +265,7 @@
         </header>
 
         <!-- Capital Hero Card -->
-        <div class="glass-card rounded-2xl p-6">
+        <div class="glass-card rounded-2xl p-6 flex-shrink-0">
           <div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div class="space-y-1 min-w-0">
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Capitale attuale</p>
@@ -283,7 +273,6 @@
                 <h2 id="currentCapital" class="text-3xl font-bold tracking-tight text-white sm:text-4xl truncate">0,00 €</h2>
               </div>
             </div>
-            
             <div id="totalKpi" class="flex items-center gap-6 border-t border-line/60 pt-4 md:border-t-0 md:border-l md:pl-8 md:pt-0 flex-shrink-0">
               <div>
                 <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
@@ -293,29 +282,27 @@
           </div>
         </div>
 
-        <!-- KPIs Grid -->
-        <div id="kpis" class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5"></div>
+        <!-- KPIs Grid 5 Colonne -->
+        <div id="kpis" class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 flex-shrink-0"></div>
 
-        <!-- Charts Grid -->
-        <div class="grid gap-6 lg:grid-cols-2">
-          <!-- Equity Curve Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-            <div class="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <h3 class="text-sm font-semibold text-white">Equity curve</h3>
-                <p class="text-xs text-muted">Evoluzione progressiva del capitale</p>
+        <!-- Charts Grid (Combacia con la fine della pagina su Desktop) -->
+        <div class="grid gap-5 sm:gap-6 lg:grid-cols-2 flex-1 min-h-0 h-full w-full">
+          <!-- Equity Curve -->
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col h-full min-h-0 w-full overflow-hidden">
+            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0 w-full">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Equity curve</h3>
+                <p class="text-xs text-muted truncate">Evoluzione progressiva del capitale</p>
               </div>
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2.5 flex-shrink-0">
                 <div class="custom-select-wrapper" data-chart="equity">
                   <div class="custom-select-trigger">Tutti</div>
-                  <div class="custom-select-menu">
-                    <div class="custom-select-scroll">
-                      <div class="custom-select-option selected" data-value="all">Tutti</div>
-                      <div class="custom-select-option" data-value="year">Anno</div>
-                      <div class="custom-select-option" data-value="month">Mese</div>
-                      <div class="custom-select-option" data-value="week">Settimana</div>
-                    </div>
-                  </div>
+                  <div class="custom-select-menu"><div class="custom-select-scroll">
+                    <div class="custom-select-option selected" data-value="all">Tutti</div>
+                    <div class="custom-select-option" data-value="year">Anno</div>
+                    <div class="custom-select-option" data-value="month">Mese</div>
+                    <div class="custom-select-option" data-value="week">Settimana</div>
+                  </div></div>
                 </div>
                 <div class="metric-toggle" data-chart="equity">
                   <div class="metric-toggle-btn active" data-value="eur">€</div>
@@ -323,27 +310,25 @@
                 </div>
               </div>
             </div>
-            <div class="chart-frame"><canvas id="equityChart"></canvas></div>
+            <div class="chart-frame flex-1 min-h-0"><canvas id="equityChart"></canvas></div>
           </div>
 
           <!-- PnL Daily Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-            <div class="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <h3 class="text-sm font-semibold text-white">Pnl giornaliero</h3>
-                <p class="text-xs text-muted">Risultato netto per singola sessione</p>
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col h-full min-h-0 w-full overflow-hidden">
+            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0 w-full">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Pnl giornaliero</h3>
+                <p class="text-xs text-muted truncate">Risultato netto per singola sessione</p>
               </div>
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2.5 flex-shrink-0">
                 <div class="custom-select-wrapper" data-chart="pnl">
                   <div class="custom-select-trigger">Tutti</div>
-                  <div class="custom-select-menu">
-                    <div class="custom-select-scroll">
-                      <div class="custom-select-option selected" data-value="all">Tutti</div>
-                      <div class="custom-select-option" data-value="year">Anno</div>
-                      <div class="custom-select-option" data-value="month">Mese</div>
-                      <div class="custom-select-option" data-value="week">Settimana</div>
-                    </div>
-                  </div>
+                  <div class="custom-select-menu"><div class="custom-select-scroll">
+                    <div class="custom-select-option selected" data-value="all">Tutti</div>
+                    <div class="custom-select-option" data-value="year">Anno</div>
+                    <div class="custom-select-option" data-value="month">Mese</div>
+                    <div class="custom-select-option" data-value="week">Settimana</div>
+                  </div></div>
                 </div>
                 <div class="metric-toggle" data-chart="pnl">
                   <div class="metric-toggle-btn active" data-value="eur">€</div>
@@ -351,50 +336,48 @@
                 </div>
               </div>
             </div>
-            <div class="chart-frame"><canvas id="pnlChart"></canvas></div>
+            <div class="chart-frame flex-1 min-h-0"><canvas id="pnlChart"></canvas></div>
           </div>
         </div>
       </section>
 
-      <!-- STORICO VIEW -->
-      <section id="journalView" class="view-panel hidden flex flex-col gap-6 w-full">
-        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+      <!-- STORICO VIEW (Stessa identica altezza dei grafici) -->
+      <section id="journalView" class="view-panel hidden flex-col gap-5 sm:gap-6 w-full flex-1 min-h-0">
+        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center flex-shrink-0">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Storico</h1>
             <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
           </div>
           <div class="flex items-center gap-2">
-            <!-- Tasto Sincronizza/Salva Cloud -->
-            <button id="cloudSyncBtnJournal" title="Salva e sincronizza con il database cloud" aria-label="Sincronizza database" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
+            <button id="cloudSyncBtnJournal" title="Salva e sincronizza con il database cloud" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
             </button>
-            <!-- Tasti Esporta e Importa solo icona -->
-            <button id="exportBtnJournal" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+            <button id="exportBtnJournal" title="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </button>
-            <button id="importBtnJournal" title="Importa dati (JSON)" aria-label="Importa dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+            <button id="importBtnJournal" title="Importa dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </button>
             <button id="newEntryJournal" class="rounded-xl bg-violet px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
           </div>
         </header>
 
-        <div class="glass-card flex flex-col overflow-hidden rounded-2xl w-full">
-          <!-- Toolbar con padding simmetrico px-9 -->
-          <div class="journal-table-toolbar flex items-center justify-between border-b border-line/60 py-4 px-9">
+        <!-- Card con altezza allineata alla Dashboard e scorrimento interno -->
+        <div class="glass-card flex flex-col overflow-hidden rounded-2xl w-full flex-1 min-h-0">
+          <div class="journal-table-toolbar flex items-center justify-between border-b border-line/60 py-4 px-9 flex-shrink-0">
             <span class="text-sm font-semibold text-slate-200">Journal</span>
             <div class="journal-action-cluster flex items-center gap-2">
               <button id="selectAll" class="hidden h-8 items-center justify-center rounded-lg border border-line bg-panel/40 px-3 text-xs font-medium text-muted hover:text-white transition">Seleziona tutto</button>
-              <button id="deleteSelected" aria-label="Elimina righe selezionate" title="Elimina righe selezionate" class="icon-action hidden text-loss hover:border-loss/40 hover:bg-loss/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button>
-              <button id="undoAction" aria-label="Annulla ultima azione" title="Annulla ultima azione" class="undo-action" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-1"/></svg></button>
+              <button id="deleteSelected" aria-label="Elimina righe selezionate" class="icon-action hidden text-loss hover:border-loss/40 hover:bg-loss/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button>
+              <button id="undoAction" aria-label="Annulla ultima azione" class="undo-action" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-1"/></svg></button>
             </div>
           </div>
           
-          <!-- Contenitore Tabella / Empty State -->
-          <div class="flex flex-col relative min-h-[300px]">
-            <div id="tableScrollContainer" class="overflow-x-auto">
+          <div class="flex-1 flex flex-col relative overflow-hidden min-h-0">
+            <!-- Table con scorrimento Y su Desktop e mobile -->
+            <div id="tableScrollContainer" class="overflow-x-auto overflow-y-auto flex-1 w-full h-full">
               <table class="w-full min-w-[800px] text-center text-sm">
-                <thead class="border-b border-line/60 bg-panel/30 text-xs font-medium uppercase tracking-wider text-muted">
+                <thead class="border-b border-line/60 bg-panel/50 text-xs font-medium uppercase tracking-wider text-muted sticky top-0 backdrop-blur-md z-10">
                   <tr>
                     <th class="px-6 py-3.5 text-center">#</th>
                     <th class="px-6 py-3.5 text-center">Data</th>
@@ -409,14 +392,10 @@
               </table>
             </div>
             
-            <!-- Empty State unificato e centrato -->
             <button id="emptyState" class="group hidden flex-1 w-full h-full flex flex-col items-center justify-center p-12 text-center transition hover:bg-violet/[0.02] cursor-pointer">
               <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
                 <span class="grid h-12 w-12 place-items-center rounded-2xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 </span>
                 <span class="text-sm sm:text-base font-semibold text-slate-200">Ancora nessuna registrazione</span>
                 <span class="mt-1 text-xs text-muted">Aggiungi la prima sessione per iniziare a tracciare le tue performance.</span>
@@ -447,26 +426,21 @@
           <div class="calendar-wrapper rounded-2xl border border-line bg-panel/60 p-4 shadow-inner">
             <div class="mb-3 flex items-center justify-between">
               <button type="button" id="prevMonth" class="rounded-lg px-2 py-1 text-muted transition hover:bg-white/10 hover:text-white">‹</button>
-              
               <div class="flex items-center gap-2">
                 <div id="calendarMonthSelect" class="custom-select-wrapper">
                   <div class="custom-select-trigger" id="monthPickerTrigger">Mese</div>
                   <div class="custom-select-menu"><div class="custom-select-scroll" id="monthPickerMenu"></div></div>
                 </div>
-
                 <div id="calendarYearSelect" class="custom-select-wrapper">
                   <div class="custom-select-trigger" id="yearPickerTrigger">Anno</div>
                   <div class="custom-select-menu"><div class="custom-select-scroll" id="yearPickerMenu"></div></div>
                 </div>
               </div>
-
               <button type="button" id="nextMonth" class="rounded-lg px-2 py-1 text-muted transition hover:bg-white/10 hover:text-white">›</button>
             </div>
-            
             <div id="calendarHeader" class="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-muted mb-1">
               <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span>Sab</span><span>Dom</span>
             </div>
-            
             <div id="calendarGrid" class="calendar-grid"></div>
           </div>
         </div>
@@ -516,27 +490,61 @@
     </div>
   </div>
 
+  <!-- Modale Configurazione Supabase -->
+  <div id="dbConfigModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+    <div class="glass-card w-full max-w-lg rounded-2xl p-6">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-violet">Database</p>
+          <h2 class="mt-1 text-xl font-bold text-white">Configurazione Supabase</h2>
+        </div>
+        <button id="closeDbConfig" class="text-xl text-muted hover:text-white">×</button>
+      </div>
+      <form id="dbConfigForm" class="mt-5 space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-muted">Supabase Project URL</label>
+          <input id="dbUrlInput" required type="url" class="mt-1.5 w-full rounded-xl border border-line bg-panel/60 px-4 py-2.5 text-xs sm:text-sm text-white outline-none focus:border-violet" placeholder="https://xyz.supabase.co">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-muted">Supabase Anon Public Key</label>
+          <input id="dbKeyInput" required type="text" class="mt-1.5 w-full rounded-xl border border-line bg-panel/60 px-4 py-2.5 text-xs sm:text-sm text-white outline-none focus:border-violet font-mono" placeholder="eyJhbGciOiJIUzI1NiIsIn...">
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" id="cancelDbConfig" class="rounded-xl border border-line px-4 py-2 text-xs font-medium text-muted hover:text-white">Annulla</button>
+          <button class="rounded-xl bg-violet px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-violet/25 hover:bg-violet/90">Salva e connetti</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    const SUPABASE_CONFIG = { 
+    const CONFIG_KEY = 'trading-journal-supabase-config-v1';
+    
+    // UUID fisso standard (36 caratteri) richiesto da Postgres per la riga di Config
+    const CONFIG_UUID = '00000000-0000-0000-0000-000000000000';
+
+    let storedConfig = JSON.parse(localStorage.getItem(CONFIG_KEY) || 'null');
+    const SUPABASE_CONFIG = storedConfig || { 
       url: 'https://hosupqrtfmtjtnqoypai.supabase.co', 
-      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjE0Mjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' 
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjEwMjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' 
     };
 
-    // Chiavi di persistenza locale sicura (backup permanente anti-azzeramento)
-    const STORAGE_KEY = 'trading-journal-entries-v1';
-    const CAPITAL_KEY = 'trading-journal-capital-v1';
-
-    let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    let baseCapital = Number(localStorage.getItem(CAPITAL_KEY) || 0);
+    // La memoria locale non archivia più le sessioni per priorità assoluta su Supabase.
+    // Usata solo temporaneamente durante le operazioni intermedie o l'assenza di segnale.
+    let entries = [];
+    let baseCapital = 0;
     let undoState = null;
     let supabaseClient = null, realtimeChannel = null, equityChart, pnlChart;
     
-    const generateId = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9));
-
-    const chartSettings = {
-      equity: { range: 'all', metric: 'eur' },
-      pnl: { range: 'all', metric: 'eur' }
+    const generateUUID = () => {
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
     };
+
+    const chartSettings = { equity: { range: 'all', metric: 'eur' }, pnl: { range: 'all', metric: 'eur' } };
     
     const zeroLinePlugin = { 
       id: 'zeroLine', 
@@ -544,14 +552,8 @@
         const {ctx, chartArea, scales} = chart; 
         if (!chartArea || !scales.y) return; 
         const y = scales.y.getPixelForValue(0); 
-        ctx.save(); 
-        ctx.beginPath(); 
-        ctx.moveTo(chartArea.left, y); 
-        ctx.lineTo(chartArea.right, y); 
-        ctx.lineWidth = 1; 
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; 
-        ctx.stroke(); 
-        ctx.restore(); 
+        ctx.save(); ctx.beginPath(); ctx.moveTo(chartArea.left, y); ctx.lineTo(chartArea.right, y); 
+        ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; ctx.stroke(); ctx.restore(); 
       } 
     };
 
@@ -559,50 +561,32 @@
     const monthNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
     
     function formatITNumber(val, decimals = 2) {
-      const n = Number(val);
-      if (isNaN(n)) return '0,00';
-      const isNeg = n < 0;
-      const abs = Math.abs(n);
-      const fixed = abs.toFixed(decimals);
-      const [intPart, decPart] = fixed.split('.');
-      const intFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-      return (isNeg ? '-' : '') + intFormatted + (decimals > 0 ? ',' + decPart : '');
+      const n = Number(val); if (isNaN(n)) return '0,00';
+      const abs = Math.abs(n), fixed = abs.toFixed(decimals), [intPart, decPart] = fixed.split('.');
+      return (n < 0 ? '-' : '') + intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (decimals > 0 ? ',' + decPart : '');
     }
 
     const money = (n, showSign = false) => {
-      const val = Number(n) || 0;
-      const formatted = formatITNumber(Math.abs(val), 2);
-      const sign = val < 0 ? '-' : (showSign && val > 0 ? '+' : '');
-      return `${sign}${formatted} €`;
+      const val = Number(n) || 0; return `${val < 0 ? '-' : (showSign && val > 0 ? '+' : '')}${formatITNumber(Math.abs(val), 2)} €`;
     };
 
     const pct = (n, showSign = false) => {
-      const val = Number(n) || 0;
-      const formatted = formatITNumber(Math.abs(val), 2);
-      const sign = val < 0 ? '-' : (showSign && val > 0 ? '+' : '');
-      return `${sign}${formatted}%`;
+      const val = Number(n) || 0; return `${val < 0 ? '-' : (showSign && val > 0 ? '+' : '')}${formatITNumber(Math.abs(val), 2)}%`;
     };
     
     function parseFormattedNumber(val) {
       if (!val) return 0;
-      const clean = String(val).replace(/\./g, '').replace(',', '.');
-      return parseFloat(clean) || 0;
+      return parseFloat(String(val).replace(/\./g, '').replace(',', '.')) || 0;
     }
 
     function formatNumberString(val) {
       if (val === null || val === undefined || val === '') return '';
       let str = String(val);
-      
       if (str.includes(',')) {
-        const rawParts = str.split(',');
-        const intDigits = rawParts[0].replace(/\D/g, '');
-        const decDigits = rawParts.slice(1).join('').replace(/\D/g, '').slice(0, 2);
-        const intFormatted = intDigits ? intDigits.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '0';
-        return rawParts.length > 1 ? `${intFormatted},${decDigits}` : intFormatted;
+        const rawParts = str.split(','), intDigits = rawParts[0].replace(/\D/g, '');
+        return (intDigits ? intDigits.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '0') + (rawParts.length > 1 ? ',' + rawParts.slice(1).join('').replace(/\D/g, '').slice(0, 2) : '');
       } else {
-        const intDigits = str.replace(/\D/g, '');
-        if (!intDigits) return '';
-        return intDigits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        const intDigits = str.replace(/\D/g, ''); return intDigits ? intDigits.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';
       }
     }
 
@@ -610,25 +594,18 @@
       inputElement.addEventListener('keydown', (e) => {
         if (e.key === '.') {
           e.preventDefault();
-          const start = inputElement.selectionStart;
-          const end = inputElement.selectionEnd;
-          const val = inputElement.value;
+          const start = inputElement.selectionStart, val = inputElement.value;
           if (!val.includes(',')) {
-            inputElement.value = val.slice(0, start) + ',' + val.slice(end);
+            inputElement.value = val.slice(0, start) + ',' + val.slice(inputElement.selectionEnd);
             inputElement.setSelectionRange(start + 1, start + 1);
             inputElement.dispatchEvent(new Event('input'));
           }
         }
       });
-
       inputElement.addEventListener('input', (e) => {
-        const start = e.target.selectionStart;
-        const rawBeforeCursor = e.target.value.slice(0, start).replace(/\./g, '');
-        
+        const start = e.target.selectionStart, rawBeforeCursor = e.target.value.slice(0, start).replace(/\./g, '');
         e.target.value = formatNumberString(e.target.value);
-        
-        let newCursor = 0;
-        let countedRaw = 0;
+        let newCursor = 0, countedRaw = 0;
         while (newCursor < e.target.value.length && countedRaw < rawBeforeCursor.length) {
           if (e.target.value[newCursor] !== '.') countedRaw++;
           newCursor++;
@@ -637,10 +614,7 @@
       });
     }
 
-    ['entryProfit', 'entryLoss', 'capitalInput'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) setupLiveFormatting(el);
-    });
+    ['entryProfit', 'entryLoss', 'capitalInput'].forEach(id => { const el = document.getElementById(id); if (el) setupLiveFormatting(el); });
 
     const sorted = () => [...entries].sort((a,b) => a.date.localeCompare(b.date));
     const show = id => document.getElementById(id).classList.remove('hidden');
@@ -651,12 +625,7 @@
       t.textContent = message; 
       t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
       t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 2600); 
-    }
-
-    function saveLocal() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-      localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+      setTimeout(() => t.classList.add('hidden'), 3000); 
     }
 
     function checkpoint(){ 
@@ -666,60 +635,37 @@
     
     async function undoLastAction(){ 
       if(!undoState) return; 
-      const previous = undoState; 
-      undoState = null; 
-      entries = previous.entries; 
-      baseCapital = previous.baseCapital; 
+      const previous = undoState; undoState = null; entries = previous.entries; baseCapital = previous.baseCapital; 
       document.getElementById('undoAction').disabled = true;
-      saveLocal();
-      
-      await syncToCloud(false);
-      render(); 
-      toast('Ultima azione annullata'); 
+      await pushToSupabase(true);
+      render(); toast('Ultima azione annullata'); 
     }
 
     function exportData() {
-      const dataToExport = {
-        version: 1,
-        exportDate: new Date().toISOString(),
-        baseCapital: baseCapital,
-        entries: entries
-      };
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const dateStr = new Date().toISOString().slice(0, 10);
-      a.download = `trading-journal-backup-${dateStr}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const dataToExport = { version: 1, exportDate: new Date().toISOString(), baseCapital: baseCapital, entries: entries };
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' }), url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `trading-journal-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       toast('Dati esportati con successo');
     }
 
     async function importData(event) {
-      const file = event.target.files?.[0];
-      if (!file) return;
+      const file = event.target.files?.[0]; if (!file) return;
       const reader = new FileReader();
       reader.onload = async (e) => {
         try {
-          const parsed = JSON.parse(e.target.result);
-          checkpoint();
+          const parsed = JSON.parse(e.target.result); checkpoint();
           if (Array.isArray(parsed)) {
-            entries = parsed;
+            entries = parsed.map(item => ({ id: (item.id && item.id.length === 36) ? item.id : generateUUID(), date: item.date, initialCapital: item.initialCapital || 0, pnl: item.pnl || 0 }));
           } else if (parsed && typeof parsed === 'object') {
-            if (Array.isArray(parsed.entries)) entries = parsed.entries;
-            if (parsed.baseCapital !== undefined) {
-              baseCapital = Number(parsed.baseCapital) || 0;
+            if (Array.isArray(parsed.entries)) {
+              entries = parsed.entries.map(item => ({ id: (item.id && item.id.length === 36) ? item.id : generateUUID(), date: item.date, initialCapital: item.initialCapital || 0, pnl: item.pnl || 0 }));
             }
-          } else {
-            throw new Error('Formato non valido');
-          }
-          saveLocal();
-          render();
-          await syncToCloud(true);
-          toast('Dati importati con successo');
+            if (parsed.baseCapital !== undefined) baseCapital = Number(parsed.baseCapital) || 0;
+          } else throw new Error('Formato non valido');
+          
+          await pushToSupabase(true);
+          render(); toast('Dati importati con successo');
         } catch (err) {
           toast('Errore durante l\'importazione del file', true);
         } finally {
@@ -730,65 +676,51 @@
     }
 
     function totals() { 
-      const rawList = sorted(); 
-      const initial = Number(baseCapital || rawList[0]?.initialCapital || 0); 
+      const rawList = sorted(), initial = Number(baseCapital || rawList[0]?.initialCapital || 0); 
       let running = initial;
       const list = rawList.map(e => {
-        const init = running;
-        const pnl = Number(e.pnl) || 0;
-        running = init + pnl;
+        const init = running, pnl = Number(e.pnl) || 0; running = init + pnl;
         return { ...e, initialCapital: init, actualCapital: running, pnl };
       });
-      const today = new Date().toISOString().slice(0,10); 
-      const throughToday = list.filter(e => e.date <= today); 
-      const total = throughToday.reduce((s, e) => s + e.pnl, 0); 
+      const today = new Date().toISOString().slice(0,10), throughToday = list.filter(e => e.date <= today), total = throughToday.reduce((s, e) => s + e.pnl, 0); 
       return { list, total, initial, current: initial + total }; 
     }
 
     function renderKpis() { 
-      const {initial, list} = totals(); 
-      const now = new Date(), todayKey = now.toISOString().slice(0,10); 
+      const {initial, list} = totals(), now = new Date(), todayKey = now.toISOString().slice(0,10); 
       const ranges = [['Pnl giornaliero', 1], ['Pnl settimanale', 7], ['Pnl mensile', 30], ['Pnl annuale', 365]]; 
       
       const rangeCards = ranges.map(([label, days]) => { 
-        const cutoff = new Date(now); 
-        cutoff.setDate(now.getDate() - days + 1); 
+        const cutoff = new Date(now); cutoff.setDate(now.getDate() - days + 1); 
         const data = list.filter(e => days === 1 ? e.date === todayKey : new Date(e.date + 'T12:00:00') >= cutoff && e.date <= todayKey); 
-        const value = data.reduce((s, e) => s + Number(e.pnl), 0); 
-        const base = Number(data[0]?.initialCapital || initial); 
+        const value = data.reduce((s, e) => s + Number(e.pnl), 0), base = Number(data[0]?.initialCapital || initial); 
         const pnlPct = base ? (value / base) * 100 : 0;
         
         const valColor = value > 0 ? 'text-profit' : value < 0 ? 'text-loss' : 'text-white';
         const badgeClass = value > 0 ? 'bg-profit/10 text-profit' : value < 0 ? 'bg-loss/10 text-loss' : 'bg-white/10 text-white';
-        const valSign = value > 0 ? '+' : '';
-        const pctSign = pnlPct > 0 ? '+' : '';
         
         return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
           <p class="text-xs font-medium uppercase tracking-wider text-muted">${label}</p>
-          <div class="mt-2 flex items-baseline justify-between">
-            <p class="text-lg sm:text-xl font-bold ${valColor}">${valSign}${money(value)}</p>
-            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass}">${pctSign}${pct(pnlPct)}</span>
+          <div class="mt-2 flex items-baseline justify-between gap-1.5 flex-wrap sm:flex-nowrap">
+            <p class="text-lg sm:text-xl font-bold ${valColor} truncate">${value > 0 ? '+' : ''}${money(value)}</p>
+            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass} flex-shrink-0">${pnlPct > 0 ? '+' : ''}${pct(pnlPct)}</span>
           </div>
         </div>`;
       }); 
 
-      // Calcolo PnL medio giornaliero
       const avgPnl = list.length ? (list.reduce((s, e) => s + Number(e.pnl), 0) / list.length) : 0;
       const avgPct = list.length ? (list.reduce((s, e) => {
-        const base = Number(e.initialCapital || initial || 1);
-        return s + (Number(e.pnl) / base) * 100;
+        const base = Number(e.initialCapital || initial || 1); return s + (Number(e.pnl) / base) * 100;
       }, 0) / list.length) : 0;
 
       const avgColor = avgPnl > 0 ? 'text-profit' : avgPnl < 0 ? 'text-loss' : 'text-white';
       const avgBadge = avgPnl > 0 ? 'bg-profit/10 text-profit' : avgPnl < 0 ? 'bg-loss/10 text-loss' : 'bg-white/10 text-white';
-      const avgValSign = avgPnl > 0 ? '+' : '';
-      const avgPctSign = avgPct > 0 ? '+' : '';
 
-      const avgCard = `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
-        <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl medio giornaliero</p>
-        <div class="mt-2 flex items-baseline justify-between">
-          <p class="text-lg sm:text-xl font-bold ${avgColor}">${avgValSign}${money(avgPnl)}</p>
-          <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${avgBadge}">${avgPctSign}${pct(avgPct)}</span>
+      const avgCard = `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between col-span-2 sm:col-span-2 md:col-span-1 xl:col-span-1">
+        <p class="text-xs font-medium uppercase tracking-wider text-muted truncate">Pnl medio giornaliero</p>
+        <div class="mt-2 flex items-baseline justify-between gap-1.5 flex-wrap sm:flex-nowrap">
+          <p class="text-lg sm:text-xl font-bold ${avgColor} truncate">${avgPnl > 0 ? '+' : ''}${money(avgPnl)}</p>
+          <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${avgBadge} flex-shrink-0">${avgPct > 0 ? '+' : ''}${pct(avgPct)}</span>
         </div>
       </div>`;
 
@@ -798,56 +730,36 @@
     function renderSummary(){ 
       const {current, total, list} = totals(); 
       document.getElementById('currentCapital').textContent = money(current); 
-
       const totalKpi = document.getElementById('totalKpi'); 
       if(totalKpi) {
-        const totalColor = total > 0 ? 'text-profit' : total < 0 ? 'text-loss' : 'text-white';
-        const totalPrefix = total > 0 ? '+' : '';
-        
         totalKpi.innerHTML = list.length
-          ? `<div>
-              <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-1 text-xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
-             </div>`
-          : `<div>
-              <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-1 text-sm font-semibold text-muted">Nessuna registrazione</p>
-             </div>`; 
+          ? `<div><p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p><p class="mt-1 text-xl sm:text-2xl font-bold ${total > 0 ? 'text-profit' : total < 0 ? 'text-loss' : 'text-white'}">${total > 0 ? '+' : ''}${money(total)}</p></div>`
+          : `<div><p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p><p class="mt-1 text-sm font-semibold text-muted">Nessuna registrazione</p></div>`; 
       }
     }
 
     function renderTable(){ 
       const body = document.getElementById('journalBody'), empty = document.getElementById('emptyState'), tableContainer = document.getElementById('tableScrollContainer');
-      const {list} = totals(); 
-      const hasEntries = !!list.length;
+      const {list} = totals(), hasEntries = !!list.length;
       
-      empty.classList.toggle('hidden', hasEntries);
-      empty.classList.toggle('flex', !hasEntries);
-      if (tableContainer) {
-        tableContainer.classList.toggle('hidden', !hasEntries);
-      }
+      empty.classList.toggle('hidden', hasEntries); empty.classList.toggle('flex', !hasEntries);
+      if (tableContainer) tableContainer.classList.toggle('hidden', !hasEntries);
       
-      // Ordine invertito: i giorni più recenti in alto
       const displayList = [...list].reverse();
-      
       body.innerHTML = displayList.map((e, i) => { 
         const ret = Number(e.initialCapital) ? (Number(e.pnl) / Number(e.initialCapital)) * 100 : 0; 
-        const pnlColor = e.pnl > 0 ? 'text-profit' : e.pnl < 0 ? 'text-loss' : 'text-white';
-        const pnlPrefix = e.pnl > 0 ? '+' : '';
-        const retColor = ret > 0 ? 'text-profit' : ret < 0 ? 'text-loss' : 'text-white';
-        const retPrefix = ret > 0 ? '+' : '';
-
+        const rowNumber = displayList.length - i; // Numerazione cronologica esatta: il più recente in cima ha il numero totale, il primo in assoluto (in fondo) ha 1
         return `<tr data-row="${e.id}" class="journal-row">
-          <td class="px-6 py-4 text-center text-xs font-medium text-muted">${i+1}</td>
+          <td class="px-6 py-4 text-center text-xs font-medium text-muted">${rowNumber}</td>
           <td class="px-6 py-4 text-center text-xs font-medium text-slate-200">${new Date(e.date+'T12:00:00').toLocaleDateString('it-IT')}</td>
           <td class="px-6 py-4 text-center text-xs text-slate-300">${money(e.initialCapital)}</td>
-          <td class="px-6 py-4 text-center text-xs font-semibold ${pnlColor}">${pnlPrefix}${money(e.pnl)}</td>
+          <td class="px-6 py-4 text-center text-xs font-semibold ${e.pnl > 0 ? 'text-profit' : e.pnl < 0 ? 'text-loss' : 'text-white'}">${e.pnl > 0 ? '+' : ''}${money(e.pnl)}</td>
           <td class="px-6 py-4 text-center text-xs font-medium text-slate-200">${money(e.actualCapital)}</td>
-          <td class="px-6 py-4 text-center text-xs font-semibold ${retColor}">${retPrefix}${pct(ret)}</td>
+          <td class="px-6 py-4 text-center text-xs font-semibold ${ret > 0 ? 'text-profit' : ret < 0 ? 'text-loss' : 'text-white'}">${ret > 0 ? '+' : ''}${pct(ret)}</td>
           <td class="w-36 px-4 py-4 text-center">
             <div class="flex justify-center items-center gap-2">
-              <button aria-label="Modifica" data-edit="${e.id}" title="Modifica" class="icon-action text-amber-400 hover:text-amber-300 hover:border-amber-400/40 hover:bg-amber-400/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
-              <button aria-label="Elimina" data-delete="${e.id}" title="Elimina" class="icon-action text-loss hover:text-rose-400 hover:border-loss/40 hover:bg-loss/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button>
+              <button aria-label="Modifica" data-edit="${e.id}" class="icon-action text-amber-400 hover:text-amber-300 hover:border-amber-400/40 hover:bg-amber-400/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+              <button aria-label="Elimina" data-delete="${e.id}" class="icon-action text-loss hover:text-rose-400 hover:border-loss/40 hover:bg-loss/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button>
             </div>
           </td>
         </tr>`;
@@ -859,63 +771,35 @@
       const now = new Date();
       return list.filter(e => {
         const d = new Date(e.date + 'T12:00:00');
-        if (range === 'week') {
-          const cutoff = new Date(now); cutoff.setDate(now.getDate() - 7);
-          return d >= cutoff;
-        }
+        if (range === 'week') { const cutoff = new Date(now); cutoff.setDate(now.getDate() - 7); return d >= cutoff; }
         if (range === 'month') return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
         if (range === 'year') return d.getFullYear() === now.getFullYear();
         return true;
       });
     }
 
+    function formatChartDate(item) {
+      if (!item) return '';
+      const dateStr = new Date(item.date + 'T12:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      return dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+    }
+
     function renderCharts(){ 
-      const {list: fullList, initial: baseStartCapital} = totals(); 
-      const equityFiltered = filterByRange(fullList, chartSettings.equity.range);
-      const pnlFiltered = filterByRange(fullList, chartSettings.pnl.range);
-
+      const {list: fullList, initial: baseStartCapital} = totals(), equityFiltered = filterByRange(fullList, chartSettings.equity.range), pnlFiltered = filterByRange(fullList, chartSettings.pnl.range);
       const eqLabels = ['Inizio', ...equityFiltered.map(e => new Date(e.date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' }))];
-      
-      const rawEquityValues = [baseStartCapital, ...equityFiltered.map(e => Number(e.actualCapital))];
-      const equityData = chartSettings.equity.metric === 'pct'
-        ? rawEquityValues.map(v => baseStartCapital ? ((v - baseStartCapital) / baseStartCapital) * 100 : 0)
-        : rawEquityValues;
-
+      const rawEquityValues = [baseStartCapital, ...equityFiltered.map(e => Number(e.actualCapital))], equityData = chartSettings.equity.metric === 'pct' ? rawEquityValues.map(v => baseStartCapital ? ((v - baseStartCapital) / baseStartCapital) * 100 : 0) : rawEquityValues;
       const pnlLabels = pnlFiltered.map(e => new Date(e.date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' }));
-      const pnlData = pnlFiltered.map(e => {
-        const val = Number(e.pnl);
-        const base = Number(e.initialCapital || baseStartCapital || 1);
-        return chartSettings.pnl.metric === 'pct' ? (val / base) * 100 : val;
-      });
+      const pnlData = pnlFiltered.map(e => { const val = Number(e.pnl), base = Number(e.initialCapital || baseStartCapital || 1); return chartSettings.pnl.metric === 'pct' ? (val / base) * 100 : val; });
 
       const axisTicks = isPct => value => isPct ? `${formatITNumber(value, 2)}%` : `${formatITNumber(value, 2)} €`;
       const chartGrid = { display: true, color: 'rgba(255, 255, 255, 0.05)', drawBorder: false, drawTicks: false }; 
-      
       const opts = {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false, animation: false,
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#101827',
-            borderColor: 'rgba(139,92,246,0.3)',
-            borderWidth: 1,
-            cornerRadius: 8,
-            padding: 10,
-            titleColor: '#c4b5fd',
-            bodyColor: '#f4f7fb',
-            callbacks: {
-              title: ctx => {
-                const idx = ctx[0]?.dataIndex;
-                if (idx === 0) return 'Capitale iniziale';
-                const item = equityFiltered[idx - 1];
-                return item ? new Date(item.date + 'T12:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
-              },
-              label: ctx => {
-                const val = ctx.raw;
-                return chartSettings.equity.metric === 'pct' ? pct(val, true) : money(val);
-              }
-            }
+            backgroundColor: '#101827', borderColor: 'rgba(139,92,246,0.3)', borderWidth: 1, cornerRadius: 8, padding: 10, titleColor: '#c4b5fd', bodyColor: '#f4f7fb',
+            callbacks: { title: ctx => { const idx = ctx[0]?.dataIndex; if (idx === 0) return 'Capitale iniziale'; return formatChartDate(equityFiltered[idx - 1]); }, label: ctx => chartSettings.equity.metric === 'pct' ? pct(ctx.raw, true) : money(ctx.raw) }
           }
         },
         scales: {
@@ -923,340 +807,168 @@
           y: { grid: chartGrid, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.equity.metric === 'pct') }, border: { display: false } }
         }
       }; 
-      
       const pnlOpts = {
         ...opts,
-        plugins: {
-          ...opts.plugins,
-          tooltip: {
-            ...opts.plugins.tooltip,
-            callbacks: {
-              title: ctx => {
-                const item = pnlFiltered[ctx[0]?.dataIndex];
-                return item ? new Date(item.date + 'T12:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
-              },
-              label: ctx => {
-                const val = ctx.raw;
-                const sign = val > 0 ? '+' : '';
-                return chartSettings.pnl.metric === 'pct' ? `${sign}${pct(val)}` : `${sign}${money(val)}`;
-              }
-            }
-          }
-        },
-        scales: {
-          ...opts.scales,
-          x: { ...opts.scales.x, offset: true, ticks: { color: '#64748b', font: { size: 11 }, padding: 8 } },
-          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
-        }
+        plugins: { ...opts.plugins, tooltip: { ...opts.plugins.tooltip, callbacks: { title: ctx => formatChartDate(pnlFiltered[ctx[0]?.dataIndex]), label: ctx => chartSettings.pnl.metric === 'pct' ? `${ctx.raw > 0 ? '+' : ''}${pct(ctx.raw)}` : `${ctx.raw > 0 ? '+' : ''}${money(ctx.raw)}` } } },
+        scales: { ...opts.scales, x: { ...opts.scales.x, offset: true } }
       }; 
-      
-      if(equityChart) equityChart.destroy(); 
-      if(pnlChart) pnlChart.destroy(); 
-      
-      equityChart = new Chart(document.getElementById('equityChart'), {
-        type: 'line',
-        data: {
-          labels: eqLabels,
-          datasets: [{
-            data: equityData,
-            borderColor: '#8b5cf6',
-            borderWidth: 2,
-            backgroundColor: (context) => {
-              const ctx = context.chart.ctx;
-              const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-              gradient.addColorStop(0, 'rgba(139, 92, 246, 0.25)');
-              gradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
-              return gradient;
-            },
-            fill: true,
-            tension: 0.3,
-            pointRadius: 3,
-            pointHoverRadius: 5
-          }]
-        },
-        options: opts
-      }); 
-      
-      pnlChart = new Chart(document.getElementById('pnlChart'), {
-        type: 'bar',
-        plugins: [zeroLinePlugin],
-        data: {
-          labels: pnlLabels,
-          datasets: [{
-            data: pnlData,
-            backgroundColor: pnlData.map(v => v > 0 ? '#10b981' : v < 0 ? '#f43f5e' : '#ffffff'),
-            borderRadius: 4,
-            barPercentage: 0.6
-          }]
-        },
-        options: pnlOpts
-      }); 
+      if(equityChart) equityChart.destroy(); if(pnlChart) pnlChart.destroy(); 
+      equityChart = new Chart(document.getElementById('equityChart'), { type: 'line', data: { labels: eqLabels, datasets: [{ data: equityData, borderColor: '#8b5cf6', borderWidth: 2, backgroundColor: (context) => { const ctx = context.chart.ctx, gradient = ctx.createLinearGradient(0, 0, 0, 200); gradient.addColorStop(0, 'rgba(139, 92, 246, 0.25)'); gradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)'); return gradient; }, fill: true, tension: 0.3, pointRadius: 3, pointHoverRadius: 5 }] }, options: opts }); 
+      pnlChart = new Chart(document.getElementById('pnlChart'), { type: 'bar', plugins: [zeroLinePlugin], data: { labels: pnlLabels, datasets: [{ data: pnlData, backgroundColor: pnlData.map(v => v > 0 ? '#10b981' : v < 0 ? '#f43f5e' : '#ffffff'), borderRadius: 4, barPercentage: 0.6 }] }, options: pnlOpts }); 
     }
 
     function render(){ renderSummary(); renderKpis(); renderTable(); renderCharts(); if (typeof updateSelectionControls === 'function') updateSelectionControls(); }
     function formatDate(date){ return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
 
     function renderCalendar(){ 
-      const year = calendarDate.getFullYear(), month = calendarDate.getMonth(), first = new Date(year,month,1).getDay(), offset = (first+6)%7, days = new Date(year,month+1,0).getDate(), selected = document.getElementById('entryDate').value; 
-      const todayKey = formatDate(new Date());
-
+      const year = calendarDate.getFullYear(), month = calendarDate.getMonth(), first = new Date(year,month,1).getDay(), offset = (first+6)%7, days = new Date(year,month+1,0).getDate(), selected = document.getElementById('entryDate').value, todayKey = formatDate(new Date());
       document.getElementById('monthPickerTrigger').textContent = monthNames[month];
-      
-      const monthMenu = document.getElementById('monthPickerMenu');
-      monthMenu.innerHTML = monthNames.map((name, idx) => `
-        <div class="custom-select-option ${idx === month ? 'selected' : ''}" data-value="${idx}">
-          ${name}
-        </div>
-      `).join('');
-
+      document.getElementById('monthPickerMenu').innerHTML = monthNames.map((name, idx) => `<div class="custom-select-option ${idx === month ? 'selected' : ''}" data-value="${idx}">${name}</div>`).join('');
       document.getElementById('yearPickerTrigger').textContent = year;
-
-      const yearMenu = document.getElementById('yearPickerMenu');
-      const startYear = year - 5;
-      const years = Array.from({length: 11}, (_, i) => startYear + i);
-      yearMenu.innerHTML = years.map(y => `
-        <div class="custom-select-option ${y === year ? 'selected' : ''}" data-value="${y}">
-          ${y}
-        </div>
-      `).join('');
-      
+      document.getElementById('yearPickerMenu').innerHTML = Array.from({length: 11}, (_, i) => year - 5 + i).map(y => `<div class="custom-select-option ${y === year ? 'selected' : ''}" data-value="${y}">${y}</div>`).join('');
       document.getElementById('calendarGrid').innerHTML = Array.from({length:offset},()=>'<span></span>').join('') + Array.from({length:days},(_,i)=>{
-        const d = i + 1, key = formatDate(new Date(year,month,d));
-        const isToday = key === todayKey;
-        const isSelected = key === selected;
+        const d = i + 1, key = formatDate(new Date(year,month,d)), isToday = key === todayKey, isSelected = key === selected;
         return `<button type="button" data-day="${key}" class="calendar-day ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : 'text-slate-200'}">${d}</button>`;
       }).join(''); 
+      document.querySelectorAll('#calendarGrid [data-day]').forEach(day => { const weekday = new Date(day.dataset.day+'T12:00:00').getDay(); if (weekday === 0 || weekday === 6) { day.classList.add('is-weekend'); day.setAttribute('aria-disabled','true'); } });
     }
-    
-    const renderCalendarBase = renderCalendar;
-    renderCalendar = () => { 
-      renderCalendarBase(); 
-      document.querySelectorAll('#calendarGrid [data-day]').forEach(day => { 
-        const weekday = new Date(day.dataset.day+'T12:00:00').getDay(); 
-        if (weekday === 0 || weekday === 6) { 
-          day.classList.add('is-weekend'); 
-          day.setAttribute('aria-disabled','true'); 
-        } 
-      }); 
-    };
 
     function openModal(entry){ 
       document.getElementById('modalTitle').textContent=entry?'Modifica registrazione':'Registra la giornata'; 
       const date=entry?.date||new Date().toISOString().slice(0,10); 
-      document.getElementById('entryId').value=entry?.id||''; 
-      document.getElementById('entryDate').value=date; 
+      document.getElementById('entryId').value=entry?.id||''; document.getElementById('entryDate').value=date; 
       calendarDate=new Date(date+'T12:00:00'); 
-
-      const profitInput = document.getElementById('entryProfit');
-      const lossInput = document.getElementById('entryLoss');
-      
-      profitInput.value = entry && entry.pnl > 0 ? formatITNumber(entry.pnl, 2) : ''; 
-      lossInput.value = entry && entry.pnl < 0 ? formatITNumber(Math.abs(entry.pnl), 2) : ''; 
-
-      renderCalendar(); 
-      document.getElementById('modal').classList.replace('hidden','flex'); 
+      document.getElementById('entryProfit').value = entry && entry.pnl > 0 ? formatITNumber(entry.pnl, 2) : ''; 
+      document.getElementById('entryLoss').value = entry && entry.pnl < 0 ? formatITNumber(Math.abs(entry.pnl), 2) : ''; 
+      renderCalendar(); document.getElementById('modal').classList.replace('hidden','flex'); 
     }
 
-    // GESTIONE SINCRONIZZAZIONE DATABASE CLOUD + PERSISTENZA IBRIDA
     function updateSyncStatus(status, customMsg = '') {
-      const el = document.getElementById('syncStatus');
-      if (!el) return;
-      if (status === 'syncing') {
-        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-amber-400 animate-spin"></span> Sincronizzazione...';
-      } else if (status === true) {
-        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Cloud connesso';
-      } else {
-        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-amber-400"></span> ${customMsg || 'Locale protetto'}`;
-      }
+      const el = document.getElementById('syncStatus'); if (!el) return;
+      if (status === 'syncing') el.innerHTML = '<span class="h-2 w-2 rounded-full bg-amber-400 animate-spin"></span> Connessione in corso...';
+      else if (status === true) el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Cloud connesso';
+      else el.innerHTML = `<span class="h-2 w-2 rounded-full bg-loss"></span> ${customMsg || 'Scollegato'}`;
     }
 
     let isSyncing = false;
 
+    async function pushToSupabase(fullOverwrite = false) {
+      if (!supabaseClient) return;
+      try {
+        if (fullOverwrite) await supabaseClient.from('trading_entries').delete().neq('id', '');
+        const payload = entries.map(e => ({ id: (e.id && e.id.length === 36) ? e.id : generateUUID(), date: String(e.date), initial_capital: Number(e.initialCapital) || 0, pnl: Number(e.pnl) || 0 }));
+        if (baseCapital > 0) payload.push({ id: CONFIG_UUID, date: '2000-01-01', initial_capital: Number(baseCapital) || 0, pnl: 0 });
+        if (payload.length > 0) await supabaseClient.from('trading_entries').upsert(payload, { onConflict: 'id' });
+        updateSyncStatus(true);
+      } catch (err) { updateSyncStatus(false, 'Errore inserimento UUID'); }
+    }
+
     async function syncToCloud(showToast = false) {
-      if (isSyncing) return;
-      isSyncing = true;
-      updateSyncStatus('syncing');
-
-      if (!supabaseClient && window.supabase && SUPABASE_CONFIG.url) {
-        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-      }
-
-      if (!supabaseClient) {
-        updateSyncStatus(false, 'Database non collegato');
-        if (showToast) toast('Database Supabase non configurato', true);
-        isSyncing = false;
-        return;
-      }
+      if (isSyncing) return; isSyncing = true; updateSyncStatus('syncing');
+      if (!supabaseClient && window.supabase && SUPABASE_CONFIG.url) try { supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey); } catch (e) {}
+      if (!supabaseClient) { updateSyncStatus(false, 'Configura DB'); if (showToast) toast('Database Supabase non configurato', true); isSyncing = false; return; }
 
       try {
-        const payload = entries.map(e => ({
-          id: String(e.id || generateId()),
-          date: String(e.date),
-          initial_capital: Number(e.initialCapital) || 0,
-          pnl: Number(e.pnl) || 0
-        }));
-
-        if (baseCapital > 0) {
-          payload.push({
-            id: '__config_base_capital__',
-            date: '2000-01-01',
-            initial_capital: Number(baseCapital) || 0,
-            pnl: 0
-          });
-        }
-
-        if (payload.length > 0) {
-          const { error } = await supabaseClient.from('trading_entries').upsert(payload, { onConflict: 'id' });
-          if (error) throw error;
-        }
-
-        updateSyncStatus(true);
+        await pushToSupabase(true);
         if (showToast) toast('Dati salvati e sincronizzati nel database!');
       } catch (err) {
-        console.error('Errore sincronizzazione cloud:', err);
-        updateSyncStatus(false, 'Verifica RLS Database');
-        if (showToast) toast('Errore salvataggio database: ' + (err.message || 'Verifica RLS'), true);
-      } finally {
-        isSyncing = false;
-      }
+        updateSyncStatus(false, 'Errore API Key'); if (showToast) toast('Errore database: controlla parametri o RLS', true);
+      } finally { isSyncing = false; }
     }
 
     async function fetchRemoteData() {
       if (!supabaseClient) return;
       try {
         const { data, error } = await supabaseClient.from('trading_entries').select('*').order('date');
-        if (error) {
-          console.error('Errore lettura Supabase:', error);
-          updateSyncStatus(false, 'Verifica RLS Database');
-          return;
-        }
+        if (error) return updateSyncStatus(false, 'Errore di lettura');
         
         if (data && data.length > 0) {
-          const configRow = data.find(r => r.id === '__config_base_capital__');
-          if (configRow) {
-            baseCapital = Number(configRow.initial_capital) || 0;
-          }
-
-          const remoteEntries = data
-            .filter(r => r.id !== '__config_base_capital__')
-            .map(r => ({
-              id: r.id,
-              date: r.date,
-              initialCapital: Number(r.initial_capital) || 0,
-              pnl: Number(r.pnl) || 0
-            }));
-
-          entries = remoteEntries;
-          saveLocal();
-          render();
-          updateSyncStatus(true);
-        } else {
-          // Se il database è vuoto ma abbiamo dati locali salvati, li carichiamo sul cloud
-          if (entries.length > 0 || baseCapital > 0) {
-            await syncToCloud(false);
-          } else {
-            updateSyncStatus(true);
-          }
-        }
-      } catch (err) {
-        console.warn('Errore fetch sincronizzazione:', err);
-        updateSyncStatus(false);
-      }
+          const configRow = data.find(r => r.id === CONFIG_UUID);
+          if (configRow) baseCapital = Number(configRow.initial_capital) || 0;
+          entries = data.filter(r => r.id !== CONFIG_UUID).map(r => ({ id: r.id, date: r.date, initialCapital: Number(r.initial_capital) || 0, pnl: Number(r.pnl) || 0 }));
+          render(); updateSyncStatus(true);
+        } else updateSyncStatus(true);
+      } catch (err) { updateSyncStatus(false, 'Nessuna rete'); }
     }
 
     async function initSync() {
-      if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) {
-        updateSyncStatus(false);
-        return;
-      }
-      
-      if (!window.supabase) {
-        setTimeout(initSync, 150);
-        return;
-      }
+      if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) return updateSyncStatus(false, 'Mancano credenziali');
+      if (!window.supabase) return setTimeout(initSync, 150);
 
       try {
-        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
-          auth: { persistSession: true, autoRefreshToken: true }
-        });
-        
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
         await fetchRemoteData();
-
-        if (realtimeChannel) {
-          try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
-        }
-
-        realtimeChannel = supabaseClient
-          .channel('trading-journal-realtime-' + Date.now())
-          .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'trading_entries' },
-            () => { fetchRemoteData(); }
-          )
-          .subscribe((status) => {
-            if (status === 'SUBSCRIBED') {
-              updateSyncStatus(true);
-            }
-          });
-      } catch (err) {
-        console.warn('Supabase offline, modalità locale attiva:', err);
-        updateSyncStatus(false);
-      }
+        if (realtimeChannel) try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
+        realtimeChannel = supabaseClient.channel('trading-journal-rt-' + Date.now()).on('postgres_changes', { event: '*', schema: 'public', table: 'trading_entries' }, () => fetchRemoteData()).subscribe(status => { if (status === 'SUBSCRIBED') updateSyncStatus(true); });
+      } catch (err) { updateSyncStatus(false, 'Verifica credenziali'); }
     }
 
-    // Risincronizzazione al risveglio del dispositivo o cambio scheda
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        fetchRemoteData();
-      }
-    });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') fetchRemoteData(); });
+    window.addEventListener('focus', fetchRemoteData);
+    setInterval(() => { if (document.visibilityState === 'visible' && supabaseClient) fetchRemoteData(); }, 6000);
 
-    window.addEventListener('focus', () => {
-      fetchRemoteData();
+    // Sistema switch vista esclusivo
+    document.querySelectorAll('.view-btn').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('.view-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        
+        const dv = document.getElementById('dashboardView'), jv = document.getElementById('journalView');
+        if(b.dataset.view === 'dashboard') {
+          dv.classList.remove('hidden'); dv.classList.add('flex');
+          jv.classList.add('hidden'); jv.classList.remove('flex');
+          setTimeout(() => renderCharts(), 50);
+        } else {
+          jv.classList.remove('hidden'); jv.classList.add('flex');
+          dv.classList.add('hidden'); dv.classList.remove('flex');
+        }
+      };
     });
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY) {
-        entries = JSON.parse(e.newValue || '[]');
-        render();
-      }
-      if (e.key === CAPITAL_KEY) {
-        baseCapital = Number(e.newValue || 0);
-        render();
-      }
-    });
-
-    // Polling di sicurezza
-    setInterval(() => {
-      if (document.visibilityState === 'visible' && supabaseClient) {
-        fetchRemoteData();
-      }
-    }, 6000);
 
     document.querySelectorAll('.nav-btn').forEach(b=>{
       b.onclick=()=>{
         document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('nav-active'));
         b.classList.add('nav-active');
-        ['dashboardView','journalView'].forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==b.dataset.view+'View'));
-        document.getElementById('nav').classList.add('hidden');
+        
+        const dv = document.getElementById('dashboardView'), jv = document.getElementById('journalView');
         if(b.dataset.view === 'dashboard') {
+          dv.classList.remove('hidden'); dv.classList.add('flex');
+          jv.classList.add('hidden'); jv.classList.remove('flex');
           setTimeout(() => renderCharts(), 50);
+        } else {
+          jv.classList.remove('hidden'); jv.classList.add('flex');
+          dv.classList.add('hidden'); dv.classList.remove('flex');
         }
+        document.getElementById('nav').classList.add('hidden');
       };
     });
 
     window.addEventListener('resize', () => {
       if (!document.getElementById('dashboardView').classList.contains('hidden')) {
-        if (equityChart) equityChart.resize();
-        if (pnlChart) pnlChart.resize();
+        if (equityChart) equityChart.resize(); if (pnlChart) pnlChart.resize();
       }
     });
 
-    // Tasti Sincronizzazione Cloud Manuale
     document.getElementById('cloudSyncBtn').onclick = () => syncToCloud(true);
     document.getElementById('cloudSyncBtnJournal').onclick = () => syncToCloud(true);
 
-    // Gestori Export e Import
+    document.getElementById('dbSettingsTrigger').onclick = () => {
+      document.getElementById('dbUrlInput').value = SUPABASE_CONFIG.url || '';
+      document.getElementById('dbKeyInput').value = SUPABASE_CONFIG.anonKey || '';
+      document.getElementById('dbConfigModal').classList.replace('hidden', 'flex');
+    };
+    document.getElementById('closeDbConfig').onclick = () => hide('dbConfigModal');
+    document.getElementById('cancelDbConfig').onclick = () => hide('dbConfigModal');
+    
+    document.getElementById('dbConfigForm').onsubmit = async (ev) => {
+      ev.preventDefault();
+      const newUrl = document.getElementById('dbUrlInput').value.trim(), newKey = document.getElementById('dbKeyInput').value.trim();
+      if (!newUrl || !newKey) { toast('Compila tutti i campi', true); return; }
+      SUPABASE_CONFIG.url = newUrl; SUPABASE_CONFIG.anonKey = newKey; localStorage.setItem(CONFIG_KEY, JSON.stringify({ url: newUrl, anonKey: newKey }));
+      hide('dbConfigModal'); toast('Credenziali salvate. Connessione in corso...');
+      await initSync(); await syncToCloud(true);
+    };
+
     const fileInput = document.getElementById('importFileInput');
     document.getElementById('exportBtn').onclick = exportData;
     document.getElementById('exportBtnJournal').onclick = exportData;
@@ -1267,10 +979,8 @@
     const deleteSelectedButton=document.getElementById('deleteSelected'), selectAllButton=document.getElementById('selectAll'); 
     function updateSelectionControls(){ 
       const hasSelection=!!document.querySelector('.journal-row.is-selected'); 
-      deleteSelectedButton.classList.toggle('hidden',!hasSelection); 
-      deleteSelectedButton.classList.toggle('inline-flex',hasSelection);
-      selectAllButton.classList.toggle('hidden',!hasSelection); 
-      selectAllButton.classList.toggle('inline-flex',hasSelection); 
+      deleteSelectedButton.classList.toggle('hidden',!hasSelection); deleteSelectedButton.classList.toggle('inline-flex',hasSelection);
+      selectAllButton.classList.toggle('hidden',!hasSelection); selectAllButton.classList.toggle('inline-flex',hasSelection); 
     }
 
     document.getElementById('mobileMenu').onclick=()=>document.getElementById('nav').classList.toggle('hidden'); 
@@ -1286,155 +996,84 @@
     document.getElementById('closeCapital').onclick=document.getElementById('cancelCapital').onclick=()=>hide('capitalModal');
 
     document.getElementById('capitalForm').onsubmit=async ev=>{
-      ev.preventDefault();
-      checkpoint();
+      ev.preventDefault(); checkpoint();
       baseCapital = parseFormattedNumber(document.getElementById('capitalInput').value);
-      saveLocal();
-      
-      if(supabaseClient){
-        await supabaseClient.from('trading_entries').upsert({
-          id: '__config_base_capital__',
-          date: '2000-01-01',
-          initial_capital: baseCapital,
-          pnl: 0
-        }, { onConflict: 'id' });
-      }
-      
-      render();
-      hide('capitalModal');
-      toast('Capitale iniziale salvato');
+      if(supabaseClient) await supabaseClient.from('trading_entries').upsert({ id: CONFIG_UUID, date: '2000-01-01', initial_capital: baseCapital, pnl: 0 }, { onConflict: 'id' });
+      render(); hide('capitalModal'); toast('Capitale iniziale salvato');
     };
+    
     document.getElementById('undoAction').onclick=undoLastAction;
     document.getElementById('modal').addEventListener('click', ev=>{if(ev.target===ev.currentTarget)hide('modal');}); 
     document.getElementById('capitalModal').addEventListener('click', ev=>{if(ev.target===ev.currentTarget)hide('capitalModal');});
+    document.getElementById('dbConfigModal').addEventListener('click', ev=>{if(ev.target===ev.currentTarget)hide('dbConfigModal');});
 
     document.getElementById('prevMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()-1);renderCalendar();}; 
     document.getElementById('nextMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()+1);renderCalendar();}; 
-    
-    document.getElementById('monthPickerMenu').onclick = ev => {
-      const option = ev.target.closest('.custom-select-option');
-      if(!option) return;
-      calendarDate.setMonth(Number(option.dataset.value));
-      document.getElementById('calendarMonthSelect').classList.remove('open');
-      renderCalendar();
-    };
-
-    document.getElementById('yearPickerMenu').onclick = ev => {
-      const option = ev.target.closest('.custom-select-option');
-      if(!option) return;
-      calendarDate.setFullYear(Number(option.dataset.value));
-      document.getElementById('calendarYearSelect').classList.remove('open');
-      renderCalendar();
-    };
-    
+    document.getElementById('monthPickerMenu').onclick = ev => { const option = ev.target.closest('.custom-select-option'); if(!option) return; calendarDate.setMonth(Number(option.dataset.value)); document.getElementById('calendarMonthSelect').classList.remove('open'); renderCalendar(); };
+    document.getElementById('yearPickerMenu').onclick = ev => { const option = ev.target.closest('.custom-select-option'); if(!option) return; calendarDate.setFullYear(Number(option.dataset.value)); document.getElementById('calendarYearSelect').classList.remove('open'); renderCalendar(); };
     document.getElementById('calendarGrid').onclick=ev=>{
-      if(!ev.target.dataset.day)return;
-      const date=ev.target.dataset.day;
-      const weekday=new Date(date+'T12:00:00').getDay();
+      if(!ev.target.dataset.day)return; const date=ev.target.dataset.day, weekday=new Date(date+'T12:00:00').getDay();
       if(weekday===0||weekday===6)return;
-      document.getElementById('entryDate').value=date;
-      renderCalendar();
+      document.getElementById('entryDate').value=date; renderCalendar();
     };
 
     document.getElementById('entryForm').onsubmit=async ev=>{
       ev.preventDefault(); 
-      const profit = parseFormattedNumber(document.getElementById('entryProfit').value); 
-      const loss = parseFormattedNumber(document.getElementById('entryLoss').value); 
+      const profit = parseFormattedNumber(document.getElementById('entryProfit').value), loss = parseFormattedNumber(document.getElementById('entryLoss').value); 
       if(!profit && !loss) return toast('Inserisci un profitto o una perdita', true); 
       checkpoint(); 
-      const id=document.getElementById('entryId').value||generateId(); 
-      const item={id,date:document.getElementById('entryDate').value,initialCapital:0,pnl:profit-loss}; 
-      
-      const idx=entries.findIndex(e=>e.id===id); 
-      idx>=0?entries[idx]=item:entries.push(item);
-      saveLocal();
+      const id = document.getElementById('entryId').value || generateUUID(), item = { id, date: document.getElementById('entryDate').value, initialCapital: 0, pnl: profit - loss }; 
+      const idx = entries.findIndex(e => e.id === id); idx >= 0 ? entries[idx] = item : entries.push(item);
 
       if(supabaseClient){
-        await supabaseClient.from('trading_entries').upsert({
-          id: item.id,
-          date: item.date,
-          initial_capital: item.initialCapital,
-          pnl: item.pnl
-        }, { onConflict: 'id' }); 
+        const { error } = await supabaseClient.from('trading_entries').upsert({ id: item.id, date: item.date, initial_capital: item.initialCapital, pnl: item.pnl }, { onConflict: 'id' }); 
+        if (error) toast('Errore database: ' + error.message, true);
       }
-      
-      render();
-      hide('modal');
-      toast('Registrazione salvata');
+      render(); hide('modal'); toast('Registrazione salvata');
     };
 
     document.getElementById('journalBody').onclick=async ev=>{
       const row=ev.target.closest('[data-row]'), edit=ev.target.closest('[data-edit]')?.dataset.edit, del=ev.target.closest('[data-delete]')?.dataset.delete;
       if(edit){ev.stopPropagation();openModal(entries.find(e=>e.id===edit));return;}
       if(del&&confirm('Eliminare questa registrazione?')){
-        ev.stopPropagation();
-        checkpoint();
-        entries=entries.filter(e=>e.id!==del);
-        saveLocal();
+        ev.stopPropagation(); checkpoint(); entries=entries.filter(e=>e.id!==del);
         if(supabaseClient) {
-          await supabaseClient.from('trading_entries').delete().eq('id', del);
+          const { error } = await supabaseClient.from('trading_entries').delete().eq('id', del);
+          if (error) return toast('Errore eliminazione database', true);
         }
-        render();
-        toast('Registrazione eliminata');
-        return;
+        render(); toast('Registrazione eliminata'); return;
       }
       if(row){row.classList.toggle('is-selected');updateSelectionControls();}
     };
 
     document.getElementById('deleteSelected').onclick=async()=>{
-      const selected=[...document.querySelectorAll('.journal-row.is-selected')];
-      if(!selected.length)return;
+      const selected=[...document.querySelectorAll('.journal-row.is-selected')]; if(!selected.length)return;
       const ids=selected.map(row=>row.dataset.row);
       if(confirm(`Eliminare ${ids.length} registrazioni?`)){
-        checkpoint();
-        entries=entries.filter(e=>!ids.includes(e.id));
-        saveLocal();
-        if(supabaseClient) {
-          await supabaseClient.from('trading_entries').delete().in('id',ids);
-        }
-        render();
-        toast('Registrazioni eliminate');
+        checkpoint(); entries=entries.filter(e=>!ids.includes(e.id));
+        if(supabaseClient) await supabaseClient.from('trading_entries').delete().in('id',ids);
+        render(); toast('Registrazioni eliminate');
       }
     };
 
     document.getElementById('selectAll').onclick=()=>{
-      const rows=[...document.querySelectorAll('.journal-row')];
-      const allSelected=rows.length>0&&rows.every(row=>row.classList.contains('is-selected'));
-      rows.forEach(row=>row.classList.toggle('is-selected',!allSelected));
-      updateSelectionControls();
+      const rows=[...document.querySelectorAll('.journal-row')], allSelected=rows.length>0&&rows.every(row=>row.classList.contains('is-selected'));
+      rows.forEach(row=>row.classList.toggle('is-selected',!allSelected)); updateSelectionControls();
     };
 
     document.addEventListener('click', (e) => {
-      const trigger = e.target.closest('.custom-select-trigger');
-      const currentWrapper = trigger ? trigger.closest('.custom-select-wrapper') : null;
-
-      document.querySelectorAll('.custom-select-wrapper').forEach(w => {
-        if (w !== currentWrapper) w.classList.remove('open');
-      });
-
-      if (currentWrapper) {
-        currentWrapper.classList.toggle('open');
-      }
+      const trigger = e.target.closest('.custom-select-trigger'), currentWrapper = trigger ? trigger.closest('.custom-select-wrapper') : null;
+      document.querySelectorAll('.custom-select-wrapper').forEach(w => { if (w !== currentWrapper) w.classList.remove('open'); });
+      if (currentWrapper) currentWrapper.classList.toggle('open');
     });
 
     document.querySelectorAll('.custom-select-wrapper[data-chart]').forEach(wrapper => {
-      const menu = wrapper.querySelector('.custom-select-menu');
-      const trigger = wrapper.querySelector('.custom-select-trigger');
-      const chartKey = wrapper.dataset.chart;
-
+      const menu = wrapper.querySelector('.custom-select-menu'), trigger = wrapper.querySelector('.custom-select-trigger'), chartKey = wrapper.dataset.chart;
       menu.querySelectorAll('.custom-select-option').forEach(option => {
         option.addEventListener('click', () => {
-          const val = option.dataset.value;
-          const text = option.textContent.trim();
-          
-          trigger.textContent = text;
-          menu.querySelectorAll('.custom-select-option').forEach(opt => {
-            opt.classList.toggle('selected', opt === option);
-          });
-
-          wrapper.classList.remove('open');
-          chartSettings[chartKey].range = val;
-          renderCharts();
+          trigger.textContent = option.textContent.trim();
+          menu.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.toggle('selected', opt === option));
+          wrapper.classList.remove('open'); chartSettings[chartKey].range = option.dataset.value; renderCharts();
         });
       });
     });
@@ -1444,9 +1083,7 @@
       toggle.querySelectorAll('.metric-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           toggle.querySelectorAll('.metric-toggle-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          chartSettings[chartKey].metric = btn.dataset.value;
-          renderCharts();
+          btn.classList.add('active'); chartSettings[chartKey].metric = btn.dataset.value; renderCharts();
         });
       });
     });
