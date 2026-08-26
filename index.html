@@ -117,8 +117,8 @@
     .journal-row.is-selected { background: rgba(139, 92, 246, 0.12); box-shadow: inset 3px 0 0 #8b5cf6; }
     
     .undo-action, .icon-action { 
-      display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; min-width: 34px; min-height: 34px;
-      border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
+      display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; min-height: 32px;
+      border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
       color: #94a3b8; transition: all 0.15s ease; padding: 0; flex-shrink: 0; box-sizing: border-box; vertical-align: middle;
     }
     .undo-action:not(:disabled):hover, .icon-action:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-1px); }
@@ -134,39 +134,39 @@
     .undo-action:disabled svg { opacity: 0.35; }
     .undo-action svg, .icon-action svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; display: block; margin: auto; }
     
-    .custom-select-wrapper { position: relative; display: inline-block; min-width: 95px; }
+    .custom-select-wrapper { position: relative; display: inline-block; min-width: 105px; }
     .calendar-wrapper #calendarMonthSelect { min-width: 110px; }
     .calendar-wrapper #calendarYearSelect { min-width: 75px; }
     
     .custom-select-trigger {
-      height: 32px; width: 100%; padding: 0 22px 0 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+      height: 34px; width: 100%; padding: 0 24px 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
       background: rgba(16, 24, 39, 0.7); color: #cbd5e1; font-size: 0.75rem; font-weight: 500;
       display: flex; align-items: center; justify-content: center; text-align: center;
       cursor: pointer; transition: all 0.15s ease; user-select: none; box-sizing: border-box;
     }
     .custom-select-trigger:hover { border-color: rgba(139, 92, 246, 0.4); color: #fff; }
     .custom-select-trigger::after {
-      content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-      width: 10px; height: 10px;
+      content: ''; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      width: 12px; height: 12px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease;
     }
     .custom-select-wrapper.open .custom-select-trigger::after { transform: translateY(-50%) rotate(180deg); }
     
     .custom-select-menu {
-      position: absolute; top: calc(100% + 4px); left: 0; width: 100%; box-sizing: border-box;
+      position: absolute; top: calc(100% + 6px); left: 0; width: 100%; box-sizing: border-box;
       background: rgba(16, 24, 39, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 92, 246, 0.1);
-      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-4px);
+      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-6px);
       transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; overflow: hidden;
     }
     .custom-select-wrapper.open .custom-select-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .custom-select-scroll { max-height: 150px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+    .custom-select-scroll { max-height: 170px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
     
     .custom-select-option {
-      padding: 5px 8px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 6px;
+      padding: 6px 10px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 8px;
       cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; transition: all 0.15s ease;
     }
     .custom-select-option:hover { background: rgba(139, 92, 246, 0.15); color: #f4f7fb; }
@@ -178,10 +178,10 @@
 
     .metric-toggle {
       display: inline-flex; align-items: center; background: rgba(8, 13, 24, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2px; height: 32px; user-select: none;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2px; height: 34px; user-select: none;
     }
     .metric-toggle-btn {
-      padding: 0 8px; height: 26px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+      padding: 0 10px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 600;
       color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;
     }
     .metric-toggle-btn.active {
@@ -190,66 +190,16 @@
     }
     .metric-toggle-btn:not(.active):hover { color: #cbd5e1; }
 
-    /* GESTIONE SCORRIMENTO: SMARTPHONE VS DESKTOP */
-    @media (max-width: 1023px) {
-      html, body {
-        overflow-y: auto !important;
-        overflow-x: hidden;
-        min-height: 100vh;
-        height: auto !important;
-      }
-      .app-shell {
-        min-height: 100vh;
-        height: auto !important;
-        overflow-y: visible !important;
-      }
-      .app-main {
-        min-height: 100vh;
-        height: auto !important;
-        overflow-y: visible !important;
-        padding-bottom: 3rem;
-      }
-      .view-panel {
-        height: auto !important;
-        overflow-y: visible !important;
-      }
-      .chart-frame {
-        height: 280px !important;
-        min-height: 250px !important;
-        width: 100%;
-        position: relative;
-      }
+    .app-shell { min-height: 100vh; }
+    .app-main { min-width: 0; flex: 1; }
+    
+    /* Frame del grafico spazioso */
+    .chart-frame { position: relative; width: 100%; height: 300px; }
+    @media (min-width: 640px) {
+      .chart-frame { height: 320px; }
     }
-
-    @media (min-width: 1024px) {
-      html, body {
-        width: 100vw;
-        height: 100vh;
-        height: 100dvh;
-        overflow: hidden !important;
-      }
-      .app-shell {
-        width: 100vw;
-        height: 100vh;
-        height: 100dvh;
-        overflow: hidden !important;
-      }
-      .app-main {
-        height: 100%;
-        overflow: hidden !important;
-      }
-      .view-panel {
-        height: 100%;
-        min-height: 0;
-        overflow: hidden !important;
-      }
-      .chart-frame {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        flex: 1 1 0%;
-        min-height: 0;
-      }
+    @media (min-width: 1280px) {
+      .chart-frame { height: 340px; }
     }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
@@ -258,31 +208,31 @@
   </style>
 </head>
 <body class="grid-bg antialiased min-h-screen">
-  <!-- Input nascosto per il caricamento file JSON -->
+  <!-- Input per il caricamento file JSON -->
   <input type="file" id="importFileInput" accept=".json" class="hidden" />
 
   <!-- Banner a comparsa posizionato al centro dell'area contenuti -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center"></div>
 
   <div class="app-shell flex flex-col lg:flex-row w-full min-h-screen">
-    <!-- Sidebar Desktop e Mobile -->
+    <!-- Sidebar -->
     <aside class="border-b border-line/60 bg-ink/80 p-4 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:border-b-0 lg:border-r lg:p-6 backdrop-blur-md flex flex-col justify-between flex-shrink-0">
       <div>
         <div class="flex items-center justify-between lg:block">
           <div class="flex items-center gap-3">
             <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow">TJ</div>
             <div>
-              <p class="font-semibold tracking-tight text-slate-100 text-sm">Trading journal</p>
-              <p class="text-[11px] text-muted">Performance workspace</p>
+              <p class="font-semibold tracking-tight text-slate-100">Trading journal</p>
+              <p class="text-xs text-muted">Performance workspace</p>
             </div>
           </div>
           <button id="mobileMenu" class="rounded-xl border border-line px-3 py-2 text-muted lg:hidden">☰</button>
         </div>
         <nav id="nav" class="mt-8 hidden space-y-1.5 lg:block">
-          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium transition">
+          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium transition">
             <span>◈</span> <span>Dashboard</span>
           </button>
-          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium text-muted transition hover:text-slate-200">
+          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium text-muted transition hover:text-slate-200">
             <span>▤</span> <span>Storico</span>
           </button>
         </nav>
@@ -291,9 +241,9 @@
         <div class="rounded-2xl border border-line/70 bg-panel/40 p-4 backdrop-blur-sm">
           <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">Stato dati</p>
           <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-amber-400">
-            <span class="h-2 w-2 rounded-full bg-amber-400"></span> Connessione...
+            <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span> Connessione database...
           </p>
-          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione cloud e locale automatica.</p>
+          <p class="mt-2 text-xs leading-relaxed text-muted/80">Archiviazione esclusiva su database cloud.</p>
         </div>
       </div>
     </aside>
@@ -301,7 +251,7 @@
     <!-- Main Workspace -->
     <main class="app-main flex flex-col p-4 sm:p-6 lg:p-8 xl:p-10 overflow-y-auto">
       <!-- DASHBOARD VIEW -->
-      <section id="dashboardView" class="view-panel flex flex-col gap-5 sm:gap-6 w-full">
+      <section id="dashboardView" class="view-panel flex flex-col gap-6 w-full">
         <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dashboard</h1>
@@ -321,35 +271,37 @@
         </header>
 
         <!-- Capital Hero Card -->
-        <div class="glass-card rounded-2xl p-5 sm:p-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
+        <div class="glass-card rounded-2xl p-6">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div class="space-y-1 min-w-0">
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Capitale attuale</p>
-              <h2 id="currentCapital" class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white mt-1 truncate">0,00 €</h2>
+              <div class="flex flex-wrap items-center gap-3 mt-1">
+                <h2 id="currentCapital" class="text-3xl font-bold tracking-tight text-white sm:text-4xl truncate">0,00 €</h2>
+              </div>
             </div>
             
-            <div id="totalKpi" class="flex items-center gap-6 border-t sm:border-t-0 sm:border-l border-line/60 pt-4 sm:pt-0 sm:pl-8 flex-shrink-0">
+            <div id="totalKpi" class="flex items-center gap-6 border-t border-line/60 pt-4 md:border-t-0 md:border-l md:pl-8 md:pt-0 flex-shrink-0">
               <div>
                 <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-                <p class="total-kpi-value mt-1 text-xl sm:text-2xl font-bold text-muted">Nessuna registrazione</p>
+                <p class="total-kpi-value mt-1 text-xl font-bold text-muted">Nessuna registrazione</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- KPIs Grid Elastica e Sviluppata in modo Simmetrico -->
-        <div id="kpis" class="grid gap-3.5 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5"></div>
+        <!-- KPIs Grid -->
+        <div id="kpis" class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5"></div>
 
         <!-- Charts Grid -->
-        <div class="grid gap-5 sm:gap-6 lg:grid-cols-2">
+        <div class="grid gap-6 lg:grid-cols-2">
           <!-- Equity Curve Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-w-0">
-            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0">
-              <div class="min-w-0">
-                <h3 class="text-sm font-semibold text-white truncate">Equity curve</h3>
-                <p class="text-xs text-muted truncate">Evoluzione progressiva del capitale</p>
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+            <div class="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <h3 class="text-sm font-semibold text-white">Equity curve</h3>
+                <p class="text-xs text-muted">Evoluzione progressiva del capitale</p>
               </div>
-              <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+              <div class="flex items-center gap-2.5">
                 <div class="custom-select-wrapper" data-chart="equity">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -371,13 +323,13 @@
           </div>
 
           <!-- PnL Daily Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-w-0">
-            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0">
-              <div class="min-w-0">
-                <h3 class="text-sm font-semibold text-white truncate">Pnl giornaliero</h3>
-                <p class="text-xs text-muted truncate">Risultato netto per singola sessione</p>
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+            <div class="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <h3 class="text-sm font-semibold text-white">Pnl giornaliero</h3>
+                <p class="text-xs text-muted">Risultato netto per singola sessione</p>
               </div>
-              <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+              <div class="flex items-center gap-2.5">
                 <div class="custom-select-wrapper" data-chart="pnl">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -401,13 +353,13 @@
       </section>
 
       <!-- STORICO VIEW -->
-      <section id="journalView" class="view-panel hidden flex flex-col gap-5 sm:gap-6 w-full">
+      <section id="journalView" class="view-panel hidden flex flex-col gap-6 w-full">
         <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Storico</h1>
             <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
           </div>
-          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <div class="flex items-center gap-2">
             <!-- Tasti Esporta e Importa solo icona -->
             <button id="exportBtnJournal" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -561,10 +513,10 @@
       url: 'https://hosupqrtfmtjtnqoypai.supabase.co', 
       anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjE0Mjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' 
     };
-    const STORAGE_KEY = 'trading-journal-entries-v1';
-    const CAPITAL_KEY = 'trading-journal-capital-v1';
-    let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    let baseCapital = Number(localStorage.getItem(CAPITAL_KEY) || 0);
+
+    // Memoria di runtime (nessun uso di localStorage)
+    let entries = [];
+    let baseCapital = 0;
     let undoState = null;
     let supabaseClient = null, realtimeChannel = null, equityChart, pnlChart;
     
@@ -691,19 +643,21 @@
       setTimeout(() => t.classList.add('hidden'), 2600); 
     }
 
-    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
-    function checkpoint(){ undoState={entries:structuredClone(entries),baseCapital}; document.getElementById('undoAction').disabled=false; }
+    function checkpoint(){ 
+      undoState = { entries: structuredClone(entries), baseCapital }; 
+      document.getElementById('undoAction').disabled = false; 
+    }
     
     async function undoLastAction(){ 
-      if(!undoState)return; 
-      const previous=undoState; 
-      undoState=null; 
-      entries=previous.entries; 
-      baseCapital=previous.baseCapital; 
-      persist(); 
-      localStorage.setItem(CAPITAL_KEY,String(baseCapital)); 
+      if(!undoState) return; 
+      const previous = undoState; 
+      undoState = null; 
+      entries = previous.entries; 
+      baseCapital = previous.baseCapital; 
+      document.getElementById('undoAction').disabled = true;
+      
       if(supabaseClient){
-        await pushLocalToRemote(true);
+        await pushToSupabase(true);
       } 
       render(); 
       toast('Ultima azione annullata'); 
@@ -743,13 +697,11 @@
             if (Array.isArray(parsed.entries)) entries = parsed.entries;
             if (parsed.baseCapital !== undefined) {
               baseCapital = Number(parsed.baseCapital) || 0;
-              localStorage.setItem(CAPITAL_KEY, String(baseCapital));
             }
           } else {
             throw new Error('Formato non valido');
           }
-          persist();
-          await pushLocalToRemote(true);
+          await pushToSupabase(true);
           render();
           toast('Dati importati con successo');
         } catch (err) {
@@ -795,16 +747,16 @@
         const valSign = value > 0 ? '+' : '';
         const pctSign = pnlPct > 0 ? '+' : '';
         
-        return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between min-w-0">
-          <p class="text-xs font-medium uppercase tracking-wider text-muted truncate">${label}</p>
-          <div class="mt-2 flex items-baseline justify-between gap-2 flex-wrap sm:flex-nowrap">
-            <p class="text-lg sm:text-xl font-bold ${valColor} truncate">${valSign}${money(value)}</p>
-            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass} flex-shrink-0">${pctSign}${pct(pnlPct)}</span>
+        return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+          <p class="text-xs font-medium uppercase tracking-wider text-muted">${label}</p>
+          <div class="mt-2 flex items-baseline justify-between">
+            <p class="text-lg sm:text-xl font-bold ${valColor}">${valSign}${money(value)}</p>
+            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass}">${pctSign}${pct(pnlPct)}</span>
           </div>
         </div>`;
       }); 
 
-      // Calcolo PnL medio giornaliero con span simmetrico su 2 colonne
+      // Calcolo PnL medio giornaliero
       const avgPnl = list.length ? (list.reduce((s, e) => s + Number(e.pnl), 0) / list.length) : 0;
       const avgPct = list.length ? (list.reduce((s, e) => {
         const base = Number(e.initialCapital || initial || 1);
@@ -816,11 +768,11 @@
       const avgValSign = avgPnl > 0 ? '+' : '';
       const avgPctSign = avgPct > 0 ? '+' : '';
 
-      const avgCard = `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between min-w-0 col-span-2 sm:col-span-1 md:col-span-1 xl:col-span-1">
-        <p class="text-xs font-medium uppercase tracking-wider text-muted truncate">Pnl medio giornaliero</p>
-        <div class="mt-2 flex items-baseline justify-between gap-2 flex-wrap sm:flex-nowrap">
-          <p class="text-lg sm:text-xl font-bold ${avgColor} truncate">${avgValSign}${money(avgPnl)}</p>
-          <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${avgBadge} flex-shrink-0">${avgPctSign}${pct(avgPct)}</span>
+      const avgCard = `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+        <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl medio giornaliero</p>
+        <div class="mt-2 flex items-baseline justify-between">
+          <p class="text-lg sm:text-xl font-bold ${avgColor}">${avgValSign}${money(avgPnl)}</p>
+          <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${avgBadge}">${avgPctSign}${pct(avgPct)}</span>
         </div>
       </div>`;
 
@@ -839,7 +791,7 @@
         totalKpi.innerHTML = list.length
           ? `<div>
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-1 text-xl sm:text-2xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
+              <p class="mt-1 text-xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
              </div>`
           : `<div>
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
@@ -859,7 +811,10 @@
         tableContainer.classList.toggle('hidden', !hasEntries);
       }
       
-      body.innerHTML = list.map((e, i) => { 
+      // Ordine invertito: i giorni più recenti in alto
+      const displayList = [...list].reverse();
+      
+      body.innerHTML = displayList.map((e, i) => { 
         const ret = Number(e.initialCapital) ? (Number(e.pnl) / Number(e.initialCapital)) * 100 : 0; 
         const pnlColor = e.pnl > 0 ? 'text-profit' : e.pnl < 0 ? 'text-loss' : 'text-white';
         const pnlPrefix = e.pnl > 0 ? '+' : '';
@@ -975,7 +930,7 @@
         scales: {
           ...opts.scales,
           x: { ...opts.scales.x, offset: true, ticks: { color: '#64748b', font: { size: 11 }, padding: 8 } },
-          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 10, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
+          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
         }
       }; 
       
@@ -1086,18 +1041,18 @@
       document.getElementById('modal').classList.replace('hidden','flex'); 
     }
 
-    // MOTORE DI SINCRONIZZAZIONE UNIVERSALE SAFARI / CHROME / FIREFOX
+    // MOTORE DI SINCRONIZZAZIONE ESCLUSIVO SUPABASE (NESSUN LOCAL STORAGE)
     function updateSyncStatus(connected, customMsg = '') {
       const el = document.getElementById('syncStatus');
       if (!el) return;
       if (connected) {
-        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Cloud sincronizzato';
+        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Database connesso';
       } else {
-        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-amber-400"></span> ${customMsg || 'Locale attivo'}`;
+        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-loss"></span> ${customMsg || 'Database non connesso'}`;
       }
     }
 
-    async function pushLocalToRemote(fullOverwrite = false) {
+    async function pushToSupabase(fullOverwrite = false) {
       if (!supabaseClient) return;
       try {
         if (fullOverwrite) {
@@ -1134,20 +1089,21 @@
         const { data, error } = await supabaseClient.from('trading_entries').select('*').order('date');
         if (error) {
           console.error('Errore lettura Supabase:', error);
-          updateSyncStatus(false, 'Verifica RLS');
+          updateSyncStatus(false, 'Verifica RLS Database');
           return;
         }
         
-        if (data && data.length > 0) {
-          // Recupera il Capitale Iniziale salvato nel cloud
+        if (data) {
+          // Recupera il Capitale Iniziale dal database
           const configRow = data.find(r => r.id === '__config_base_capital__');
           if (configRow) {
             baseCapital = Number(configRow.initial_capital) || 0;
-            localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+          } else {
+            baseCapital = 0;
           }
 
-          // Recupera le registrazioni escludendo la riga di configurazione
-          const remoteEntries = data
+          // Recupera le registrazioni dal database
+          entries = data
             .filter(r => r.id !== '__config_base_capital__')
             .map(r => ({
               id: r.id,
@@ -1156,15 +1112,7 @@
               pnl: Number(r.pnl) || 0
             }));
 
-          entries = remoteEntries;
-          persist();
           render();
-          updateSyncStatus(true);
-        } else {
-          // Se Supabase è vuoto ma abbiamo dati locali, li inviamo al cloud per non azzerarli
-          if (entries.length > 0 || baseCapital > 0) {
-            await pushLocalToRemote();
-          }
           updateSyncStatus(true);
         }
       } catch (err) {
@@ -1191,7 +1139,6 @@
         
         await fetchRemoteData();
 
-        // Pulizia vecchio canale per evitare duplicati su WebKit/Safari
         if (realtimeChannel) {
           try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
         }
@@ -1209,12 +1156,12 @@
             }
           });
       } catch (err) {
-        console.warn('Supabase non disponibile, operatività locale attiva:', err);
+        console.warn('Supabase non disponibile:', err);
         updateSyncStatus(false);
       }
     }
 
-    // Risoluzione specifica Safari macOS: risincronizzazione istantanea al risveglio del Mac o cambio scheda
+    // Risincronizzazione al cambio scheda o riattivazione dispositivo
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         fetchRemoteData();
@@ -1225,18 +1172,7 @@
       fetchRemoteData();
     });
 
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY) {
-        entries = JSON.parse(e.newValue || '[]');
-        render();
-      }
-      if (e.key === CAPITAL_KEY) {
-        baseCapital = Number(e.newValue || 0);
-        render();
-      }
-    });
-
-    // Polling di sicurezza per Safari
+    // Polling di sicurezza
     setInterval(() => {
       if (document.visibilityState === 'visible' && supabaseClient) {
         fetchRemoteData();
@@ -1295,16 +1231,18 @@
       ev.preventDefault();
       checkpoint();
       baseCapital = parseFormattedNumber(document.getElementById('capitalInput').value);
-      localStorage.setItem(CAPITAL_KEY, String(baseCapital));
       
-      // Sincronizza il capitale iniziale anche su Supabase
       if(supabaseClient){
-        await supabaseClient.from('trading_entries').upsert({
+        const { error } = await supabaseClient.from('trading_entries').upsert({
           id: '__config_base_capital__',
           date: '1970-01-01',
           initial_capital: baseCapital,
           pnl: 0
         });
+        if (error) {
+          toast('Errore salvataggio Supabase: ' + error.message, true);
+          return;
+        }
       }
       
       render();
@@ -1351,9 +1289,6 @@
       checkpoint(); 
       const id=document.getElementById('entryId').value||generateId(); 
       const item={id,date:document.getElementById('entryDate').value,initialCapital:0,pnl:profit-loss}; 
-      const idx=entries.findIndex(e=>e.id===id); 
-      idx>=0?entries[idx]=item:entries.push(item);
-      persist(); 
       
       if(supabaseClient){
         const {error}=await supabaseClient.from('trading_entries').upsert({
@@ -1365,8 +1300,12 @@
         if(error) {
           console.error('Errore Supabase:', error);
           toast(error.message, true);
+          return;
         }
-      } 
+      }
+
+      const idx=entries.findIndex(e=>e.id===id); 
+      idx>=0?entries[idx]=item:entries.push(item);
       
       render();
       hide('modal');
@@ -1379,9 +1318,14 @@
       if(del&&confirm('Eliminare questa registrazione?')){
         ev.stopPropagation();
         checkpoint();
+        if(supabaseClient) {
+          const { error } = await supabaseClient.from('trading_entries').delete().eq('id', del);
+          if (error) {
+            toast('Errore eliminazione: ' + error.message, true);
+            return;
+          }
+        }
         entries=entries.filter(e=>e.id!==del);
-        persist();
-        if(supabaseClient) await supabaseClient.from('trading_entries').delete().eq('id', del);
         render();
         toast('Registrazione eliminata');
         return;
@@ -1395,9 +1339,14 @@
       const ids=selected.map(row=>row.dataset.row);
       if(confirm(`Eliminare ${ids.length} registrazioni?`)){
         checkpoint();
+        if(supabaseClient) {
+          const { error } = await supabaseClient.from('trading_entries').delete().in('id',ids);
+          if (error) {
+            toast('Errore eliminazione: ' + error.message, true);
+            return;
+          }
+        }
         entries=entries.filter(e=>!ids.includes(e.id));
-        persist();
-        if(supabaseClient)await supabaseClient.from('trading_entries').delete().in('id',ids);
         render();
         toast('Registrazioni eliminate');
       }
