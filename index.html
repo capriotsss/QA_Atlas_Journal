@@ -50,7 +50,7 @@
     };
   </script>
   <style>
-    html, body { min-height: 100%; background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    html, body { min-height: 100%; background: #080d18; color: #f4f7fb; font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 0; }
     .grid-bg { 
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); 
       background-size: 32px 32px; 
@@ -117,8 +117,8 @@
     .journal-row.is-selected { background: rgba(139, 92, 246, 0.12); box-shadow: inset 3px 0 0 #8b5cf6; }
     
     .undo-action, .icon-action { 
-      display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; min-height: 32px;
-      border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
+      display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; min-width: 34px; min-height: 34px;
+      border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
       color: #94a3b8; transition: all 0.15s ease; padding: 0; flex-shrink: 0; box-sizing: border-box; vertical-align: middle;
     }
     .undo-action:not(:disabled):hover, .icon-action:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-1px); }
@@ -134,39 +134,39 @@
     .undo-action:disabled svg { opacity: 0.35; }
     .undo-action svg, .icon-action svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; display: block; margin: auto; }
     
-    .custom-select-wrapper { position: relative; display: inline-block; min-width: 105px; }
+    .custom-select-wrapper { position: relative; display: inline-block; min-width: 95px; }
     .calendar-wrapper #calendarMonthSelect { min-width: 110px; }
     .calendar-wrapper #calendarYearSelect { min-width: 75px; }
     
     .custom-select-trigger {
-      height: 34px; width: 100%; padding: 0 24px 0 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
+      height: 32px; width: 100%; padding: 0 22px 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
       background: rgba(16, 24, 39, 0.7); color: #cbd5e1; font-size: 0.75rem; font-weight: 500;
       display: flex; align-items: center; justify-content: center; text-align: center;
       cursor: pointer; transition: all 0.15s ease; user-select: none; box-sizing: border-box;
     }
     .custom-select-trigger:hover { border-color: rgba(139, 92, 246, 0.4); color: #fff; }
     .custom-select-trigger::after {
-      content: ''; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-      width: 12px; height: 12px;
+      content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 10px; height: 10px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease;
     }
     .custom-select-wrapper.open .custom-select-trigger::after { transform: translateY(-50%) rotate(180deg); }
     
     .custom-select-menu {
-      position: absolute; top: calc(100% + 6px); left: 0; width: 100%; box-sizing: border-box;
+      position: absolute; top: calc(100% + 4px); left: 0; width: 100%; box-sizing: border-box;
       background: rgba(16, 24, 39, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 92, 246, 0.1);
-      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-6px);
+      z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-4px);
       transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; overflow: hidden;
     }
     .custom-select-wrapper.open .custom-select-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .custom-select-scroll { max-height: 170px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+    .custom-select-scroll { max-height: 150px; overflow-y: auto; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
     
     .custom-select-option {
-      padding: 6px 10px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 8px;
+      padding: 5px 8px; font-size: 0.75rem; font-weight: 500; color: #94a3b8; border-radius: 6px;
       cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; transition: all 0.15s ease;
     }
     .custom-select-option:hover { background: rgba(139, 92, 246, 0.15); color: #f4f7fb; }
@@ -178,10 +178,10 @@
 
     .metric-toggle {
       display: inline-flex; align-items: center; background: rgba(8, 13, 24, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 2px; height: 34px; user-select: none;
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2px; height: 32px; user-select: none;
     }
     .metric-toggle-btn {
-      padding: 0 10px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 600;
+      padding: 0 8px; height: 26px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
       color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;
     }
     .metric-toggle-btn.active {
@@ -208,8 +208,11 @@
   </style>
 </head>
 <body class="grid-bg antialiased min-h-screen">
+  <!-- Input nascosto per il caricamento file JSON -->
+  <input type="file" id="importFileInput" accept=".json" class="hidden" />
+
   <!-- Banner a comparsa posizionato al centro dell'area contenuti -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all"></div>
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 hidden rounded-xl border border-amber-500/40 bg-panel/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-amber-400 shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center"></div>
 
   <div class="app-shell flex flex-col lg:flex-row w-full min-h-screen">
     <!-- Sidebar Desktop e Mobile -->
@@ -219,17 +222,17 @@
           <div class="flex items-center gap-3">
             <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow">TJ</div>
             <div>
-              <p class="font-semibold tracking-tight text-slate-100">Trading journal</p>
-              <p class="text-xs text-muted">Performance workspace</p>
+              <p class="font-semibold tracking-tight text-slate-100 text-sm">Trading journal</p>
+              <p class="text-[11px] text-muted">Performance workspace</p>
             </div>
           </div>
           <button id="mobileMenu" class="rounded-xl border border-line px-3 py-2 text-muted lg:hidden">☰</button>
         </div>
         <nav id="nav" class="mt-8 hidden space-y-1.5 lg:block">
-          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium transition">
+          <button data-view="dashboard" class="nav-btn nav-active flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium transition">
             <span>◈</span> <span>Dashboard</span>
           </button>
-          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-sm font-medium text-muted transition hover:text-slate-200">
+          <button data-view="journal" class="nav-btn flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-left text-xs sm:text-sm font-medium text-muted transition hover:text-slate-200">
             <span>▤</span> <span>Storico</span>
           </button>
         </nav>
@@ -245,53 +248,58 @@
       </div>
     </aside>
 
-    <!-- Main Workspace (Spazioso e non compresso) -->
+    <!-- Main Workspace -->
     <main class="app-main flex flex-col p-4 sm:p-6 lg:p-8 xl:p-10 overflow-y-auto">
       <!-- DASHBOARD VIEW -->
-      <section id="dashboardView" class="view-panel flex flex-col gap-6 w-full">
+      <section id="dashboardView" class="view-panel flex flex-col gap-5 sm:gap-6 w-full">
         <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dashboard</h1>
             <p class="mt-1 text-xs text-muted sm:text-sm">Monitora il capitale, il rendimento e la disciplina operativa.</p>
           </div>
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <!-- Tasti Esporta e Importa solo icona -->
+            <button id="exportBtn" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+            <button id="importBtn" title="Importa dati (JSON)" aria-label="Importa dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </button>
             <button id="setCapital" class="rounded-xl border border-line bg-panel/50 px-4 py-2.5 text-xs font-medium text-slate-300 transition hover:border-violet/50 hover:text-white">Imposta capitale</button>
             <button id="newEntry" class="rounded-xl bg-violet px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
           </div>
         </header>
 
         <!-- Capital Hero Card -->
-        <div class="glass-card rounded-2xl p-6">
-          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
-            <div class="space-y-1">
+        <div class="glass-card rounded-2xl p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
+            <div class="space-y-1 min-w-0">
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Capitale attuale</p>
-              <div class="flex flex-wrap items-center gap-3 mt-1">
-                <h2 id="currentCapital" class="text-3xl font-bold tracking-tight text-white sm:text-4xl">0,00 €</h2>
-              </div>
+              <h2 id="currentCapital" class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white mt-1 truncate">0,00 €</h2>
             </div>
             
-            <div id="totalKpi" class="flex items-center gap-6 border-t border-line/60 pt-4 md:border-t-0 md:border-l md:pl-8 md:pt-0">
+            <div id="totalKpi" class="flex items-center gap-6 border-t sm:border-t-0 sm:border-l border-line/60 pt-4 sm:pt-0 sm:pl-8 flex-shrink-0">
               <div>
                 <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-                <p class="total-kpi-value mt-1 text-xl font-bold text-muted">Nessuna registrazione</p>
+                <p class="total-kpi-value mt-1 text-xl sm:text-2xl font-bold text-muted">Nessuna registrazione</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- KPIs Grid -->
-        <div id="kpis" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"></div>
+        <!-- KPIs Grid Elastica e Sviluppata in modo Simmetrico -->
+        <div id="kpis" class="grid gap-3.5 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5"></div>
 
         <!-- Charts Grid -->
-        <div class="grid gap-6 lg:grid-cols-2">
+        <div class="grid gap-5 sm:gap-6 lg:grid-cols-2">
           <!-- Equity Curve Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-            <div class="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <h3 class="text-sm font-semibold text-white">Equity curve</h3>
-                <p class="text-xs text-muted">Evoluzione progressiva del capitale</p>
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-w-0">
+            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Equity curve</h3>
+                <p class="text-xs text-muted truncate">Evoluzione progressiva del capitale</p>
               </div>
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
                 <div class="custom-select-wrapper" data-chart="equity">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -313,13 +321,13 @@
           </div>
 
           <!-- PnL Daily Card -->
-          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-            <div class="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <h3 class="text-sm font-semibold text-white">Pnl giornaliero</h3>
-                <p class="text-xs text-muted">Risultato netto per singola sessione</p>
+          <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-w-0">
+            <div class="mb-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 flex-shrink-0">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Pnl giornaliero</h3>
+                <p class="text-xs text-muted truncate">Risultato netto per singola sessione</p>
               </div>
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
                 <div class="custom-select-wrapper" data-chart="pnl">
                   <div class="custom-select-trigger">Tutti</div>
                   <div class="custom-select-menu">
@@ -343,13 +351,20 @@
       </section>
 
       <!-- STORICO VIEW -->
-      <section id="journalView" class="view-panel hidden flex flex-col gap-6 w-full">
+      <section id="journalView" class="view-panel hidden flex flex-col gap-5 sm:gap-6 w-full">
         <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Storico</h1>
             <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <!-- Tasti Esporta e Importa solo icona -->
+            <button id="exportBtnJournal" title="Esporta dati (JSON)" aria-label="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+            <button id="importBtnJournal" title="Importa dati (JSON)" aria-label="Importa dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </button>
             <button id="newEntryJournal" class="rounded-xl bg-violet px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-violet/25 transition hover:bg-violet/90">+ Nuova registrazione</button>
           </div>
         </header>
@@ -387,7 +402,7 @@
             <!-- Empty State unificato e centrato -->
             <button id="emptyState" class="group hidden flex-1 w-full h-full flex flex-col items-center justify-center p-12 text-center transition hover:bg-violet/[0.02] cursor-pointer">
               <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
-                <span class="grid h-12 w-12 place-items-center rounded-xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
+                <span class="grid h-12 w-12 place-items-center rounded-2xl bg-violet/10 text-violet-400 transition group-hover:scale-110 shadow-glow mb-3">
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -616,7 +631,7 @@
     function toast(message, error=false) { 
       const t = document.getElementById('toast'); 
       t.textContent = message; 
-      t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
+      t.className = `fixed top-5 left-1/2 -translate-x-1/2 lg:left-[calc(50%+9rem)] z-50 rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-glow backdrop-blur-md transition-all max-w-[90vw] sm:max-w-md text-center ${error ? 'border-loss/40 bg-panel/95 text-loss' : 'border-amber-500/40 bg-panel/95 text-amber-400'}`; 
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 2600); 
     }
@@ -640,6 +655,70 @@
       toast('Ultima azione annullata'); 
     }
 
+    function exportData() {
+      const dataToExport = {
+        version: 1,
+        exportDate: new Date().toISOString(),
+        baseCapital: baseCapital,
+        entries: entries
+      };
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.download = `trading-journal-backup-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast('Dati esportati con successo');
+    }
+
+    function importData(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          checkpoint();
+          if (Array.isArray(parsed)) {
+            entries = parsed;
+          } else if (parsed && typeof parsed === 'object') {
+            if (Array.isArray(parsed.entries)) entries = parsed.entries;
+            if (parsed.baseCapital !== undefined) {
+              baseCapital = Number(parsed.baseCapital) || 0;
+              localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+            }
+          } else {
+            throw new Error('Formato non valido');
+          }
+          persist();
+          if (supabaseClient) {
+            await supabaseClient.from('trading_entries').delete().neq('id', '');
+            if (entries.length) {
+              await supabaseClient.from('trading_entries').upsert(
+                entries.map(item => ({
+                  id: item.id || crypto.randomUUID(),
+                  date: item.date,
+                  initial_capital: item.initialCapital || 0,
+                  pnl: item.pnl || 0
+                }))
+              );
+            }
+          }
+          render();
+          toast('Dati importati con successo');
+        } catch (err) {
+          toast('Errore durante l\'importazione del file', true);
+        } finally {
+          event.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
     function totals() { 
       const rawList = sorted(); 
       const initial = Number(baseCapital || rawList[0]?.initialCapital || 0); 
@@ -661,7 +740,7 @@
       const now = new Date(), todayKey = now.toISOString().slice(0,10); 
       const ranges = [['Pnl giornaliero', 1], ['Pnl settimanale', 7], ['Pnl mensile', 30], ['Pnl annuale', 365]]; 
       
-      document.getElementById('kpis').innerHTML = ranges.map(([label, days]) => { 
+      const rangeCards = ranges.map(([label, days]) => { 
         const cutoff = new Date(now); 
         cutoff.setDate(now.getDate() - days + 1); 
         const data = list.filter(e => days === 1 ? e.date === todayKey : new Date(e.date + 'T12:00:00') >= cutoff && e.date <= todayKey); 
@@ -674,14 +753,36 @@
         const valSign = value > 0 ? '+' : '';
         const pctSign = pnlPct > 0 ? '+' : '';
         
-        return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
-          <p class="text-xs font-medium uppercase tracking-wider text-muted">${label}</p>
-          <div class="mt-2 flex items-baseline justify-between">
-            <p class="text-lg sm:text-xl font-bold ${valColor}">${valSign}${money(value)}</p>
-            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass}">${pctSign}${pct(pnlPct)}</span>
+        return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between min-w-0">
+          <p class="text-xs font-medium uppercase tracking-wider text-muted truncate">${label}</p>
+          <div class="mt-2 flex items-baseline justify-between gap-2 flex-wrap sm:flex-nowrap">
+            <p class="text-lg sm:text-xl font-bold ${valColor} truncate">${valSign}${money(value)}</p>
+            <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass} flex-shrink-0">${pctSign}${pct(pnlPct)}</span>
           </div>
         </div>`;
-      }).join(''); 
+      }); 
+
+      // Calcolo PnL medio giornaliero con span simmetrico su 2 colonne
+      const avgPnl = list.length ? (list.reduce((s, e) => s + Number(e.pnl), 0) / list.length) : 0;
+      const avgPct = list.length ? (list.reduce((s, e) => {
+        const base = Number(e.initialCapital || initial || 1);
+        return s + (Number(e.pnl) / base) * 100;
+      }, 0) / list.length) : 0;
+
+      const avgColor = avgPnl > 0 ? 'text-profit' : avgPnl < 0 ? 'text-loss' : 'text-white';
+      const avgBadge = avgPnl > 0 ? 'bg-profit/10 text-profit' : avgPnl < 0 ? 'bg-loss/10 text-loss' : 'bg-white/10 text-white';
+      const avgValSign = avgPnl > 0 ? '+' : '';
+      const avgPctSign = avgPct > 0 ? '+' : '';
+
+      const avgCard = `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between min-w-0 col-span-2 sm:col-span-1 md:col-span-1 xl:col-span-1">
+        <p class="text-xs font-medium uppercase tracking-wider text-muted truncate">Pnl medio giornaliero</p>
+        <div class="mt-2 flex items-baseline justify-between gap-2 flex-wrap sm:flex-nowrap">
+          <p class="text-lg sm:text-xl font-bold ${avgColor} truncate">${avgValSign}${money(avgPnl)}</p>
+          <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${avgBadge} flex-shrink-0">${avgPctSign}${pct(avgPct)}</span>
+        </div>
+      </div>`;
+
+      document.getElementById('kpis').innerHTML = [...rangeCards, avgCard].join('');
     }
 
     function renderSummary(){ 
@@ -696,7 +797,7 @@
         totalKpi.innerHTML = list.length
           ? `<div>
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
-              <p class="mt-1 text-xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
+              <p class="mt-1 text-xl sm:text-2xl font-bold ${totalColor}">${totalPrefix}${money(total)}</p>
              </div>`
           : `<div>
               <p class="text-xs font-medium uppercase tracking-wider text-muted">Pnl totale</p>
@@ -970,6 +1071,14 @@
         if (pnlChart) pnlChart.resize();
       }
     });
+
+    // Gestori Export e Import
+    const fileInput = document.getElementById('importFileInput');
+    document.getElementById('exportBtn').onclick = exportData;
+    document.getElementById('exportBtnJournal').onclick = exportData;
+    document.getElementById('importBtn').onclick = () => fileInput.click();
+    document.getElementById('importBtnJournal').onclick = () => fileInput.click();
+    fileInput.onchange = importData;
 
     const deleteSelectedButton=document.getElementById('deleteSelected'), selectAllButton=document.getElementById('selectAll'); 
     function updateSelectionControls(){ 
