@@ -190,16 +190,66 @@
     }
     .metric-toggle-btn:not(.active):hover { color: #cbd5e1; }
 
-    .app-shell { min-height: 100vh; }
-    .app-main { min-width: 0; flex: 1; }
-    
-    /* Frame del grafico con altezza ariosa e proporzionata */
-    .chart-frame { position: relative; width: 100%; height: 300px; }
-    @media (min-width: 640px) {
-      .chart-frame { height: 320px; }
+    /* GESTIONE SCORRIMENTO: SMARTPHONE VS DESKTOP */
+    @media (max-width: 1023px) {
+      html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        min-height: 100vh;
+        height: auto !important;
+      }
+      .app-shell {
+        min-height: 100vh;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+      .app-main {
+        min-height: 100vh;
+        height: auto !important;
+        overflow-y: visible !important;
+        padding-bottom: 3rem;
+      }
+      .view-panel {
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+      .chart-frame {
+        height: 280px !important;
+        min-height: 250px !important;
+        width: 100%;
+        position: relative;
+      }
     }
-    @media (min-width: 1280px) {
-      .chart-frame { height: 340px; }
+
+    @media (min-width: 1024px) {
+      html, body {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden !important;
+      }
+      .app-shell {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden !important;
+      }
+      .app-main {
+        height: 100%;
+        overflow: hidden !important;
+      }
+      .view-panel {
+        height: 100%;
+        min-height: 0;
+        overflow: hidden !important;
+      }
+      .chart-frame {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        flex: 1 1 0%;
+        min-height: 0;
+      }
     }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
@@ -240,10 +290,10 @@
       <div class="hidden pt-6 lg:block">
         <div class="rounded-2xl border border-line/70 bg-panel/40 p-4 backdrop-blur-sm">
           <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">Stato dati</p>
-          <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-profit">
-            <span class="h-2 w-2 rounded-full bg-profit"></span> Locale attivo
+          <p id="syncStatus" class="mt-1 flex items-center gap-2 text-xs font-medium text-amber-400">
+            <span class="h-2 w-2 rounded-full bg-amber-400"></span> Connessione...
           </p>
-          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione locale abilitata per le tue sessioni.</p>
+          <p class="mt-2 text-xs leading-relaxed text-muted/80">Sincronizzazione cloud e locale automatica.</p>
         </div>
       </div>
     </aside>
@@ -507,14 +557,19 @@
   </div>
 
   <script>
-    const SUPABASE_CONFIG = { url: 'https://hosupqrtfmtjtnqoypai.supabase.co', anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjE0Mjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' };
+    const SUPABASE_CONFIG = { 
+      url: 'https://hosupqrtfmtjtnqoypai.supabase.co', 
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Imhvc3VwcXJ0Zm10anRucW95cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNzc1ODIsImV4cCI6MjE0Mjk1MzU4Mn0.A8VsXeYAzZepXe0cNQKaH9OJ7ucSnnKZiJnvviNaHmw' 
+    };
     const STORAGE_KEY = 'trading-journal-entries-v1';
     const CAPITAL_KEY = 'trading-journal-capital-v1';
     let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     let baseCapital = Number(localStorage.getItem(CAPITAL_KEY) || 0);
     let undoState = null;
-    let supabaseClient = null, equityChart, pnlChart;
+    let supabaseClient = null, realtimeChannel = null, equityChart, pnlChart;
     
+    const generateId = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9));
+
     const chartSettings = {
       equity: { range: 'all', metric: 'eur' },
       pnl: { range: 'all', metric: 'eur' }
@@ -648,8 +703,7 @@
       persist(); 
       localStorage.setItem(CAPITAL_KEY,String(baseCapital)); 
       if(supabaseClient){
-        await supabaseClient.from('trading_entries').delete().neq('id',''); 
-        if(entries.length)await supabaseClient.from('trading_entries').upsert(entries.map(e=>({id:e.id,date:e.date,initial_capital:e.initialCapital,pnl:e.pnl})));
+        await pushLocalToRemote(true);
       } 
       render(); 
       toast('Ultima azione annullata'); 
@@ -675,7 +729,7 @@
       toast('Dati esportati con successo');
     }
 
-    function importData(event) {
+    async function importData(event) {
       const file = event.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
@@ -695,19 +749,7 @@
             throw new Error('Formato non valido');
           }
           persist();
-          if (supabaseClient) {
-            await supabaseClient.from('trading_entries').delete().neq('id', '');
-            if (entries.length) {
-              await supabaseClient.from('trading_entries').upsert(
-                entries.map(item => ({
-                  id: item.id || crypto.randomUUID(),
-                  date: item.date,
-                  initial_capital: item.initialCapital || 0,
-                  pnl: item.pnl || 0
-                }))
-              );
-            }
-          }
+          await pushLocalToRemote(true);
           render();
           toast('Dati importati con successo');
         } catch (err) {
@@ -933,7 +975,7 @@
         scales: {
           ...opts.scales,
           x: { ...opts.scales.x, offset: true, ticks: { color: '#64748b', font: { size: 11 }, padding: 8 } },
-          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 8, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
+          y: { ...opts.scales.y, ticks: { color: '#64748b', font: { size: 11 }, padding: 10, callback: axisTicks(chartSettings.pnl.metric === 'pct') } }
         }
       }; 
       
@@ -1044,14 +1086,162 @@
       document.getElementById('modal').classList.replace('hidden','flex'); 
     }
 
-    async function sync(){ 
-      if(!SUPABASE_CONFIG.url||!SUPABASE_CONFIG.anonKey||!window.supabase){return;} 
-      supabaseClient=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey); 
-      document.getElementById('syncStatus').innerHTML='<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Supabase connesso'; 
-      const {data,error}=await supabaseClient.from('trading_entries').select('*').order('date'); 
-      if(!error&&data){entries=data.map(r=>({id:r.id,date:r.date,initialCapital:r.initial_capital,pnl:r.pnl}));persist();render();} 
-      supabaseClient.channel('trading-journal-live').on('postgres_changes',{event:'*',schema:'public',table:'trading_entries'},()=>sync()).subscribe(); 
+    // MOTORE DI SINCRONIZZAZIONE UNIVERSALE SAFARI / CHROME / FIREFOX
+    function updateSyncStatus(connected, customMsg = '') {
+      const el = document.getElementById('syncStatus');
+      if (!el) return;
+      if (connected) {
+        el.innerHTML = '<span class="h-2 w-2 rounded-full bg-profit animate-pulse"></span> Cloud sincronizzato';
+      } else {
+        el.innerHTML = `<span class="h-2 w-2 rounded-full bg-amber-400"></span> ${customMsg || 'Locale attivo'}`;
+      }
     }
+
+    async function pushLocalToRemote(fullOverwrite = false) {
+      if (!supabaseClient) return;
+      try {
+        if (fullOverwrite) {
+          await supabaseClient.from('trading_entries').delete().neq('id', '');
+        }
+        
+        const payload = entries.map(e => ({
+          id: e.id || generateId(),
+          date: e.date,
+          initial_capital: e.initialCapital || 0,
+          pnl: e.pnl || 0
+        }));
+
+        if (baseCapital > 0) {
+          payload.push({
+            id: '__config_base_capital__',
+            date: '1970-01-01',
+            initial_capital: baseCapital,
+            pnl: 0
+          });
+        }
+
+        if (payload.length > 0) {
+          await supabaseClient.from('trading_entries').upsert(payload);
+        }
+      } catch (e) {
+        console.warn('Errore push dati su Supabase:', e);
+      }
+    }
+
+    async function fetchRemoteData() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from('trading_entries').select('*').order('date');
+        if (error) {
+          console.error('Errore lettura Supabase:', error);
+          updateSyncStatus(false, 'Verifica RLS');
+          return;
+        }
+        
+        if (data && data.length > 0) {
+          // Recupera il Capitale Iniziale salvato nel cloud
+          const configRow = data.find(r => r.id === '__config_base_capital__');
+          if (configRow) {
+            baseCapital = Number(configRow.initial_capital) || 0;
+            localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+          }
+
+          // Recupera le registrazioni escludendo la riga di configurazione
+          const remoteEntries = data
+            .filter(r => r.id !== '__config_base_capital__')
+            .map(r => ({
+              id: r.id,
+              date: r.date,
+              initialCapital: Number(r.initial_capital) || 0,
+              pnl: Number(r.pnl) || 0
+            }));
+
+          entries = remoteEntries;
+          persist();
+          render();
+          updateSyncStatus(true);
+        } else {
+          // Se Supabase è vuoto ma abbiamo dati locali, li inviamo al cloud per non azzerarli
+          if (entries.length > 0 || baseCapital > 0) {
+            await pushLocalToRemote();
+          }
+          updateSyncStatus(true);
+        }
+      } catch (err) {
+        console.warn('Errore fetch sincronizzazione:', err);
+        updateSyncStatus(false);
+      }
+    }
+
+    async function initSync() {
+      if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) {
+        updateSyncStatus(false);
+        return;
+      }
+      
+      if (!window.supabase) {
+        setTimeout(initSync, 150);
+        return;
+      }
+
+      try {
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
+          auth: { persistSession: true, autoRefreshToken: true }
+        });
+        
+        await fetchRemoteData();
+
+        // Pulizia vecchio canale per evitare duplicati su WebKit/Safari
+        if (realtimeChannel) {
+          try { supabaseClient.removeChannel(realtimeChannel); } catch (e) {}
+        }
+
+        realtimeChannel = supabaseClient
+          .channel('trading-journal-realtime-' + Date.now())
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'trading_entries' },
+            () => { fetchRemoteData(); }
+          )
+          .subscribe((status) => {
+            if (status === 'SUBSCRIBED') {
+              updateSyncStatus(true);
+            }
+          });
+      } catch (err) {
+        console.warn('Supabase non disponibile, operatività locale attiva:', err);
+        updateSyncStatus(false);
+      }
+    }
+
+    // Risoluzione specifica Safari macOS: risincronizzazione istantanea al risveglio del Mac o cambio scheda
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        fetchRemoteData();
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      fetchRemoteData();
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        entries = JSON.parse(e.newValue || '[]');
+        render();
+      }
+      if (e.key === CAPITAL_KEY) {
+        baseCapital = Number(e.newValue || 0);
+        render();
+      }
+    });
+
+    // Polling di sicurezza per Safari
+    setInterval(() => {
+      if (document.visibilityState === 'visible' && supabaseClient) {
+        fetchRemoteData();
+      }
+    }, 6000);
 
     document.querySelectorAll('.nav-btn').forEach(b=>{
       b.onclick=()=>{
@@ -1101,11 +1291,22 @@
     document.getElementById('closeModal').onclick=document.getElementById('cancelModal').onclick=()=>hide('modal'); 
     document.getElementById('closeCapital').onclick=document.getElementById('cancelCapital').onclick=()=>hide('capitalModal');
 
-    document.getElementById('capitalForm').onsubmit=ev=>{
+    document.getElementById('capitalForm').onsubmit=async ev=>{
       ev.preventDefault();
       checkpoint();
       baseCapital = parseFormattedNumber(document.getElementById('capitalInput').value);
       localStorage.setItem(CAPITAL_KEY, String(baseCapital));
+      
+      // Sincronizza il capitale iniziale anche su Supabase
+      if(supabaseClient){
+        await supabaseClient.from('trading_entries').upsert({
+          id: '__config_base_capital__',
+          date: '1970-01-01',
+          initial_capital: baseCapital,
+          pnl: 0
+        });
+      }
+      
       render();
       hide('capitalModal');
       toast('Capitale iniziale salvato');
@@ -1148,12 +1349,25 @@
       const loss = parseFormattedNumber(document.getElementById('entryLoss').value); 
       if(!profit && !loss) return toast('Inserisci un profitto o una perdita', true); 
       checkpoint(); 
-      const id=document.getElementById('entryId').value||crypto.randomUUID(); 
+      const id=document.getElementById('entryId').value||generateId(); 
       const item={id,date:document.getElementById('entryDate').value,initialCapital:0,pnl:profit-loss}; 
       const idx=entries.findIndex(e=>e.id===id); 
       idx>=0?entries[idx]=item:entries.push(item);
       persist(); 
-      if(supabaseClient){const {error}=await supabaseClient.from('trading_entries').upsert({id,date:item.date,initial_capital:item.initialCapital,pnl:item.pnl}); if(error)toast(error.message,true);} 
+      
+      if(supabaseClient){
+        const {error}=await supabaseClient.from('trading_entries').upsert({
+          id: item.id,
+          date: item.date,
+          initial_capital: item.initialCapital,
+          pnl: item.pnl
+        }); 
+        if(error) {
+          console.error('Errore Supabase:', error);
+          toast(error.message, true);
+        }
+      } 
+      
       render();
       hide('modal');
       toast('Registrazione salvata');
@@ -1162,7 +1376,16 @@
     document.getElementById('journalBody').onclick=async ev=>{
       const row=ev.target.closest('[data-row]'), edit=ev.target.closest('[data-edit]')?.dataset.edit, del=ev.target.closest('[data-delete]')?.dataset.delete;
       if(edit){ev.stopPropagation();openModal(entries.find(e=>e.id===edit));return;}
-      if(del&&confirm('Eliminare questa registrazione?')){ev.stopPropagation();checkpoint();entries=entries.filter(e=>e.id!==del);persist();if(supabaseClient)await supabaseClient.from('trading_entries').delete().eq('id',del);render();toast('Registrazione eliminata');return;}
+      if(del&&confirm('Eliminare questa registrazione?')){
+        ev.stopPropagation();
+        checkpoint();
+        entries=entries.filter(e=>e.id!==del);
+        persist();
+        if(supabaseClient) await supabaseClient.from('trading_entries').delete().eq('id', del);
+        render();
+        toast('Registrazione eliminata');
+        return;
+      }
       if(row){row.classList.toggle('is-selected');updateSelectionControls();}
     };
 
@@ -1235,7 +1458,7 @@
     });
 
     render(); 
-    sync();
+    initSync();
   </script>
 </body>
 </html>
