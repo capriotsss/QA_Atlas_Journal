@@ -1,15 +1,19 @@
 {
+  "id": "./",
   "name": "QA Atlas Journal",
-  "short_name": "QA Atlas Journal",
-  "start_url": "./index.html",
+  "short_name": "QA Atlas",
+  "description": "Diario operativo e dashboard delle sessioni QA Atlas.",
+  "lang": "it-IT",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#080d18",
   "theme_color": "#080d18",
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2953/2953363.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "Logo.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
   ]
 }
