@@ -85,9 +85,48 @@
     .calendar-day.is-weekend { cursor: not-allowed; color: #475569; opacity: 0.4; }
     .calendar-day.is-today { border: 1px solid #3b82f6 !important; }
     
+    /* Layout: un unico contenitore di scroll condiviso da tutte le view.
+       Il padding (incluso quello inferiore) è definito UNA sola volta qui,
+       cosi le viste non possono più disallinearsi tra loro. */
+    .app-main { flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+    .view-scroll {
+      flex: 1 1 auto; min-height: 0; overflow-y: auto;
+      padding: 1rem clamp(1rem, 3vw, 2rem);
+    }
+    @media (min-width: 640px) { .view-scroll { padding: 1.5rem clamp(1rem, 3vw, 2rem); } }
+    @media (min-width: 1024px) { .view-scroll { padding: 2rem clamp(1rem, 3vw, 2rem); } }
+    /* Variante a scroll SOLO interno: stesso padding di .view-scroll, ma l'altezza è
+       vincolata (niente scroll di pagina) e sono i contenuti interni (es. la tabella) a scorrere. */
+    .view-fixed {
+      flex: 1 1 auto; min-height: 0; height: 100%; overflow: hidden;
+      display: flex; flex-direction: column;
+      padding: 1rem clamp(1rem, 3vw, 2rem);
+    }
+    @media (min-width: 640px) { .view-fixed { padding: 1.5rem clamp(1rem, 3vw, 2rem); } }
+    @media (min-width: 1024px) { .view-fixed { padding: 2rem clamp(1rem, 3vw, 2rem); } }
+    .view-panel { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 80rem; margin: 0 auto; }
+
     .journal-row { cursor: pointer; transition: background 0.15s ease; }
     .journal-row:hover { background: rgba(255, 255, 255, 0.02); }
     .journal-row.is-selected { background: rgba(139, 92, 246, 0.12); box-shadow: inset 3px 0 0 #8b5cf6; }
+    /* La tabella riempie l'area disponibile senza alterare l'altezza dell'ultima riga. */
+    .journal-table { height: 100%; border-collapse: collapse; }
+    /* Continua la fascia dell'intestazione anche nello spazio occupato dallo scroll verticale. */
+    #tableScrollContainer { background: rgba(15, 23, 42, 0.45); scrollbar-gutter: auto; scrollbar-width: none; }
+    #tableScrollContainer::-webkit-scrollbar { width: 0 !important; height: 0 !important; background: transparent !important; }
+    #tableScrollContainer::-webkit-scrollbar-track,
+    #tableScrollContainer::-webkit-scrollbar-track-piece { background: transparent !important; }
+    #tableScrollContainer::-webkit-scrollbar-corner { background: transparent !important; }
+    #tableScrollContainer::-webkit-scrollbar-thumb {
+      background: transparent; border-radius: 999px; border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    #tableScrollContainer:hover::-webkit-scrollbar-thumb,
+    #tableScrollContainer:active::-webkit-scrollbar-thumb { background: transparent; }
+    #tableScrollContainer .journal-table {
+      position: relative; z-index: 2; width: calc(100% + 10px); margin-right: -10px;
+      background: #080d18;
+    }
     
     .undo-action, .icon-action { 
       display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; min-width: 34px; min-height: 34px;
@@ -158,9 +197,38 @@
       box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
     }
     .metric-toggle-btn:not(.active):hover, .view-btn:not(.active):hover { color: #cbd5e1; }
+    .chart-period-picker { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(8,13,24,.55); }
+    .chart-period-picker { position: relative; }
+    .chart-period-trigger { height: 34px; width: 124px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; border-radius: .75rem; border: 1px solid rgba(255,255,255,.1); padding: 0 14px; color: #cbd5e1; background: rgba(15,23,42,.5); font-size: .75rem; font-weight: 500; transition: all .15s ease; white-space: nowrap; }
+    .chart-period-trigger:hover:not(:disabled) { border-color: rgba(139,92,246,.5); color: #fff; }
+    .chart-period-trigger:disabled { cursor: not-allowed; opacity: .45; }
+    .chart-period-menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 124px; box-sizing: border-box; max-height: 220px; overflow-y: auto; padding: 8px 6px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; background: #101827; box-shadow: 0 12px 30px rgba(0,0,0,.35); scrollbar-width: thin; scrollbar-color: #26334a transparent; }
+    .chart-period-menu::-webkit-scrollbar { width: 8px; }
+    .chart-period-menu::-webkit-scrollbar-track { background: transparent; }
+    .chart-period-menu::-webkit-scrollbar-thumb { background: #26334a; border: 2px solid transparent; border-radius: 999px; background-clip: padding-box; }
+    .chart-period-menu:not(.hidden) { display: block; }
+    .chart-period-menu-section { padding: 8px 7px 5px; color: #64748b; font-size: .6rem; font-weight: 700; text-transform: uppercase; }
+    .chart-period-option { display: block; width: 100%; margin-bottom: 4px; border: 0; border-radius: 7px; padding: 9px 7px; color: #cbd5e1; background: transparent; text-align: center; font-size: .7rem; }
+    .chart-period-option:hover, .chart-period-option.active { color: #fff; background: rgba(139,92,246,.22); }
+    .period-control { display: flex; align-items: center; gap: 5px; position: relative; }
+    .period-slider { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(8,13,24,.55); }
+    .period-slider button { border: 0; border-radius: 7px; padding: 5px 7px; color: #64748b; background: transparent; font-size: .6rem; font-weight: 600; white-space: nowrap; }
+    .period-slider button.active, .period-slider button:hover { color: #fff; background: rgba(139,92,246,.25); }
+    .qa-text-art { display: flex; align-items: baseline; gap: .55rem; margin: 0; color: #f4f7fb; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; font-weight: 800; letter-spacing: .18em; line-height: 1; text-transform: uppercase; }
+    .qa-text-art span:first-child { color: #a78bfa; font-size: 1.25rem; letter-spacing: .08em; }
+    .qa-text-art span:nth-child(2) { color: #e2e8f0; }
+    .qa-text-art span:last-child { color: #60a5fa; font-size: .78rem; letter-spacing: .24em; }
+    .chart-range-btn { border: 0; border-radius: 7px; padding: 5px 8px; color: #64748b; font-size: .65rem; font-weight: 600; white-space: nowrap; transition: all .15s ease; }
+    .chart-range-btn:hover { color: #cbd5e1; }
+    .chart-range-btn.active { color: #f4f7fb; background: rgba(139,92,246,.25); box-shadow: 0 2px 8px rgba(139,92,246,.18); }
+    .chart-period-btn { width: 22px; height: 24px; border-radius: 7px; font-size: 1rem; line-height: 1; }
+    .chart-period-btn:not(.hidden):hover { background: rgba(255,255,255,.06); }
 
     .app-main { min-width: 0; flex: 1; }
-    .chart-frame { position: relative; width: 100%; flex: 1; min-height: 250px; min-width: 0; }
+    
+    /* FIX: Posizionamento assoluto per svincolare le dimensioni di Chart.js dal layout Flexbox */
+    .chart-frame { position: relative; width: 100%; flex: 1; min-height: 0; min-width: 0; }
+    .chart-frame canvas { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; } 
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 999px; }
@@ -177,9 +245,8 @@
   <!-- Top Header per App Full-Screen -->
   <header class="flex items-center justify-between border-b border-line/60 bg-ink/80 px-4 sm:px-6 py-3 backdrop-blur-md flex-shrink-0 z-40">
     <!-- Logo e Titolo -->
-    <div class="flex items-center gap-3">
-      <div class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-violet to-blue font-bold text-white shadow-glow text-xs">TJ</div>
-      <h1 class="font-semibold tracking-tight text-slate-100 hidden md:block">QA Atlas Journal</h1>
+    <div class="flex items-center gap-3 px-1 py-1">
+      <h1 class="qa-text-art hidden md:block"><span>QA</span><span>ATLAS</span><span>JOURNAL</span></h1>
     </div>
     
     <!-- View Switcher -->
@@ -194,19 +261,20 @@
     </div>
   </header>
 
-  <!-- Main Workspace -->
-  <main class="app-main flex flex-col flex-1 min-w-0 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+  <!-- Il main è solo un contenitore flessibile: niente scroll, niente padding qui.
+       Lo scroll e il padding vivono in UN SOLO posto (.view-scroll, definito in CSS)
+       condiviso da tutte le view, cosi non possono più disallinearsi. -->
+  <main class="app-main min-w-0">
+
     <!-- DASHBOARD VIEW -->
-    <section id="dashboardView" class="view-panel flex flex-col gap-6 w-full flex-1 min-h-0 max-w-7xl mx-auto">
+    <div id="dashboardView" class="view-scroll">
+    <section class="view-panel">
       <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center flex-shrink-0">
         <div>
           <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dashboard</h1>
           <p class="mt-1 text-xs text-muted sm:text-sm">Monitora il capitale, il rendimento e la disciplina operativa.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          <button id="cloudSyncBtn" title="Salva e sincronizza" aria-label="Sincronizza database" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
-          </button>
           <button id="exportBtn" title="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           </button>
@@ -237,30 +305,20 @@
         </div>
       </div>
 
-      <!-- KPIs Grid: Modificato per permettere simmetria orizzontale su wrap -->
+      <!-- KPIs Grid -->
       <div id="kpis" class="flex flex-wrap justify-center gap-4 flex-shrink-0 w-full"></div>
 
-      <!-- Charts Grid -->
-      <div class="grid gap-6 lg:grid-cols-2 flex-1 min-h-0 min-w-0 w-full">
+      <!-- Charts Wrapper -->
+      <div class="flex flex-col lg:flex-row gap-6 flex-1 min-h-0 w-full">
         <!-- Equity Curve Card -->
-        <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col flex-1 min-h-[350px] lg:min-h-0 min-w-0 w-full overflow-hidden">
+        <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col flex-1 min-h-[320px] lg:min-h-[350px] w-full overflow-hidden">
           <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 flex-shrink-0 w-full">
             <div>
               <h3 class="text-sm font-semibold text-white">Equity curve</h3>
               <p class="text-xs text-muted">Evoluzione progressiva</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-              <div class="custom-select-wrapper" data-chart="equity">
-                <div class="custom-select-trigger">Tutti</div>
-                <div class="custom-select-menu">
-                  <div class="custom-select-scroll">
-                    <div class="custom-select-option selected" data-value="all">Tutti</div>
-                    <div class="custom-select-option" data-value="year">Anno</div>
-                    <div class="custom-select-option" data-value="month">Mese</div>
-                    <div class="custom-select-option" data-value="week">Settimana</div>
-                  </div>
-                </div>
-              </div>
+              <div class="period-control" data-period-control="equity"><div class="period-slider"><button data-period-mode="equity" data-value="week">Settimanale</button><button data-period-mode="equity" data-value="month">Mensile</button><button data-period-mode="equity" data-value="year">Annuale</button><button data-period-mode="equity" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="equity" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="equity" class="chart-period-menu hidden"></div></div>
               <div class="metric-toggle" data-chart="equity">
                 <div class="metric-toggle-btn active" data-value="eur">€</div>
                 <div class="metric-toggle-btn" data-value="pct">%</div>
@@ -271,24 +329,14 @@
         </div>
 
         <!-- PnL Daily Card -->
-        <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col flex-1 min-h-[350px] lg:min-h-0 min-w-0 w-full overflow-hidden">
+        <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col flex-1 min-h-[320px] lg:min-h-[350px] w-full overflow-hidden">
           <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 flex-shrink-0 w-full">
             <div>
               <h3 class="text-sm font-semibold text-white">Pnl giornaliero</h3>
               <p class="text-xs text-muted">Risultato netto per sessione</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-              <div class="custom-select-wrapper" data-chart="pnl">
-                <div class="custom-select-trigger">Tutti</div>
-                <div class="custom-select-menu">
-                  <div class="custom-select-scroll">
-                    <div class="custom-select-option selected" data-value="all">Tutti</div>
-                    <div class="custom-select-option" data-value="year">Anno</div>
-                    <div class="custom-select-option" data-value="month">Mese</div>
-                    <div class="custom-select-option" data-value="week">Settimana</div>
-                  </div>
-                </div>
-              </div>
+              <div class="period-control" data-period-control="pnl"><div class="period-slider"><button data-period-mode="pnl" data-value="week">Settimanale</button><button data-period-mode="pnl" data-value="month">Mensile</button><button data-period-mode="pnl" data-value="year">Annuale</button><button data-period-mode="pnl" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="pnl" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="pnl" class="chart-period-menu hidden"></div></div>
               <div class="metric-toggle" data-chart="pnl">
                 <div class="metric-toggle-btn active" data-value="eur">€</div>
                 <div class="metric-toggle-btn" data-value="pct">%</div>
@@ -298,19 +346,19 @@
           <div class="chart-frame"><canvas id="pnlChart"></canvas></div>
         </div>
       </div>
+
     </section>
+    </div>
 
     <!-- STORICO VIEW -->
-    <section id="journalView" class="view-panel hidden flex flex-col gap-6 w-full flex-1 min-h-0 max-w-7xl mx-auto">
+    <div id="journalView" class="view-fixed hidden">
+    <section class="view-panel flex-1 min-h-0">
       <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center flex-shrink-0">
         <div>
           <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Storico</h1>
           <p class="mt-1 text-xs text-muted sm:text-sm">Tutte le sessioni operative registrate.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          <button id="cloudSyncBtnJournal" title="Salva e sincronizza" class="icon-action text-slate-300 hover:text-profit hover:border-profit/40">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><path d="M12 12v9"/><path d="m8 17 4-5 4 5"/></svg>
-          </button>
           <button id="exportBtnJournal" title="Esporta dati" class="icon-action text-slate-300 hover:text-white hover:border-violet/40">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           </button>
@@ -333,7 +381,7 @@
         
         <div class="flex-1 flex flex-col relative overflow-hidden min-h-0">
           <div id="tableScrollContainer" class="overflow-x-auto overflow-y-auto flex-1 w-full h-full">
-            <table class="w-full min-w-[800px] text-center text-sm">
+            <table class="journal-table w-full min-w-[800px] text-center text-sm">
               <thead class="border-b border-line/60 bg-panel/50 text-xs font-medium uppercase tracking-wider text-muted sticky top-0 backdrop-blur-md z-10">
                 <tr>
                   <th class="px-6 py-3.5 text-center">#</th>
@@ -361,6 +409,8 @@
         </div>
       </div>
     </section>
+    </div>
+
   </main>
 
   <!-- Modale Registrazione -->
@@ -460,6 +510,7 @@
     let baseCapital = Number(localStorage.getItem(CAPITAL_KEY) || 0);
     let undoState = null;
     let supabaseClient = null, realtimeChannel = null, equityChart, pnlChart;
+    const selectedJournalIds = new Set();
     
     const generateUUID = () => {
       if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
@@ -469,7 +520,7 @@
       });
     };
 
-    const chartSettings = { equity: { range: 'all', metric: 'eur' }, pnl: { range: 'all', metric: 'eur' } };
+    const chartSettings = { equity: { range: 'all', offset: 0, metric: 'eur' }, pnl: { range: 'all', offset: 0, metric: 'eur' } };
     
     const zeroLinePlugin = { 
       id: 'zeroLine', 
@@ -498,6 +549,10 @@
     const pct = (n, showSign = false) => {
       const val = Number(n) || 0; return `${val < 0 ? '-' : (showSign && val > 0 ? '+' : '')}${formatITNumber(Math.abs(val), 2)}%`;
     };
+    
+    function formatDate(date){ 
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; 
+    }
     
     function parseFormattedNumber(val) {
       if (!val) return 0;
@@ -615,23 +670,79 @@
       return { list, total, initial, current: initial + total }; 
     }
 
+    function getKpiPeriod(type, offset = 0) {
+      const now = new Date();
+      let start, end;
+      if (type === 'week') {
+        const mondayOffset = (now.getDay() + 6) % 7;
+        start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - mondayOffset + offset * 7);
+        end = new Date(start); end.setDate(start.getDate() + 6);
+      } else if (type === 'month') {
+        start = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        end = new Date(now.getFullYear(), now.getMonth() + offset + 1, 0);
+      } else {
+        start = new Date(now.getFullYear() + offset, 0, 1);
+        end = new Date(now.getFullYear() + offset, 11, 31);
+      }
+      start.setHours(0, 0, 0, 0); end.setHours(23, 59, 59, 999);
+      return { start, end };
+    }
+
+    function getKpiPeriodLabel(type, offset) {
+      const {start, end} = getKpiPeriod(type, offset);
+      if (type === 'week') return `${start.getDate()}–${end.getDate()} ${end.toLocaleDateString('it-IT', { month: 'short' })}`;
+      if (type === 'month') return start.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+      return String(start.getFullYear());
+    }
+
     function renderKpis() { 
-      const {initial, list} = totals(), now = new Date(), todayKey = now.toISOString().slice(0,10); 
-      const ranges = [['Pnl giornaliero', 1], ['Pnl settimanale', 7], ['Pnl mensile', 30], ['Pnl annuale', 365]]; 
+      const {initial, list} = totals(); 
+      const now = new Date();
+      const todayKey = formatDate(now);
+      
+      const nowYear = now.getFullYear();
+      const nowMonth = now.getMonth();
+      const nowDate = now.getDate();
+      const nowDay = now.getDay();
+      
+      const dayOffset = nowDay === 0 ? 6 : nowDay - 1;
+      const startOfWeek = new Date(nowYear, nowMonth, nowDate - dayOffset);
+      startOfWeek.setHours(0, 0, 0, 0);
+      
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6);
+      endOfWeek.setHours(23, 59, 59, 999);
+
+      const ranges = [
+        ['Pnl giornaliero', 'day'], 
+        ['Pnl settimanale', 'week'], 
+        ['Pnl mensile', 'month'], 
+        ['Pnl annuale', 'year']
+      ]; 
       
       const cardWidthClass = "w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.33%-0.67rem)] xl:w-[calc(20%-0.8rem)]";
 
-      const rangeCards = ranges.map(([label, days]) => { 
-        const cutoff = new Date(now); cutoff.setDate(now.getDate() - days + 1); 
-        const data = list.filter(e => days === 1 ? e.date === todayKey : new Date(e.date + 'T12:00:00') >= cutoff && e.date <= todayKey); 
+      const rangeCards = ranges.map(([label, type]) => { 
+        const offset = 0;
+        const mode = type;
+        const period = type === 'day' ? null : getKpiPeriod(type, offset);
+        const data = list.filter(e => {
+          const d = new Date(e.date + 'T12:00:00');
+          if (type === 'day') return e.date === todayKey;
+          if (type === 'week' || type === 'month' || type === 'year') return d >= period.start && d <= period.end;
+          return false;
+        }); 
+        
         const value = data.reduce((s, e) => s + Number(e.pnl), 0), base = Number(data[0]?.initialCapital || initial); 
         const pnlPct = base ? (value / base) * 100 : 0;
         
         const valColor = value > 0 ? 'text-profit' : value < 0 ? 'text-loss' : 'text-white';
         const badgeClass = value > 0 ? 'bg-profit/10 text-profit' : value < 0 ? 'bg-loss/10 text-loss' : 'bg-white/10 text-white';
         
+        const periodControls = '';
         return `<div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between ${cardWidthClass} flex-shrink-0">
           <p class="text-xs font-medium uppercase tracking-wider text-muted">${label}</p>
+          ${periodControls}
           <div class="mt-2 flex items-baseline justify-between">
             <p class="text-lg sm:text-xl font-bold ${valColor}">${value > 0 ? '+' : ''}${money(value)}</p>
             <span class="rounded-md px-2 py-0.5 text-xs font-semibold ${badgeClass}">${pnlPct > 0 ? '+' : ''}${pct(pnlPct)}</span>
@@ -656,6 +767,11 @@
       </div>`;
 
       document.getElementById('kpis').innerHTML = [...rangeCards, avgCard].join('');
+      document.querySelectorAll('[data-kpi-period]').forEach(button => button.onclick = () => {
+        const type = button.dataset.kpiPeriod;
+        kpiPeriodSettings[type].offset = Math.min(0, kpiPeriodSettings[type].offset + Number(button.dataset.direction));
+        renderKpis();
+      });
     }
 
     function renderSummary(){ 
@@ -699,17 +815,51 @@
             </div>
           </td>
         </tr>`;
-      }).join(''); 
+      }).join('');
+      body.querySelectorAll('[data-row]').forEach(row => row.classList.toggle('is-selected', selectedJournalIds.has(row.dataset.row)));
+      requestAnimationFrame(syncJournalRowHeights);
     }
 
-    function filterByRange(list, range) {
+    function syncJournalRowHeights(){
+      const container = document.getElementById('tableScrollContainer');
+      const table = container?.querySelector('.journal-table');
+      const head = table?.tHead;
+      const rows = table ? [...table.tBodies[0].rows] : [];
+      if (!container || !table || !head || !rows.length || container.classList.contains('hidden')) return;
+
+      rows.forEach(row => row.style.height = '');
+      const availableBodyHeight = container.clientHeight - head.getBoundingClientRect().height;
+      const naturalRowHeight = rows[0].getBoundingClientRect().height;
+      const completeVisibleRows = Math.max(1, Math.floor(availableBodyHeight / naturalRowHeight));
+      const rowsToFit = Math.min(rows.length, completeVisibleRows);
+      const rowHeight = availableBodyHeight / rowsToFit;
+      rows.forEach(row => row.style.height = `${rowHeight}px`);
+    }
+
+    function filterByRange(list, range, offset = 0) {
       if (range === 'all') return list;
+      if (range === 'week' || range === 'month' || range === 'year') {
+        const period = getKpiPeriod(range, offset);
+        return list.filter(e => { const d = new Date(e.date + 'T12:00:00'); return d >= period.start && d <= period.end; });
+      }
+      
       const now = new Date();
+      const nowYear = now.getFullYear();
+      const nowMonth = now.getMonth();
+      const nowDay = now.getDay();
+      
+      const dayOffset = nowDay === 0 ? 6 : nowDay - 1;
+      const startOfWeek = new Date(nowYear, nowMonth, now.getDate() - dayOffset);
+      startOfWeek.setHours(0, 0, 0, 0);
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6);
+      endOfWeek.setHours(23, 59, 59, 999);
+
       return list.filter(e => {
         const d = new Date(e.date + 'T12:00:00');
-        if (range === 'week') { const cutoff = new Date(now); cutoff.setDate(now.getDate() - 7); return d >= cutoff; }
-        if (range === 'month') return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        if (range === 'year') return d.getFullYear() === now.getFullYear();
+        if (range === 'week') return d >= startOfWeek && d <= endOfWeek;
+        if (range === 'month') return d.getMonth() === nowMonth && d.getFullYear() === nowYear;
+        if (range === 'year') return d.getFullYear() === nowYear;
         return true;
       });
     }
@@ -722,8 +872,8 @@
 
     function renderCharts(){ 
       const {list: fullList, initial: baseStartCapital} = totals(); 
-      const equityFiltered = filterByRange(fullList, chartSettings.equity.range);
-      const pnlFiltered = filterByRange(fullList, chartSettings.pnl.range);
+      const equityFiltered = filterByRange(fullList, chartSettings.equity.range, chartSettings.equity.offset);
+      const pnlFiltered = filterByRange(fullList, chartSettings.pnl.range, chartSettings.pnl.offset);
 
       const eqLabels = ['Inizio', ...equityFiltered.map(e => new Date(e.date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' }))];
       
@@ -842,7 +992,6 @@
     }
 
     function render(){ renderSummary(); renderKpis(); renderTable(); renderCharts(); if (typeof updateSelectionControls === 'function') updateSelectionControls(); }
-    function formatDate(date){ return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
 
     function renderCalendar(){ 
       const year = calendarDate.getFullYear(), month = calendarDate.getMonth(), first = new Date(year,month,1).getDay(), offset = (first+6)%7, days = new Date(year,month+1,0).getDate(), selected = document.getElementById('entryDate').value; 
@@ -964,17 +1113,16 @@
         b.classList.add('active');
         ['dashboardView', 'journalView'].forEach(v => document.getElementById(v).classList.toggle('hidden', v !== b.dataset.view + 'View'));
         if (b.dataset.view === 'dashboard') setTimeout(() => renderCharts(), 50);
+        if (b.dataset.view === 'journal') setTimeout(syncJournalRowHeights, 0);
       };
     });
 
     window.addEventListener('resize', () => {
+      syncJournalRowHeights();
       if (!document.getElementById('dashboardView').classList.contains('hidden')) {
         if (equityChart) equityChart.resize(); if (pnlChart) pnlChart.resize();
       }
     });
-
-    document.getElementById('cloudSyncBtn').onclick = () => syncToCloud(true);
-    document.getElementById('cloudSyncBtnJournal').onclick = () => syncToCloud(true);
 
     const fileInput = document.getElementById('importFileInput');
     document.getElementById('exportBtn').onclick = exportData;
@@ -1048,12 +1196,18 @@
         if(supabaseClient) await supabaseClient.from('trading_entries').delete().eq('id', del);
         render(); toast('Registrazione eliminata'); return;
       }
-      if(row){row.classList.toggle('is-selected');updateSelectionControls();}
+      if(row){
+        row.classList.toggle('is-selected');
+        if(row.classList.contains('is-selected')) selectedJournalIds.add(row.dataset.row);
+        else selectedJournalIds.delete(row.dataset.row);
+        updateSelectionControls();
+      }
     };
 
     document.getElementById('deleteSelected').onclick=async()=>{
       const selected=[...document.querySelectorAll('.journal-row.is-selected')]; if(!selected.length)return;
       const ids=selected.map(row=>row.dataset.row);
+      ids.forEach(id => selectedJournalIds.delete(id));
       if(confirm(`Eliminare ${ids.length} registrazioni?`)){
         checkpoint(); entries=entries.filter(e=>!ids.includes(e.id)); saveLocal();
         if(supabaseClient) await supabaseClient.from('trading_entries').delete().in('id',ids);
@@ -1063,7 +1217,12 @@
 
     document.getElementById('selectAll').onclick=()=>{
       const rows=[...document.querySelectorAll('.journal-row')], allSelected=rows.length>0&&rows.every(row=>row.classList.contains('is-selected'));
-      rows.forEach(row=>row.classList.toggle('is-selected',!allSelected)); updateSelectionControls();
+      rows.forEach(row=>{
+        row.classList.toggle('is-selected',!allSelected);
+        if(allSelected) selectedJournalIds.delete(row.dataset.row);
+        else selectedJournalIds.add(row.dataset.row);
+      });
+      updateSelectionControls();
     };
 
     document.addEventListener('click', (e) => {
@@ -1078,10 +1237,67 @@
         option.addEventListener('click', () => {
           trigger.textContent = option.textContent.trim();
           menu.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.toggle('selected', opt === option));
-          wrapper.classList.remove('open'); chartSettings[chartKey].range = option.dataset.value; renderCharts();
+          wrapper.classList.remove('open');
+          chartSettings[chartKey].range = option.dataset.value; chartSettings[chartKey].offset = 0;
+          updateChartPeriodControls(chartKey); renderCharts();
         });
       });
     });
+
+    function updateChartPeriodControls(chartKey){
+      const setting = chartSettings[chartKey], active = setting.range !== 'all';
+      document.querySelectorAll(`[data-period-mode="${chartKey}"]`).forEach(button => button.classList.toggle('active', button.dataset.value === setting.range));
+      const trigger = document.querySelector(`[data-chart-picker-trigger="${chartKey}"]`);
+      if (trigger) { trigger.textContent = 'Seleziona periodo'; trigger.disabled = !active; }
+      document.querySelectorAll(`[data-chart-range="${chartKey}"]`).forEach(button => button.classList.toggle('active', button.dataset.value === setting.range));
+      document.querySelectorAll(`[data-chart-period="${chartKey}"]`).forEach(button => {
+        button.classList.toggle('hidden', !active || (button.dataset.direction === '1' && setting.offset === 0));
+      });
+      const label = document.querySelector(`[data-chart-period-label="${chartKey}"]`);
+      if (label) { label.textContent = active ? getKpiPeriodLabel(setting.range, setting.offset) : ''; label.classList.toggle('hidden', !active); }
+    }
+
+    document.querySelectorAll('[data-chart-period]').forEach(button => button.onclick = () => {
+      const chartKey = button.dataset.chartPeriod;
+      chartSettings[chartKey].offset = Math.min(0, chartSettings[chartKey].offset + Number(button.dataset.direction));
+      updateChartPeriodControls(chartKey); renderCharts();
+    });
+    document.querySelectorAll('[data-chart-range]').forEach(button => button.onclick = () => {
+      const chartKey = button.dataset.chartRange;
+      chartSettings[chartKey].range = button.dataset.value;
+      chartSettings[chartKey].offset = 0;
+      updateChartPeriodControls(chartKey); renderCharts();
+    });
+    function refreshChartPeriodMenu(chartKey){
+      const menu = document.querySelector(`[data-chart-period-menu="${chartKey}"]`), setting = chartSettings[chartKey];
+      if (!menu) return;
+      const groups = setting.range === 'all' ? [] : [[setting.range, setting.range === 'week' ? 'Settimane' : setting.range === 'month' ? 'Mesi' : 'Anni']];
+      menu.innerHTML = groups.map(([type, title]) => `<div class="chart-period-menu-section">${title}</div>` + Array.from({length: 12}, (_, i) => {
+        const offset = -i, label = getKpiPeriodLabel(type, offset);
+        return `<button class="chart-period-option ${setting.range === type && setting.offset === offset ? 'active' : ''}" data-menu-range="${type}" data-menu-offset="${offset}">${label}</button>`;
+      }).join('')).join('');
+      menu.querySelectorAll('[data-menu-range]').forEach(option => option.onclick = () => {
+        chartSettings[chartKey].range = option.dataset.menuRange;
+        chartSettings[chartKey].offset = Number(option.dataset.menuOffset);
+        updateChartPeriodControls(chartKey); refreshChartPeriodMenu(chartKey); menu.classList.add('hidden'); renderCharts();
+      });
+    }
+    document.querySelectorAll('[data-chart-picker-trigger]').forEach(trigger => trigger.onclick = () => {
+      if (trigger.disabled) return;
+      const menu = document.querySelector(`[data-chart-period-menu="${trigger.dataset.chartPickerTrigger}"]`);
+      document.querySelectorAll('.chart-period-menu').forEach(other => { if (other !== menu) other.classList.add('hidden'); });
+      menu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.period-control')) document.querySelectorAll('.chart-period-menu').forEach(menu => menu.classList.add('hidden'));
+    });
+    ['equity', 'pnl'].forEach(refreshChartPeriodMenu);
+    document.querySelectorAll('[data-period-mode^="equity"], [data-period-mode^="pnl"]').forEach(button => button.onclick = () => {
+      const chartKey = button.dataset.periodMode;
+      chartSettings[chartKey].range = button.dataset.value; chartSettings[chartKey].offset = 0;
+      updateChartPeriodControls(chartKey); refreshChartPeriodMenu(chartKey); renderCharts();
+    });
+    ['equity', 'pnl'].forEach(updateChartPeriodControls);
 
     document.querySelectorAll('.metric-toggle').forEach(toggle => {
       const chartKey = toggle.dataset.chart;
