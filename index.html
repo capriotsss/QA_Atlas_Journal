@@ -219,10 +219,10 @@
     .qa-text-art span:nth-child(2) { color: #e2e8f0; }
     .qa-text-art span:last-child { color: #60a5fa; font-size: .78rem; letter-spacing: .24em; }
     @media (max-width: 639px) {
-      .period-control { width: 100%; flex-wrap: wrap; justify-content: flex-end; }
-      .period-slider { max-width: 100%; }
-      .period-slider button { padding: 0 5px; font-size: .55rem; }
-      .chart-period-trigger { flex: 0 0 124px; }
+      .period-control { width: auto; flex-wrap: nowrap; justify-content: flex-end; }
+      .period-slider { min-width: 0; flex: 1 1 auto; }
+      .period-slider button { min-width: 0; padding: 0 3px; font-size: .5rem; }
+      .chart-period-trigger { flex: 0 0 108px; width: 108px; padding: 0 6px; font-size: .65rem; }
     }
     .chart-range-btn { border: 0; border-radius: 7px; padding: 5px 8px; color: #64748b; font-size: .65rem; font-weight: 600; white-space: nowrap; transition: all .15s ease; }
     .chart-range-btn:hover { color: #cbd5e1; }
