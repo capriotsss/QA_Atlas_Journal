@@ -210,14 +210,20 @@
     .chart-period-menu-section { padding: 8px 7px 5px; color: #64748b; font-size: .6rem; font-weight: 700; text-transform: uppercase; }
     .chart-period-option { display: block; width: 100%; margin-bottom: 4px; border: 0; border-radius: 7px; padding: 9px 7px; color: #cbd5e1; background: transparent; text-align: center; font-size: .7rem; }
     .chart-period-option:hover, .chart-period-option.active { color: #fff; background: rgba(139,92,246,.22); }
-    .period-control { display: flex; align-items: center; gap: 5px; position: relative; }
-    .period-slider { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(8,13,24,.55); }
-    .period-slider button { border: 0; border-radius: 7px; padding: 5px 7px; color: #64748b; background: transparent; font-size: .6rem; font-weight: 600; white-space: nowrap; }
+    .period-control { display: flex; align-items: center; gap: 5px; position: relative; min-width: 0; }
+    .period-slider { display: inline-flex; align-items: center; gap: 2px; height: 34px; box-sizing: border-box; padding: 3px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(8,13,24,.55); }
+    .period-slider button { height: 26px; border: 0; border-radius: 7px; padding: 0 7px; color: #64748b; background: transparent; font-size: .6rem; font-weight: 600; white-space: nowrap; }
     .period-slider button.active, .period-slider button:hover { color: #fff; background: rgba(139,92,246,.25); }
     .qa-text-art { display: flex; align-items: baseline; gap: .55rem; margin: 0; color: #f4f7fb; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; font-weight: 800; letter-spacing: .18em; line-height: 1; text-transform: uppercase; }
     .qa-text-art span:first-child { color: #a78bfa; font-size: 1.25rem; letter-spacing: .08em; }
     .qa-text-art span:nth-child(2) { color: #e2e8f0; }
     .qa-text-art span:last-child { color: #60a5fa; font-size: .78rem; letter-spacing: .24em; }
+    @media (max-width: 639px) {
+      .period-control { width: 100%; flex-wrap: wrap; justify-content: flex-end; }
+      .period-slider { max-width: 100%; }
+      .period-slider button { padding: 0 5px; font-size: .55rem; }
+      .chart-period-trigger { flex: 0 0 124px; }
+    }
     .chart-range-btn { border: 0; border-radius: 7px; padding: 5px 8px; color: #64748b; font-size: .65rem; font-weight: 600; white-space: nowrap; transition: all .15s ease; }
     .chart-range-btn:hover { color: #cbd5e1; }
     .chart-range-btn.active { color: #f4f7fb; background: rgba(139,92,246,.25); box-shadow: 0 2px 8px rgba(139,92,246,.18); }
@@ -318,7 +324,7 @@
               <p class="text-xs text-muted">Evoluzione progressiva</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-              <div class="period-control" data-period-control="equity"><div class="period-slider"><button data-period-mode="equity" data-value="week">Settimanale</button><button data-period-mode="equity" data-value="month">Mensile</button><button data-period-mode="equity" data-value="year">Annuale</button><button data-period-mode="equity" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="equity" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="equity" class="chart-period-menu hidden"></div></div>
+              <div class="period-control" data-period-control="equity"><div class="period-slider"><button data-period-mode="equity" data-value="week">Sett.</button><button data-period-mode="equity" data-value="month">Mens.</button><button data-period-mode="equity" data-value="year">Ann.</button><button data-period-mode="equity" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="equity" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="equity" class="chart-period-menu hidden"></div></div>
               <div class="metric-toggle" data-chart="equity">
                 <div class="metric-toggle-btn active" data-value="eur">€</div>
                 <div class="metric-toggle-btn" data-value="pct">%</div>
@@ -336,7 +342,7 @@
               <p class="text-xs text-muted">Risultato netto per sessione</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-              <div class="period-control" data-period-control="pnl"><div class="period-slider"><button data-period-mode="pnl" data-value="week">Settimanale</button><button data-period-mode="pnl" data-value="month">Mensile</button><button data-period-mode="pnl" data-value="year">Annuale</button><button data-period-mode="pnl" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="pnl" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="pnl" class="chart-period-menu hidden"></div></div>
+              <div class="period-control" data-period-control="pnl"><div class="period-slider"><button data-period-mode="pnl" data-value="week">Sett.</button><button data-period-mode="pnl" data-value="month">Mens.</button><button data-period-mode="pnl" data-value="year">Ann.</button><button data-period-mode="pnl" data-value="all">Tutti</button></div><button type="button" data-chart-picker-trigger="pnl" class="chart-period-trigger">Seleziona periodo</button><div data-chart-period-menu="pnl" class="chart-period-menu hidden"></div></div>
               <div class="metric-toggle" data-chart="pnl">
                 <div class="metric-toggle-btn active" data-value="eur">€</div>
                 <div class="metric-toggle-btn" data-value="pct">%</div>
